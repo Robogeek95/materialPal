@@ -118,6 +118,7 @@ export default function Home() {
         </AnimFadeIn>
       </Box>
 
+      {/* mobile Librrary */}
       <Box as="section" sx={{ py: [4, 5], color: "black" }}>
         <Container>
           <Text as="p" variant="eyebrow">
@@ -197,6 +198,44 @@ export default function Home() {
                 group started building something new.
               </Text>
             </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Resources beyond your school */}
+      <Box
+        as="section"
+        bg="snow"
+        py={[4, 5]}
+        sx={{
+          // bg: 'dark',
+          // color: 'white',
+          "h2,p": { textShadow: "text" },
+          "@media (hover: hover)": { backgroundAttachment: "fixed" },
+        }}
+      >
+        <Container>
+          <Grid
+            columns={[null, "1fr 2fr"]}
+            sx={{ maxWidth: "copyUltra", mx: "auto", alignItems: "center" }}
+          >
+            <Heading
+              as="h3"
+              variant="headline"
+              sx={{ fontSize: [4, 4], mb: 0 }}
+            >
+              materials from beyond your school.
+            </Heading>
+            <Text
+              as="p"
+              variant="lead"
+              sx={{ mt: 0, a: { variant: "styles.a", color: "blue" } }}
+            >
+              Images formed and reformed: a flickering montage of the Sprawl’s
+              towers and ragged Fuller domes, dim figures moving toward him in
+              the center of his closed left eyelid. Case felt the edge of the
+              car’s floor.
+            </Text>
           </Grid>
         </Container>
       </Box>
