@@ -242,7 +242,7 @@ class Header extends Component {
           <Text
             as="h1"
             sx={{
-              color: '#247B87',
+              color: '#07184a',
               textShadow: 'text',
               filter: 'drop-shadow(0 -2px 4px rgba(0,0,0,0.5))',
               WebkitFilter: 'drop-shadow(0 -2px 4px rgba(0,0,0,0.5))',
