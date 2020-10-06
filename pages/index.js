@@ -7,6 +7,7 @@ import {
   Grid,
   Heading,
   Image,
+  Input,
   Select,
   Text,
 } from "theme-ui";
@@ -88,15 +89,19 @@ export default function Home() {
                 lineHeight: 0.875,
                 display: "block",
                 pb: 3,
+                lineHeight: 1.2,
               }}
             >
               All Materials you seek in&nbsp;
               <Text
                 as="span"
                 sx={{
-                  WebkitTextStroke: "currentColor",
-                  WebkitTextStrokeWidth: ["2px", "3px"],
-                  WebkitTextFillColor: "transparent",
+                  borderRadius: "default",
+                  px: 2,
+                  ml: [-2, 0],
+                  whiteSpace: "nowrap",
+                  color: "#07184a",
+                  background: "#5bc0de",
                 }}
               >
                 Material Pal
@@ -126,6 +131,7 @@ export default function Home() {
             as="div"
             sx={{
               maxWidth: 620,
+              px: [3, 0],
               mt: 0,
               mx: "auto",
               mb: [3, 4],
@@ -486,7 +492,7 @@ export default function Home() {
             <div>
               <Input
                 placeholder="Email Address"
-                sx={{ height: "60px", px: 30 }}
+                sx={{ height: "60px", px: 30, border: "1px solid black" }}
               />
             </div>
           </Grid>
