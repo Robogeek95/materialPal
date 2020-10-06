@@ -29,6 +29,23 @@ const categories = [
   "Handouts",
 ];
 
+const Feature = ({ icon, color, name, desc, children, ...props }) => (
+  <Box {...props}>
+    <Box>
+      <Heading as="h3" variant="headline" mb={2}>
+        {name}
+      </Heading>
+      <Text
+        as="p"
+        variant="subtitle"
+        sx={{ mt: 0, pb: 2, a: { variant: "styles.a", color: "blue" } }}
+      >
+        {desc}
+      </Text>
+    </Box>
+  </Box>
+);
+
 export default function Home() {
   return (
     <>
@@ -328,6 +345,108 @@ export default function Home() {
             }}
           >
             Get materials →
+          </Button>
+        </Container>
+      </Box>
+
+      {/* features */}
+      <Box color="black" py={[4, 6]}>
+        <Container sx={{ textAlign: ["left", "center"] }}>
+          <Text as="p" variant="eyebrow">
+            Lets get you Started...
+          </Text>
+          <Heading as="h2" variant="title">
+            Start sharing your{" "}
+            <Text
+              as="span"
+              sx={{
+                borderRadius: "default",
+                px: 2,
+                ml: [-2, 0],
+                whiteSpace: "nowrap",
+                color: "#fb558e",
+                bg: "#6f31b7",
+              }}
+            >
+              materials
+            </Text>
+            .
+          </Heading>
+          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus", mx: "auto" }}>
+            He’d taken the drug to blunt SAS, nausea, but the muted purring of
+            the blowers and the amplified breathing of the fighters.
+          </Text>
+          <Grid
+            pt={[3, 4]}
+            pb={[4, 5]}
+            gap={[4, 3, 4]}
+            columns={[null, 3]}
+            sx={{
+              textAlign: "left",
+              "> a, > div": {
+                borderRadius: "extra",
+                boxShadow: "elevated",
+                px: [3, null, 4],
+                py: [4, null, 5],
+              },
+              span: {
+                boxShadow:
+                  "-2px -2px 6px rgba(255,255,255,0.125), inset 2px 2px 6px rgba(0,0,0,0.1), 2px 2px 8px rgba(0,0,0,0.0625)",
+              },
+              svg: { fill: "currentColor" },
+            }}
+          >
+            <Card
+              as="a"
+              // href="https://apply.hackclub.com/"
+              variant="interactive"
+              sx={{
+                background: "#1b4758",
+                color: "#f7f2f6",
+                cursor: "pointer",
+              }}
+            >
+              <Feature
+                icon="send"
+                color="white"
+                name="Create your account"
+                desc="Create your free account with us or simply login if you already have one."
+              />
+            </Card>
+            <Card
+              sx={{
+                background: "#1b4758",
+                color: "#f7f2f6",
+              }}
+            >
+              <Feature
+                icon="emoji"
+                color="white"
+                name="Share materials"
+                desc="Upload or download materials of different formats like pdfs Epub and more."
+              />
+            </Card>
+            <Card
+              sx={{
+                background: "#1b4758",
+                color: "#f7f2f6",
+              }}
+            >
+              <Feature
+                icon="event-check"
+                color="white"
+                name="Score points and top leaderboard"
+                desc="Other students rates the materials you've shared, and you top the leaderboard"
+              />
+            </Card>
+          </Grid>
+          <Button
+            as="a"
+            href="https://apply.hackclub.com"
+            target="_self"
+            variant="ctaLg"
+          >
+            Create your free account
           </Button>
         </Container>
       </Box>
