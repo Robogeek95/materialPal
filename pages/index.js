@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {
   Box,
+  Button,
   Card,
   Container,
   Grid,
@@ -14,6 +15,19 @@ import AnimSlideDown from "../components/animSlideDown";
 import Nav from "../components/nav";
 import { Icon, InlineIcon } from "@iconify/react";
 import iconjarIcon from "@iconify/icons-cib/iconjar";
+
+const categories = [
+  "Assessment",
+  "Note",
+  "Test",
+  "Syllabus",
+  "Lessons",
+  "Reports",
+  "Assignments",
+  "Past Questions",
+  "Text Books",
+  "Handouts",
+];
 
 export default function Home() {
   return (
@@ -237,6 +251,83 @@ export default function Home() {
               car’s floor.
             </Text>
           </Grid>
+        </Container>
+      </Box>
+
+      <Box
+        as="section"
+        sx={{
+          py: 5,
+          // bg: 'dark',
+          // color: 'white',
+          textAlign: [null, "center"],
+          "@media (hover: hover)": { backgroundAttachment: "fixed" },
+        }}
+      >
+        <Container>
+          <Text as="p" variant="eyebrow" sx={{ color: "white", opacity: 0.75 }}>
+            Stories
+          </Text>
+          <Heading as="h2" variant="title">
+            Materials for every occassions
+          </Heading>
+          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus", mx: "auto" }}>
+            Its hands were holograms that altered to match the convolutions of
+            the arcade showed him broken lengths of damps. good stuffs.
+          </Text>
+
+          <Grid
+            pt={[3, 4]}
+            pb={[4, 5]}
+            gap={[4, 3, 4]}
+            columns={[null, 5]}
+            sx={{
+              textAlign: "left",
+              "> a, > div": {
+                borderRadius: "extra",
+                boxShadow: "elevated",
+                px: [3, null, 4],
+                py: [4, null, 5],
+              },
+              span: {
+                boxShadow:
+                  "-2px -2px 6px rgba(255,255,255,0.125), inset 2px 2px 6px rgba(0,0,0,0.1), 2px 2px 8px rgba(0,0,0,0.0625)",
+              },
+              svg: { fill: "currentColor" },
+            }}
+          >
+            {categories.map((category) => (
+              <Card
+                variant="interactive"
+                sx={{
+                  background: "#1b4758",
+                  color: "#f7f2f6",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "x-large",
+                  textAlign: "center",
+                  height: "100px",
+                  overflowWrap: "break-word",
+                  cursor: "default",
+                  padding: 0,
+                }}
+              >
+                #{category}
+              </Card>
+            ))}
+          </Grid>
+
+          <Button
+            as="a"
+            href="https://hackclub.com/philosophy/"
+            variant="ctaLg"
+            sx={{
+              background: "linear-gradient(-32deg, #6f31b7 14%, #fb558e 82%)",
+            }}
+          >
+            Get materials →
+          </Button>
         </Container>
       </Box>
     </>
