@@ -15,6 +15,7 @@ import AnimSlideDown from "../components/animSlideDown";
 import Nav from "../components/nav";
 import { Icon, InlineIcon } from "@iconify/react";
 import iconjarIcon from "@iconify/icons-cib/iconjar";
+import Footer from "../components/footer";
 
 const categories = [
   "Assessment",
@@ -448,6 +449,47 @@ export default function Home() {
           >
             Create your free account
           </Button>
+        </Container>
+      </Box>
+
+      {/* newsletter */}
+      <Box
+        as="section"
+        bg="snow"
+        py={[4, 5]}
+        sx={{
+          // bg: 'dark',
+          // color: 'white',
+          "h2,p": { textShadow: "text" },
+          "@media (hover: hover)": { backgroundAttachment: "fixed" },
+        }}
+      >
+        <Container>
+          <Grid
+            columns={[null, "3fr 4fr"]}
+            sx={{ maxWidth: "copyUltra", mx: "auto", alignItems: "center" }}
+          >
+            <dv>
+              <Heading
+                as="h3"
+                variant="headline"
+                sx={{ fontSize: [4, 4], mb: 0 }}
+              >
+                Subscribe to Our Newsletter
+              </Heading>
+              <Text>
+                Be the first to get notified when new resources are available
+                for you!
+              </Text>
+            </dv>
+
+            <div>
+              <Input
+                placeholder="Email Address"
+                sx={{ height: "60px", px: 30 }}
+              />
+            </div>
+          </Grid>
         </Container>
       </Box>
     </>
