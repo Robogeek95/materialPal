@@ -254,6 +254,7 @@ export default function Home() {
         </Container>
       </Box>
 
+      {/* categories  */}
       <Box
         as="section"
         sx={{
