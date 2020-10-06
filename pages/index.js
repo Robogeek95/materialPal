@@ -7,10 +7,6 @@ import Nav from "../components/nav";
 export default function Home() {
   return (
     <>
-      <meta
-        as={Head}
-        title="Material pal is the better way to share resources - we are passionate about giving everyone Access to Unlimited Educational Resources. Everywhere, Everytime!"
-      />
       <Nav />
       <Box
         as="section"
@@ -51,7 +47,7 @@ export default function Home() {
                 pb: 3,
               }}
             >
-              All Materials you seek in&nbsp;{" "}
+              All Materials you seek in&nbsp;
               <Text
                 as="span"
                 sx={{
