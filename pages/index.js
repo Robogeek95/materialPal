@@ -1,8 +1,19 @@
 import Head from "next/head";
-import { Box, Heading, Select, Text } from "theme-ui";
+import {
+  Box,
+  Card,
+  Container,
+  Grid,
+  Heading,
+  Image,
+  Select,
+  Text,
+} from "theme-ui";
 import AnimFadeIn from "../components/aminFadeIn";
 import AnimSlideDown from "../components/animSlideDown";
 import Nav from "../components/nav";
+import { Icon, InlineIcon } from "@iconify/react";
+import iconjarIcon from "@iconify/icons-cib/iconjar";
 
 export default function Home() {
   return (
@@ -105,6 +116,89 @@ export default function Home() {
           Apply now
         </Button> */}
         </AnimFadeIn>
+      </Box>
+
+      <Box as="section" sx={{ py: [4, 5], color: "black" }}>
+        <Container>
+          <Text as="p" variant="eyebrow">
+            mobile materials
+          </Text>
+          <Heading as="h2" variant="title" sx={{ maxWidth: "copyPlus" }}>
+            Evergrowing Collection of materials for your use.
+          </Heading>
+          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus" }}>
+            {/* lo */}
+          </Text>
+          <Grid columns={[null, null, "3fr 2fr"]} gap={[3, 4]} pt={[3, 4]}>
+            <Card
+              sx={{
+                p: [0, 0, 0],
+                boxShadow: "elevated",
+                borderRadius: "extra",
+                position: "relative",
+                maxWidth: "100%",
+                lineHeight: 0,
+              }}
+            >
+              <Image
+                src="/home/mobile_library.jpg"
+                alt="mobile library"
+                loading="lazy"
+                sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </Card>
+            <Grid
+              columns="auto 1fr"
+              gap={3}
+              sx={{
+                span: {
+                  width: 36,
+                  height: 36,
+                  borderRadius: 24,
+                  display: "inline-block",
+                  fontSize: 4,
+                  mt: 1,
+                  lineHeight: "30px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                },
+                p: { mt: 0 },
+                strong: { display: "block" },
+              }}
+            >
+              <Text as="span" color="green">
+                <Icon icon={iconjarIcon} />
+              </Text>
+              <Text as="p" variant="subtitle">
+                <strong>
+                  They were dropping, losing altitude in a canyon of rainbow
+                </strong>
+                The leader (that’s you!) presents for a few minutes, getting the
+                group started building something new.
+              </Text>
+              <Text as="span" color="green">
+                <Icon icon={iconjarIcon} />
+              </Text>
+              <Text as="p" variant="subtitle">
+                <strong>
+                  They were dropping, losing altitude in a canyon of rainbow
+                </strong>
+                The leader (that’s you!) presents for a few minutes, getting the
+                group started building something new.
+              </Text>
+              <Text as="span" color="green">
+                <Icon icon={iconjarIcon} />
+              </Text>
+              <Text as="p" variant="subtitle">
+                <strong>
+                  They were dropping, losing altitude in a canyon of rainbow
+                </strong>
+                The leader (that’s you!) presents for a few minutes, getting the
+                group started building something new.
+              </Text>
+            </Grid>
+          </Grid>
+        </Container>
       </Box>
     </>
   );
