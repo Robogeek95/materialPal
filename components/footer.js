@@ -1,24 +1,33 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import { Box, Container, Image, Grid, Heading, Link, Text } from 'theme-ui'
-import theme from '@hackclub/theme'
+import React from "react";
+import styled from "@emotion/styled";
+import {
+  Box,
+  Container,
+  Image,
+  Grid,
+  Heading,
+  Link,
+  Text,
+  Button,
+} from "theme-ui";
+import theme from "@hackclub/theme";
 // import Icon from './icon'
 
 const Base = styled(Box)`
-  background: ${props =>
+  background: ${(props) =>
     props.dark
       ? `${theme.colors.darker} radial-gradient(${theme.colors.black} 1px, transparent 1px)`
       : `${theme.colors.snow} url('https://hackclub.com/pattern.svg') repeat`};
-  ${props =>
+  ${(props) =>
     props.dark &&
     `
       background-size: ${theme.space[4]}px ${theme.space[4]}px;
     `} @media print {
     display: none;
   }
-`
+`;
 
-const Logo = props => (
+const Logo = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="256"
@@ -34,7 +43,7 @@ const Logo = props => (
       clipRule="evenodd"
     />
   </svg>
-)
+);
 
 const Service = ({ href, icon, ...props }) => (
   <Link
@@ -45,14 +54,14 @@ const Service = ({ href, icon, ...props }) => (
     // children={<Icon glyph={icon} />}
     {...props}
   />
-)
+);
 
 const Footer = ({ dark = false, children, ...props }) => (
   <Base
-    color={dark ? 'muted' : 'slate'}
+    color={dark ? "muted" : "slate"}
     py={[4, 5]}
     dark={dark}
-    sx={{ textAlign: 'left' }}
+    sx={{ textAlign: "left" }}
     as="footer"
     {...props}
   >
@@ -61,100 +70,85 @@ const Footer = ({ dark = false, children, ...props }) => (
       <Grid
         as="article"
         gap={[2, 4]}
-        columns={[2, 3, 4]}
+        columns={[null, "4fr 2fr 2fr 3fr"]}
         sx={{
           px: 0,
           a: {
-            textDecoration: 'none',
-            color: 'muted',
-            transition: '0.125s color ease-in-out',
-            ':hover,:focus': { color: 'slate' }
+            textDecoration: "none",
+            color: "muted",
+            transition: "0.125s color ease-in-out",
+            ":hover,:focus": { color: "slate" },
           },
-          '> div > a': {
-            display: 'block',
-            mb: 2
+          "> div > a": {
+            display: "block",
+            mb: 2,
           },
-          'h2,p': { color: 'muted' },
+          "h2,p": { color: "muted" },
           h2: { fontSize: 3 },
-          'a,p': { fontSize: 2 }
+          "a,p": { fontSize: 2 },
         }}
       >
         <Box>
+          <Text
+            as="h1"
+            sx={{
+              color: "#07184a",
+              textShadow: "text",
+              filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+              WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+              fontSize: "50px",
+            }}
+          >
+            Material Pal
+          </Text>
+
           <Heading as="h2" variant="subheadline" mb={3}>
-            Hack Club
+            Ready to get started?
           </Heading>
-          <Link href="https://hackclub.com/slack/" children="Slack" />
-          <Link href="https://hackclub.com/donate/" children="Donate" />
-          <Link href="https://hackclub.com/team/" children="Team" />
-          <Link href="https://hackclub.com/philosophy/" children="Philosophy" />
-          <Link href="https://hackclub.com/brand/" children="Branding" />
-          <Link href="https://hackclub.com/press/" children="Press Inquiries" />
+          <Box as="div">
+            <Button as="a" href="#" target="_self" variant="ctaLg">
+              Get Started
+            </Button>
+          </Box>
+        </Box>
+
+        <Box>
+          <Heading as="h2" variant="subheadline" mb={3}>
+            Services
+          </Heading>
+          <Link href="#" children="Slack" />
+          <Link href="#" children="Donate" />
+          <Link href="#" children="Team" />
+          <Link href="#" children="Philosophy" />
+          <Link href="#" children="Branding" />
+          <Link href="#" children="Press Inquiries" />
         </Box>
         <Box>
           <Heading as="h2" variant="subheadline" mb={3}>
-            Resources
+            About
+          </Heading>
+          <Link href="#" children="Code of Conduct" />
+          <Link href="#" children="Our Story" />
+          <Link href="#" children="Benefits" />
+          <Link href="#" children="Team" />
+          <Link href="#" children="Careers" />
+        </Box>
+
+        <Box>
+          <Heading as="h2" variant="subheadline" mb={3}>
+            Help
           </Heading>
           <Link
             href="https://hackclub.com/conduct/"
             children="Code of Conduct"
           />
-          <Link href="https://events.hackclub.com/" children="Events" />
-          <Link href="https://workshops.hackclub.com/" children="Workshops" />
-          <Link href="https://hackathons.hackclub.com/" children="Hackathons" />
-          <Link href="https://hackclub.com/bank/" children="Bank" />
-          <Link href="https://hackclub.com/map/" children="Clubs Map" />
-        </Box>
-        <Box sx={{ gridColumn: ['span 2', 'span 1'] }}>
-          <Logo aria-label="Hack Club logo" width={128} height={45} />
-          <Grid
-            columns={[8, 4]}
-            gap={2}
-            sx={{
-              alignItems: 'center',
-              ml: -1,
-              my: 3,
-              maxWidth: [null, 192],
-              svg: { fill: 'currentColor', width: 32, height: 32 },
-              a: {
-                lineHeight: 0,
-                mb: 0,
-                transition:
-                  'transform .125s ease-in-out, color .125s ease-in-out',
-                ':hover,:focus': { transform: 'scale(1.125)' }
-              }
-            }}
-          >
-            <Service href="/slack" icon="slack-fill" target="_self" />
-            <Service href="https://twitter.com/hackclub" icon="twitter" />
-            <Service href="https://github.com/hackclub" icon="github" />
-            <Service
-              href="https://www.facebook.com/Hack-Club-741805665870458"
-              icon="facebook"
-            />
-            <Service href="https://twitch.tv/HackClubHQ" icon="twitch" />
-            <Service
-              href="https://www.youtube.com/c/HackClubHQ"
-              icon="youtube"
-            />
-            <Service
-              href="https://www.instagram.com/starthackclub"
-              icon="instagram"
-            />
-            <Service href="mailto:team@hackclub.com" icon="email" />
-          </Grid>
-          <Text my={2}>
-            <Link href="tel:1-855-625-HACK">1-855-625-HACK</Link>
-            <br />
-            <Text as="span" color="muted" children="(call toll-free)" />
-          </Text>
         </Box>
       </Grid>
       <Text as="p" variant="caption" sx={{ mt: 3 }}>
-        © {new Date().getFullYear()} Hack Club. 501(c)(3) nonprofit (EIN:
-        81-2908499)
+        © {new Date().getFullYear()} Material Pal
       </Text>
     </Container>
   </Base>
-)
+);
 
-export default Footer
+export default Footer;

@@ -447,12 +447,7 @@ export default function Home() {
               />
             </Card>
           </Grid>
-          <Button
-            as="a"
-            href="https://apply.hackclub.com"
-            target="_self"
-            variant="ctaLg"
-          >
+          <Button as="a" href="#" target="_self" variant="ctaLg">
             Create your free account
           </Button>
         </Container>
@@ -498,6 +493,19 @@ export default function Home() {
           </Grid>
         </Container>
       </Box>
+
+      {/* footer */}
+      <Footer
+        dark
+        sx={{
+          textShadow: "0 1px 2px rgba(0,0,0,0.375)",
+          "h2,span,p,a": { color: "white !important" },
+          svg: {
+            fill: "white",
+            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))",
+          },
+        }}
+      ></Footer>
     </>
   );
 }
