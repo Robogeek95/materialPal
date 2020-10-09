@@ -487,7 +487,12 @@ export default function Home() {
             <div>
               <Input
                 placeholder="Email Address"
-                sx={{ height: "60px", px: 30, border: "1px solid black" }}
+                sx={{
+                  height: "60px",
+                  px: 30,
+                  border: "1px solid",
+                  borderColor: "#E5E5E5",
+                }}
               />
             </div>
           </Grid>
