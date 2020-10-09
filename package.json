@@ -12,6 +12,7 @@
     "@emotion/styled": "^10.0.27",
     "@hackclub/theme": "^0.3.0",
     "@iconify/icons-cib": "^1.0.3",
+    "@iconify/icons-ic": "^1.0.16",
     "@iconify/react": "^1.1.3",
     "emotion": "^10.0.27",
     "next": "9.5.3",

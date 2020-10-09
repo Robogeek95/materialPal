@@ -24,7 +24,7 @@ const Base = styled(Box)`
       background-size: ${theme.space[4]}px ${theme.space[4]}px;
     `} @media print {
     display: none;
-  }
+  } 
 `;
 
 const Logo = (props) => (
