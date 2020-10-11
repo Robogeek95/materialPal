@@ -137,6 +137,8 @@ const layout = (props) =>
           }
         }
       `;
+
+// const layout2
 const NavBar = styled(Box)`
   display: none;
   ${layout};
@@ -150,12 +152,85 @@ const NavBar = styled(Box)`
   }
 `;
 
+const Bar = css`
+  a {
+    font-size: ${theme.fontSizes[1]}px;
+    text-transform: uppercase;
+    &:hover {
+    }
+  }
+`;
+
 const Navigation = (props) => (
   <NavBar role="navigation" {...props}>
     <Link href="#" children="Home" />
     <Link href="#" children="About " />
     <Link href="#" children="Contact" />
   </NavBar>
+);
+
+const NavCta = () => (
+  <Grid
+    gap={[4, 3, 4]}
+    py={[3]}
+    columns={[null, "1fr 1.5fr 1fr"]}
+    sx={{
+      svg: { fill: "currentColor" },
+      display: "none",
+      "@media (min-width: 56em)": {
+        display: "grid",
+      },
+    }}
+  >
+    <Navigation as="nav" />
+
+    <Box as="div" sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        as="form"
+        onSubmit={(e) => e.preventDefault()}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          background: "white",
+          height: "50px",
+          border: "1px solid",
+          borderColor: "#E5E5E5",
+          width: "100%",
+          borderRadius: "4px",
+          px: "18px",
+        }}
+      >
+        <IconButton aria-label="Search Icon">
+          <Icon icon={baselineSearch} style={{ fontSize: "24px" }} />
+        </IconButton>
+
+        <Input
+          placeholder="Search Materials..."
+          sx={{
+            px: 10,
+            "&:focus": {
+              outline: "none",
+            },
+          }}
+        />
+      </Box>
+    </Box>
+
+    <Box
+      sx={{
+        display: "flex",
+        columnGap: "15px",
+      }}
+    >
+      <Button as="a" href="#" target="_self" variant="ctaLg">
+        SignIn
+      </Button>
+
+      <Button as="a" href="#" target="_self" variant="outlineLg">
+        SignUp
+      </Button>
+    </Box>
+  </Grid>
 );
 
 const ToggleContainer = styled(Flex)`
@@ -166,6 +241,7 @@ const ToggleContainer = styled(Flex)`
   cursor: pointer;
   user-select: none;
   margin-left: auto;
+  background: red;
   @media (min-width: 56em) {
     display: none;
   }
@@ -255,74 +331,12 @@ class Header extends Component {
           >
             Material Pal
           </Text> */}
-          <Grid
-            gap={[4, 3, 4]}
-            py={[3]}
-            columns={[null, "1fr 1.5fr 1fr"]}
-            sx={{
-              svg: { fill: "currentColor" },
-            }}
-          >
-            <Navigation
-              as="nav"
-              aria-hidden={!!mobile}
-              color={baseColor}
-              dark={dark}
-            />
+          
+          <NavCta />
 
-            <Box as="div" sx={{ display: "flex", alignItems: "center" }}>
-              <Box
-                as="form"
-                onSubmit={(e) => e.preventDefault()}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  background: "white",
-                  height: "50px",
-                  border: "1px solid",
-                  borderColor: "#E5E5E5",
-                  width: "100%",
-                  borderRadius: "4px",
-                  px: "18px",
-                }}
-              >
-                <IconButton aria-label="Search Icon">
-                  <Icon icon={baselineSearch} style={{ fontSize: "24px" }} />
-                </IconButton>
-
-                <Input
-                  placeholder="Search Materials..."
-                  sx={{
-                    px: 10,
-                    "&:focus": {
-                      outline: "none",
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                columnGap: "15px",
-              }}
-            >
-              <Button as="a" href="#" target="_self" variant="ctaLg">
-                SignIn
-              </Button>
-
-              <Button as="a" href="#" target="_self" variant="outlineLg">
-                SignUp
-              </Button>
-            </Box>
-            <ToggleContainer
-              color={toggleColor}
-              onClick={this.handleToggleMenu}
-            >
-              {/* <Icon glyph={toggled ? 'view-close' : 'menu'} /> */}
-            </ToggleContainer>
-          </Grid>
+          <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
+            {/* <Icon glyph={toggled ? 'view-close' : 'menu'} /> */}
+          </ToggleContainer>
         </Content>
         <Navigation
           as="nav"
