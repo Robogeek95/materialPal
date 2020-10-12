@@ -69,8 +69,8 @@ const Footer = ({ dark = false, children, ...props }) => (
     <Container px={[3, null, 4]}>
       <Grid
         as="article"
-        gap={[2, 4]}
-        columns={[null, "4fr 2fr 2fr 3fr"]}
+        gap={[20, 4]}
+        columns={["null", "4fr 2fr 2fr 3fr"]}
         sx={{
           px: 0,
           a: {
