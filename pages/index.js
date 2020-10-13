@@ -345,7 +345,7 @@ export default function Home() {
 
           <Button
             as="a"
-            href="https://hackclub.com/philosophy/"
+            href="#"
             variant="ctaLg"
             sx={{
               background: "linear-gradient(-32deg, #6f31b7 14%, #fb558e 82%)",
