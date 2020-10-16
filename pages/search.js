@@ -5,6 +5,7 @@ import {
   Card,
   Container,
   Grid,
+  IconButton,
   Image,
   Input,
   Label,
@@ -13,6 +14,7 @@ import {
 
 import { Icon, InlineIcon } from "@iconify/react";
 import filterIcon from "@iconify/icons-mi/filter";
+import baselineSearch from "@iconify/icons-ic/baseline-search";
 
 const categories = [
   "Assessment",
@@ -97,10 +99,11 @@ const Search = () => (
       }}
     >
       <Container>
-        {/* sitemap */}
+        {/* Logo */}
         <Text
           as="p"
           variant="subtitle"
+          mb={[3]}
           sx={{
             textShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
             fontFamily: "Princess Sofia",
@@ -113,8 +116,33 @@ const Search = () => (
         <Grid columns={["8fr 4fr"]}>
           <Box>
             {/* search bar */}
-            <Box>
-              <Input defaultValue="CSC 111" />
+            <Box
+              as="form"
+              sx={{
+                background: "#FFFFFF",
+                boxShadow: "small",
+                borderRadius: "default",
+                ":hover": {
+                  boxShadow: "elevated",
+                },
+                height: "56px",
+                px: [3],
+              }}
+            >
+              <Grid sx={{ height: "inherit" }} columns={["1fr auto"]}>
+                <Input
+                  sx={{
+                    height: "100%",
+                  }}
+                  defaultValue="CSC 111"
+                />
+
+                <Box
+                  sx={{ height: "100%", display: "flex", alignItems: "center" }}
+                >
+                  <Icon icon={baselineSearch} height="24px" width="24px" />
+                </Box>
+              </Grid>
             </Box>
 
             {/* categories */}
@@ -164,27 +192,22 @@ const Search = () => (
         <Grid columns={["8fr 4fr"]}>
           <Box as="form" onSubmit={(e) => e.preventDefault()}>
             <Grid
-              columns="auto 1fr 1fr 1fr auto"
+              columns="1fr 1fr 1fr auto"
               gap={[3, 4]}
               pt={[3, 4]}
               sx={{
-                input: {
-                  background: "#FAFAFA",
-                  border: "1px solid #DCDCDC",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  borderRadius: "5px",
+                div: {
+                  background: "#FFFFFF",
+                  boxShadow: "small",
+                  borderRadius: "default",
+                  border: "1px solid black",
+                  ":hover": {
+                    boxShadow: "elevated",
+                  },
+                  px: [3],
                 },
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Text as="p">Filter by</Text>
-              </Box>
-
               <Box as="div">
                 <Input defaultValue="School" />
               </Box>
@@ -195,17 +218,25 @@ const Search = () => (
                 <Input defaultValue="Course" />
               </Box>
 
-              <Box
+              <IconButton
                 sx={{
                   display: "flex",
                   alignItems: "center",
+                  width: "35px",
+                  height: "35px",
+                  left: "861px",
+                  top: "272px",
+                  border: "none",
+                  background: "#FFFFFF",
+                  borderRadius: "default",
+                  boxShadow: "card",
                 }}
               >
                 <Icon
                   icon={filterIcon}
                   style={{ color: "#01333f", fontSize: "24px" }}
                 />
-              </Box>
+              </IconButton>
             </Grid>
           </Box>
         </Grid>
