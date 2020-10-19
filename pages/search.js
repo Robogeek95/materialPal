@@ -46,7 +46,7 @@ const materials = [
     name: "CSC 111 past questions ",
     author: "Micheal Andrew",
     rating: "4.9",
-    pages: "10",
+    pages: "100",
   },
   {
     name: "CSC 111 past questions ",
@@ -283,10 +283,20 @@ const Search = () => (
                     sx={{ width: "100%", height: "175px" }}
                   />
                   <Box sx={{ padding: "16px" }}>
-                    <Text as="P">{material.name}</Text>
-                    <Text as="P">by {material.author}</Text>
-                    <Text as="P">rating {material.rating}</Text>
-                    <Text as="P">pages {material.pages}</Text>
+                    <Text as="P" variant="subheadline" sx={{ color: "cyan" }}>
+                      {material.name}
+                    </Text>
+                    <Text as="P" variant="lead" sx={{ color: "snow" }}>
+                      {material.author}
+                    </Text>
+                    <Grid columns={["1fr 1fr"]}>
+                      <Text variant="small" as="P">
+                        {material.rating} stars
+                      </Text>
+                      <Text variant="small" as="P">
+                        {material.pages} pages
+                      </Text>
+                    </Grid>
                   </Box>
                 </Card>
               ))}
