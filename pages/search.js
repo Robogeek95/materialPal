@@ -283,10 +283,10 @@ const Search = () => (
                     sx={{ width: "100%", height: "175px" }}
                   />
                   <Box sx={{ padding: "16px" }}>
-                    <Text as="P" variant="subheadline" sx={{ color: "cyan" }}>
+                    <Text as="P" variant="subheadline" sx={{ }}>
                       {material.name}
                     </Text>
-                    <Text as="P" variant="lead" sx={{ color: "snow" }}>
+                    <Text as="P" variant="lead" sx={{ color: "cyan"}}>
                       {material.author}
                     </Text>
                     <Grid columns={["1fr 1fr"]}>
