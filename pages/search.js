@@ -113,7 +113,7 @@ const Search = () => (
           Material Pal
         </Text>
 
-        <Grid columns={["8fr 4fr"]}>
+        <Grid columns={["1fr", null, null, "8fr 4fr"]}>
           <Box>
             {/* search bar */}
             <Box
@@ -189,7 +189,7 @@ const Search = () => (
     <Box>
       <Container>
         {/* filter */}
-        <Grid columns={["8fr 4fr"]}>
+        <Grid columns={["1fr", null, null, "8fr 4fr"]}>
           <Box as="form" onSubmit={(e) => e.preventDefault()}>
             <Grid
               columns="1fr 1fr 1fr auto"
@@ -209,13 +209,13 @@ const Search = () => (
               }}
             >
               <Box as="div">
-                <Input defaultValue="School" />
+                <Input placeholder="School" />
               </Box>
               <Box as="div">
-                <Input defaultValue="Department" />
+                <Input placeholder="Department" />
               </Box>
               <Box as="div">
-                <Input defaultValue="Course" />
+                <Input placeholder="Course" />
               </Box>
 
               <IconButton
@@ -245,12 +245,12 @@ const Search = () => (
 
     <Box>
       <Container>
-        <Grid columns={[null, "8fr 4fr"]}>
+        <Grid columns={["1fr", null, null, "8fr 4fr"]}>
           <Box>
             <Grid
               my={[4]}
-              gap={[4, 4]}
-              columns={[null, 4]}
+              gap={[3, 4]}
+              columns={[2, 4]}
               sx={{
                 textAlign: "left",
                 "> a, > div": {
