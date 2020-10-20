@@ -1,5 +1,4 @@
-import Nav from "../components/nav";
-import Footer from "../components/footer";
+import Footer from "../../components/footer";
 import {
   Box,
   Card,
@@ -16,6 +15,7 @@ import { Icon, InlineIcon } from "@iconify/react";
 import filterIcon from "@iconify/icons-mi/filter";
 import baselineSearch from "@iconify/icons-ic/baseline-search";
 import Link from "next/link";
+import materials from "../../lib/materials.json";
 
 const categories = [
   "Assessment",
@@ -28,63 +28,6 @@ const categories = [
   "Past Questions",
   "Text Books",
   "Handouts",
-];
-
-const materials = [
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "100",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
-  {
-    name: "CSC 111 past questions ",
-    author: "Micheal Andrew",
-    rating: "4.9",
-    pages: "10",
-  },
 ];
 
 const Search = () => (
@@ -103,12 +46,10 @@ const Search = () => (
         {/* Logo */}
         <Text
           as="p"
-          variant="subtitle"
+          variant="headline"
           mb={[3]}
           sx={{
             textShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-            fontFamily: "Princess Sofia",
-            fontSize: "26px",
           }}
         >
           Material Pal
@@ -215,7 +156,7 @@ const Search = () => (
               <Box as="div">
                 <Input placeholder="Department" />
               </Box>
-             
+
               <IconButton
                 sx={{
                   display: "flex",
@@ -265,6 +206,8 @@ const Search = () => (
             >
               {materials.map((material) => (
                 <Card
+                  as="a"
+                  href={`/materials/${material.id}`}
                   variant="interactive"
                   sx={{
                     background: "#1b4758",
@@ -336,7 +279,7 @@ const Search = () => (
                   26
                 </Text>
 
-<hr />
+                <hr />
 
                 <Text sx={{ color: "steel" }}>Courses</Text>
                 <Text
@@ -349,6 +292,8 @@ const Search = () => (
                 >
                   30
                 </Text>
+
+                <hr />
 
                 <Text>Materials on material pal</Text>
                 <Text
