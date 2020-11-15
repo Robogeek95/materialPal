@@ -220,6 +220,7 @@ const NavCta = () => (
       sx={{
         display: "flex",
         columnGap: "15px",
+        height: "50px",
       }}
     >
       <Button as="a" href="#" target="_self" variant="ctaLg">
