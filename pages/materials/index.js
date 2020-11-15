@@ -1,6 +1,7 @@
 import Footer from "../../components/footer";
 import {
   Box,
+  Button,
   Card,
   Container,
   Grid,
@@ -8,125 +9,20 @@ import {
   Image,
   Input,
   Label,
+  Select,
   Text,
 } from "theme-ui";
 
 import { Icon, InlineIcon } from "@iconify/react";
 import filterIcon from "@iconify/icons-mi/filter";
-import baselineSearch from "@iconify/icons-ic/baseline-search";
 import Link from "next/link";
 import materials from "../../lib/materials.json";
-
-const categories = [
-  "Assessment",
-  "Note",
-  "Test",
-  "Syllabus",
-  "Lessons",
-  "Reports",
-  "Assignments",
-  "Past Questions",
-  "Text Books",
-  "Handouts",
-];
+import SearchBar from "../../components/SearchBar";
 
 const Search = () => (
   <>
     {/* Search Bar */}
-
-    <Box
-      as="header"
-      sx={{
-        bg: "snow",
-        pt: [3, 3],
-        pb: [3, 3],
-      }}
-    >
-      <Container>
-        {/* Logo */}
-        <Text
-          as="p"
-          variant="headline"
-          mb={[3]}
-          sx={{
-            textShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          Material Pal
-        </Text>
-
-        <Grid columns={["1fr", null, null, "8fr 4fr"]}>
-          <Box>
-            {/* search bar */}
-            <Box
-              as="form"
-              sx={{
-                background: "#FFFFFF",
-                boxShadow: "small",
-                borderRadius: "default",
-                ":hover": {
-                  boxShadow: "elevated",
-                },
-                height: "56px",
-                px: [3],
-              }}
-            >
-              <Grid sx={{ height: "inherit" }} columns={["1fr auto"]}>
-                <Input
-                  sx={{
-                    height: "100%",
-                  }}
-                  defaultValue="CSC 111"
-                />
-
-                <Box
-                  sx={{ height: "100%", display: "flex", alignItems: "center" }}
-                >
-                  <Icon icon={baselineSearch} height="24px" width="24px" />
-                </Box>
-              </Grid>
-            </Box>
-
-            {/* categories */}
-            <Box
-              mt={[4]}
-              sx={{
-                color: "#000000",
-                textTransform: "uppercase",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <Text
-                as="a"
-                mr={[3]}
-                sx={{
-                  color: "#247B87",
-                  display: "inline-block",
-                  opacity: "1",
-                }}
-              >
-                All
-              </Text>
-              {categories.map((category) => (
-                <Text
-                  as="a"
-                  mr={[3]}
-                  sx={{
-                    display: "inline-block",
-                    opacity: "0.3",
-                  }}
-                >
-                  {category}
-                </Text>
-              ))}
-            </Box>
-          </Box>
-        </Grid>
-
-        {/* <Text>CSC 111</Text> */}
-      </Container>
-    </Box>
+    <SearchBar />
 
     <Box>
       <Container>
@@ -138,7 +34,7 @@ const Search = () => (
               gap={[3, 4]}
               pt={[3, 4]}
               sx={{
-                div: {
+                ".input_container": {
                   background: "#FFFFFF",
                   boxShadow: "small",
                   borderRadius: "default",
@@ -150,11 +46,24 @@ const Search = () => (
                 },
               }}
             >
-              <Box as="div">
-                <Input placeholder="School" />
+              <Box>
+                <Label htmlFor="school" sx={{ color: "muted" }}>
+                  <Text variant="small">School</Text>
+                </Label>
+                <Box className="input_container">
+                  <Select name="school" placeholder="Enter School">
+                    <option>Lagos State University</option>
+                  </Select>
+                </Box>
               </Box>
-              <Box as="div">
-                <Input placeholder="Department" />
+
+              <Box>
+                <Label htmlFor="school" sx={{ color: "muted" }}>
+                  <Text variant="small">Deartment</Text>
+                </Label>
+                <Box className="input_container">
+                  <Select name="department" placeholder="Enter Department" />
+                </Box>
               </Box>
 
               <IconButton
@@ -163,12 +72,12 @@ const Search = () => (
                   alignItems: "center",
                   width: "35px",
                   height: "35px",
-                  left: "861px",
-                  top: "272px",
                   border: "none",
                   background: "#FFFFFF",
                   borderRadius: "default",
                   boxShadow: "card",
+                  mt: ["25px"],
+                  cursor: "pointer",
                 }}
               >
                 <Icon
@@ -177,6 +86,8 @@ const Search = () => (
                 />
               </IconButton>
             </Grid>
+
+            <Box></Box>
           </Box>
         </Grid>
       </Container>
@@ -233,10 +144,7 @@ const Search = () => (
                     >
                       {material.author}
                     </Text>
-                    <Grid columns={["1fr 1fr"]}>
-                      <Text variant="small" as="P">
-                        {material.rating} stars
-                      </Text>
+                    <Grid columns={[]}>
                       <Text variant="small" as="P">
                         {material.pages} pages
                       </Text>
@@ -247,7 +155,7 @@ const Search = () => (
             </Grid>
           </Box>
 
-          <Box mt={[4]}>
+          <Box mt={[4]} sx={{ display: ["none", null, "block"] }}>
             <Card variant="detailCard">
               <Grid columns={["auto 1fr"]}>
                 <Box
