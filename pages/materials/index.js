@@ -18,6 +18,7 @@ import filterIcon from "@iconify/icons-mi/filter";
 import Link from "next/link";
 import materials from "../../lib/materials.json";
 import SearchBar from "../../components/SearchBar";
+import MaterialModal from "../../components/MaterialModal";
 
 const Search = () => (
   <>
@@ -27,6 +28,8 @@ const Search = () => (
     <Box>
       <Container>
         {/* filter */}
+        <MaterialModal />
+
         <Grid columns={["1fr", null, null, "8fr 4fr"]}>
           <Box as="form" onSubmit={(e) => e.preventDefault()}>
             <Grid

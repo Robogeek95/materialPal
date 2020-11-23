@@ -55,7 +55,6 @@ export default function Home() {
       <Box
         as="section"
         sx={{
-          bg: "blue",
           pt: [5, 6],
           pb: [4, 5],
           textAlign: "center",
@@ -78,51 +77,19 @@ export default function Home() {
               filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
               WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
               maxWidth: [null, "copyUltra"],
-              my: [3, 4],
+              my: [2],
               mx: "auto",
               zIndex: 1,
             }}
           >
-            <Text
-              as="span"
-              sx={{
-                lineHeight: 0.875,
-                display: "block",
-                pb: 3,
-                lineHeight: 1.2,
-              }}
-            >
+            <Text variant="display1" as="span">
               All Materials you seek in&nbsp;
-              <Text
-                as="span"
-                sx={{
-                  borderRadius: "default",
-                  px: 2,
-                  ml: [-2, 0],
-                  whiteSpace: "nowrap",
-                  color: "#07184a",
-                  background: "#5bc0de",
-                }}
-              >
-                Material Pal
-              </Text>
-              .
+              <Text as="span">Material Pal</Text>.
             </Text>
           </Heading>
         </AnimSlideDown>
         <AnimFadeIn duration={1000}>
-          <Text
-            as="p"
-            variant="lead"
-            sx={{
-              color: "white",
-              textShadow: "text",
-              maxWidth: 620,
-              mt: 0,
-              mx: "auto",
-              mb: [3, 4],
-            }}
-          >
+          <Text as="p" variant="headline4">
             we are passionate about giving everyone access to Unlimited
             Educational materials. Everywhere, Everytime!
           </Text>
@@ -159,11 +126,11 @@ export default function Home() {
       {/* mobile Librrary */}
       <Box as="section" sx={{ py: [4, 5], color: "black" }}>
         <Container>
-          <Text as="p" variant="eyebrow">
+          <Text as="p" variant="blockquote">
             mobile materials
           </Text>
-          <Heading as="h2" variant="title" sx={{ maxWidth: "copyPlus" }}>
-            Evergrowing Collection of materials for your use.
+          <Heading as="h2" variant="headline1" sx={{ maxWidth: "copyPlus" }}>
+            Collection of materials for your use.
           </Heading>
           <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus" }}>
             {/* lo */}
@@ -208,13 +175,15 @@ export default function Home() {
               <Text as="span" color="green">
                 <Icon icon={iconjarIcon} />
               </Text>
-              <Text as="p" variant="subtitle">
-                <strong>
+              <Box>
+                <Text variant="headline5">
                   They were dropping, losing altitude in a canyon of rainbow
-                </strong>
-                The leader (that’s you!) presents for a few minutes, getting the
-                group started building something new.
-              </Text>
+                </Text>
+                <Text variant="body">
+                  The leader (that’s you!) presents for a few minutes, getting
+                  the group started building something new.
+                </Text>
+              </Box>
               <Text as="span" color="green">
                 <Icon icon={iconjarIcon} />
               </Text>
