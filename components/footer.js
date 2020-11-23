@@ -70,7 +70,7 @@ const Footer = ({ dark = false, children, ...props }) => (
       <Grid
         as="article"
         gap={[20, 4]}
-        columns={["null", "4fr 2fr 2fr 3fr"]}
+        columns={["1fr 1fr", "4fr 2fr 2fr 3fr"]}
         sx={{
           px: 0,
           a: {
@@ -112,6 +112,8 @@ const Footer = ({ dark = false, children, ...props }) => (
             </Button>
           </Box>
         </Box>
+
+        <Box sx={{ display: ["block", "none"] }}></Box>
 
         <Box>
           <Heading variant="headline4" mb={3}>
