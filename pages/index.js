@@ -34,12 +34,12 @@ const categories = [
 const Feature = ({ icon, color, name, desc, children, ...props }) => (
   <Box {...props}>
     <Box>
-      <Heading as="h3" variant="headline" mb={2}>
+      <Heading as="h3" variant="headline2" mb={2}>
         {name}
       </Heading>
       <Text
         as="p"
-        variant="subtitle"
+        variant="blockquote"
         sx={{ mt: 0, pb: 2, a: { variant: "styles.a", color: "blue" } }}
       >
         {desc}
@@ -58,13 +58,15 @@ export default function Home() {
           pt: [5, 6],
           pb: [4, 5],
           textAlign: "center",
+          maxWidth: "copyUltra",
+          mx: "auto",
           // backgroundImage: [
           //   'linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)), url(https://cloud-cgq5irgc3.vercel.app/2020-09-09_fmn6e5hb62u7cq8eqrt07gz2gg0jp7ej.png)',
           //   'linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)), url(https://cloud-j0rimxpbu.vercel.app/2020-09-09_4e10mkbdhjrewfzjerjrz5cpdc3dp7cn.png)'
           // ],
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          "@media (hover: hover)": { backgroundAttachment: "fixed" },
+          // backgroundPosition: "center",
+          // backgroundSize: "cover",
+          // "@media (hover: hover)": { backgroundAttachment: "fixed" },
         }}
       >
         <AnimSlideDown duration={768}>
@@ -72,10 +74,10 @@ export default function Home() {
             as="h1"
             variant="ultratitle"
             sx={{
-              color: "white",
+              color: "dark500",
               textShadow: "text",
-              filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+              // filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+              // WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
               maxWidth: [null, "copyUltra"],
               my: [2],
               mx: "auto",
@@ -126,15 +128,13 @@ export default function Home() {
       {/* mobile Librrary */}
       <Box as="section" sx={{ py: [4, 5], color: "black" }}>
         <Container>
-          <Text as="p" variant="blockquote">
+          <Text as="p" variant="blockquote" sx={{ color: "dark200" }}>
             mobile materials
           </Text>
           <Heading as="h2" variant="headline1" sx={{ maxWidth: "copyPlus" }}>
             Collection of materials for your use.
           </Heading>
-          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus" }}>
-            {/* lo */}
-          </Text>
+
           <Grid columns={[null, null, "3fr 2fr"]} gap={[3, 4]} pt={[3, 4]}>
             <Card
               sx={{
@@ -144,6 +144,7 @@ export default function Home() {
                 position: "relative",
                 maxWidth: "100%",
                 lineHeight: 0,
+                height: "400px",
               }}
             >
               <Image
@@ -156,27 +157,29 @@ export default function Home() {
             <Grid
               columns="auto 1fr"
               gap={3}
-              sx={{
-                span: {
-                  width: 36,
-                  height: 36,
-                  borderRadius: 24,
-                  display: "inline-block",
-                  fontSize: 4,
-                  mt: 1,
-                  lineHeight: "30px",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                },
-                p: { mt: 0 },
-                strong: { display: "block" },
-              }}
+              sx={
+                {
+                  // span: {
+                  //   width: 36,
+                  //   height: 36,
+                  //   borderRadius: 24,
+                  //   display: "inline-block",
+                  //   fontSize: 4,
+                  //   mt: 1,
+                  //   lineHeight: "30px",
+                  //   textAlign: "center",
+                  //   fontWeight: "bold",
+                  // },
+                  // p: { mt: 0 },
+                  // strong: { display: "block" },
+                }
+              }
             >
               <Text as="span" color="green">
-                <Icon icon={iconjarIcon} />
+                <Icon height="40px" width="50px" icon={iconjarIcon} />
               </Text>
               <Box>
-                <Text variant="headline5">
+                <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow
                 </Text>
                 <Text variant="body">
@@ -184,26 +187,32 @@ export default function Home() {
                   the group started building something new.
                 </Text>
               </Box>
+
               <Text as="span" color="green">
-                <Icon icon={iconjarIcon} />
+                <Icon height="40px" width="50px" icon={iconjarIcon} />
               </Text>
-              <Text as="p" variant="subtitle">
-                <strong>
+              <Box>
+                <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow
-                </strong>
-                The leader (that’s you!) presents for a few minutes, getting the
-                group started building something new.
-              </Text>
+                </Text>
+                <Text variant="body">
+                  The leader (that’s you!) presents for a few minutes, getting
+                  the group started building something new.
+                </Text>
+              </Box>
+
               <Text as="span" color="green">
-                <Icon icon={iconjarIcon} />
+                <Icon height="40px" width="50px" icon={iconjarIcon} />
               </Text>
-              <Text as="p" variant="subtitle">
-                <strong>
+              <Box>
+                <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow
-                </strong>
-                The leader (that’s you!) presents for a few minutes, getting the
-                group started building something new.
-              </Text>
+                </Text>
+                <Text variant="body">
+                  The leader (that’s you!) presents for a few minutes, getting
+                  the group started building something new.
+                </Text>
+              </Box>
             </Grid>
           </Grid>
         </Container>
@@ -212,36 +221,26 @@ export default function Home() {
       {/* Resources beyond your school */}
       <Box
         as="section"
-        bg="snow"
+        bg="gray200"
         py={[4, 5]}
         sx={{
           // bg: 'dark',
-          // color: 'white',
-          "h2,p": { textShadow: "text" },
+          color: "dark500",
           "@media (hover: hover)": { backgroundAttachment: "fixed" },
         }}
       >
         <Container>
           <Grid
-            columns={[null, "1fr 2fr"]}
-            sx={{ maxWidth: "copyUltra", mx: "auto", alignItems: "center" }}
+            columns={[null, "auto auto"]}
+            sx={{ maxWidth: "copyPlus", mx: "auto", alignItems: "center" }}
           >
-            <Heading
-              as="h3"
-              variant="headline"
-              sx={{ fontSize: [4, 4], mb: 0 }}
-            >
-              materials from beyond your school.
+            <Heading variant="headline2">
+              Materials from <br /> beyond your school.
             </Heading>
-            <Text
-              as="p"
-              variant="lead"
-              sx={{ mt: 0, a: { variant: "styles.a", color: "blue" } }}
-            >
-              Images formed and reformed: a flickering montage of the Sprawl’s
-              towers and ragged Fuller domes, dim figures moving toward him in
-              the center of his closed left eyelid. Case felt the edge of the
-              car’s floor.
+            <Text variant="body">
+              Hack Clubs attend and run hackathons like Windy City Hacks & Hack
+              the Fog, run summer programs like Hack Camp, and compete in events
+              like the Congressional App Challenge. The hack’s the limit.
             </Text>
           </Grid>
         </Container>
@@ -259,13 +258,11 @@ export default function Home() {
         }}
       >
         <Container>
-          <Text as="p" variant="eyebrow" sx={{ color: "white", opacity: 0.75 }}>
-            Stories
-          </Text>
-          <Heading as="h2" variant="title">
-            Materials for every occassions
-          </Heading>
-          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus", mx: "auto" }}>
+          <Heading variant="headline1">Materials for every purposes</Heading>
+          <Text
+            variant="blockquote"
+            sx={{ color: "dark400", maxWidth: "copyPlus", mx: "auto" }}
+          >
             Its hands were holograms that altered to match the convolutions of
             the arcade showed him broken lengths of damps. good stuffs.
           </Text>
@@ -279,7 +276,7 @@ export default function Home() {
               textAlign: "left",
               "> a, > div": {
                 borderRadius: "extra",
-                boxShadow: "elevated",
+                boxShadow: "card",
                 px: [3, null, 4],
                 py: [4, null, 5],
               },
@@ -294,8 +291,8 @@ export default function Home() {
               <Card
                 variant="interactive"
                 sx={{
-                  background: "#1b4758",
-                  color: "#f7f2f6",
+                  backgroundColor: "secondary",
+                  color: "gray200",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -328,10 +325,10 @@ export default function Home() {
       {/* features */}
       <Box color="black" py={[4, 6]}>
         <Container sx={{ textAlign: ["left", "center"] }}>
-          <Text as="p" variant="eyebrow">
+          <Text as="p" variant="blockquote" color="dark200">
             Lets get you Started...
           </Text>
-          <Heading as="h2" variant="title">
+          <Heading variant="headline1">
             Start sharing your{" "}
             <Text
               as="span"
@@ -348,7 +345,7 @@ export default function Home() {
             </Text>
             .
           </Heading>
-          <Text as="p" variant="lead" sx={{ maxWidth: "copyPlus", mx: "auto" }}>
+          <Text variant="blockquote" sx={{ maxWidth: "copyPlus", mx: "auto" }}>
             He’d taken the drug to blunt SAS, nausea, but the muted purring of
             the blowers and the amplified breathing of the fighters.
           </Text>
@@ -425,7 +422,7 @@ export default function Home() {
       {/* newsletter */}
       <Box
         as="section"
-        bg="snow"
+        bg="gray200"
         py={[4, 5]}
         sx={{
           // bg: 'dark',
@@ -440,14 +437,10 @@ export default function Home() {
             sx={{ maxWidth: "copyUltra", mx: "auto", alignItems: "center" }}
           >
             <dv>
-              <Heading
-                as="h3"
-                variant="headline"
-                sx={{ fontSize: [4, 4], mb: 0 }}
-              >
-                Subscribe to Our Newsletter
+              <Heading variant="headline2" mb={[0]}>
+                Join Our Newsletter
               </Heading>
-              <Text>
+              <Text variant="body">
                 Be the first to get notified when new resources are available
                 for you!
               </Text>
