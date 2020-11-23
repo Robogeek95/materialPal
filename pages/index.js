@@ -14,9 +14,9 @@ import {
 import AnimFadeIn from "../components/aminFadeIn";
 import AnimSlideDown from "../components/animSlideDown";
 import Nav from "../components/nav";
-import { Icon, InlineIcon } from "@iconify/react";
-import iconjarIcon from "@iconify/icons-cib/iconjar";
 import Footer from "../components/footer";
+import { faCheckCircle, faIdBadge } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const categories = [
   "Assessment",
@@ -176,8 +176,8 @@ export default function Home() {
                 }
               }
             >
-              <Text as="span" color="green">
-                <Icon height="40px" width="50px" icon={iconjarIcon} />
+              <Text as="span" color="lighter">
+                <FontAwesomeIcon size="2x" icon={faCheckCircle} />
               </Text>
               <Box>
                 <Text variant="headline5" mb={[2]}>
@@ -189,8 +189,8 @@ export default function Home() {
                 </Text>
               </Box>
 
-              <Text as="span" color="green">
-                <Icon height="40px" width="50px" icon={iconjarIcon} />
+              <Text as="span" color="lighter">
+                <FontAwesomeIcon size="2x" icon={faCheckCircle} />
               </Text>
               <Box>
                 <Text variant="headline5" mb={[2]}>
@@ -202,8 +202,8 @@ export default function Home() {
                 </Text>
               </Box>
 
-              <Text as="span" color="green">
-                <Icon height="40px" width="50px" icon={iconjarIcon} />
+              <Text as="span" color="lighter">
+                <FontAwesomeIcon size="2x" icon={faCheckCircle} />
               </Text>
               <Box>
                 <Text variant="headline5" mb={[2]}>
