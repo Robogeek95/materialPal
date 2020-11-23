@@ -55,11 +55,10 @@ export default function Home() {
       <Box
         as="section"
         sx={{
+          bg: "gray300",
           pt: [5, 6],
           pb: [4, 5],
           textAlign: "center",
-          maxWidth: "copyUltra",
-          mx: "auto",
           // backgroundImage: [
           //   'linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)), url(https://cloud-cgq5irgc3.vercel.app/2020-09-09_fmn6e5hb62u7cq8eqrt07gz2gg0jp7ej.png)',
           //   'linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)), url(https://cloud-j0rimxpbu.vercel.app/2020-09-09_4e10mkbdhjrewfzjerjrz5cpdc3dp7cn.png)'
@@ -69,60 +68,62 @@ export default function Home() {
           // "@media (hover: hover)": { backgroundAttachment: "fixed" },
         }}
       >
-        <AnimSlideDown duration={768}>
-          <Heading
-            as="h1"
-            variant="ultratitle"
-            sx={{
-              color: "dark500",
-              textShadow: "text",
-              // filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              // WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              maxWidth: [null, "copyUltra"],
-              my: [2],
-              mx: "auto",
-              zIndex: 1,
-            }}
-          >
-            <Text variant="display1" as="span">
-              All Materials you seek in&nbsp;
-              <Text as="span">Material Pal</Text>.
-            </Text>
-          </Heading>
-        </AnimSlideDown>
-        <AnimFadeIn duration={1000}>
-          <Text as="p" variant="headline4">
-            we are passionate about giving everyone access to Unlimited
-            Educational materials. Everywhere, Everytime!
-          </Text>
-
-          <Box
-            as="div"
-            sx={{
-              maxWidth: 620,
-              px: [3, 0],
-              mt: 0,
-              mx: "auto",
-              mb: [3, 4],
-            }}
-          >
-            <Select
+        <Box sx={{ maxWidth: "copyUltra", mx: "auto" }}>
+          <AnimSlideDown duration={768}>
+            <Heading
+              as="h1"
+              variant="ultratitle"
               sx={{
-                color: "#737373",
-                px: 30,
-                height: 60,
+                color: "dark400",
+                textShadow: "text",
+                // filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+                // WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+                maxWidth: [null, "copyUltra"],
+                my: [2],
+                mx: "auto",
+                zIndex: 1,
               }}
             >
-              <option>Select your school to begin</option>
-              <option>Lagos State University</option>
-              <option>University of Lagos</option>
-              <option>Kwara State University</option>
-            </Select>
-          </Box>
-          {/* <Button as="a" variant="ctaLg" href="https://apply.hackclub.com">
+              <Text variant="display1" as="span">
+                All Materials you seek in&nbsp;
+                <Text as="span">Material Pal</Text>.
+              </Text>
+            </Heading>
+          </AnimSlideDown>
+          <AnimFadeIn duration={1000}>
+            <Text as="p" color="dark300" variant="headline4">
+              we are passionate about giving everyone access to Unlimited
+              Educational materials. Everywhere, Everytime!
+            </Text>
+
+            <Box
+              as="div"
+              sx={{
+                maxWidth: 620,
+                px: [3, 0],
+                mt: 4,
+                mx: "auto",
+                mb: [3, 4],
+              }}
+            >
+              <Select
+                sx={{
+                  color: "#737373",
+                  px: 30,
+                  height: 60,
+                }}
+              >
+                <option>Select your school to begin</option>
+                <option>Lagos State University</option>
+                <option>University of Lagos</option>
+                <option>Kwara State University</option>
+              </Select>
+            </Box>
+            {/* <Button as="a" variant="ctaLg" href="https://apply.hackclub.com">
           Apply now
         </Button> */}
-        </AnimFadeIn>
+          </AnimFadeIn>
+        </Box>
       </Box>
 
       {/* mobile Librrary */}
@@ -323,7 +324,7 @@ export default function Home() {
       </Box>
 
       {/* features */}
-      <Box color="black" py={[4, 6]}>
+      <Box color="black" py={[4, 5]}>
         <Container sx={{ textAlign: ["left", "center"] }}>
           <Text as="p" variant="blockquote" color="dark200">
             Lets get you Started...

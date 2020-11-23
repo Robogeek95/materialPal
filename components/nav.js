@@ -70,19 +70,6 @@ const Root = styled(Box)`
   }
 `;
 
-export const Content = styled(Container)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  min-height: 60px;
-  z-index: 2;
-  padding-left: ${theme.space[3]}px;
-  @media (min-width: ${theme.breakpoints[2]}em) {
-    padding: 0 ${theme.space[4]}px;
-  }
-`;
-
 const hoverColor = (name) =>
   ({
     white: "smoke",
@@ -143,6 +130,7 @@ const NavBar = styled(Box)`
   display: none;
   ${layout};
   a {
+    font-size: ${theme.fontSizes[3]}px;
     margin-left: ${theme.space[3]}px;
     padding: ${theme.space[3]}px;
     text-decoration: none;
@@ -169,7 +157,7 @@ const Navigation = (props) => (
   </NavBar>
 );
 
-const NavCta = () => (
+const NavCta = (props) => (
   <Grid
     gap={[4, 3, 4]}
     py={[3]}
@@ -182,7 +170,7 @@ const NavCta = () => (
       },
     }}
   >
-    <Navigation as="nav" />
+    <Navigation color={props.color} as="nav" />
 
     <Box as="div" sx={{ display: "flex", alignItems: "center" }}>
       <Box
@@ -221,6 +209,7 @@ const NavCta = () => (
         display: "flex",
         columnGap: "15px",
         height: "50px",
+        mx: "auto",
       }}
     >
       <Button as="a" href="#" target="_self" variant="ctaLg">
@@ -296,16 +285,8 @@ class Header extends Component {
   render() {
     const { color, fixed, bgColor, dark, ...props } = this.props;
     const { mobile, scrolled, toggled } = this.state;
-    const baseColor = dark
-      ? color || "white"
-      : color === "white" && scrolled
-      ? "black"
-      : color;
-    const toggleColor = dark
-      ? color || "snow"
-      : toggled || (color === "white" && scrolled)
-      ? "slate"
-      : color;
+    const baseColor = scrolled ? "dark500" : "primary";
+    const toggleColor = scrolled ? "dark500" : "primary";
 
     return (
       <Root
@@ -318,26 +299,13 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Content>
-          {/* <Flag scrolled={scrolled || fixed} /> */}
-          {/* <Text
-            as="h1"
-            sx={{
-              color: "#07184a",
-              textShadow: "text",
-              filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-            }}
-          >
-            Material Pal
-          </Text> */}
-          
-          <NavCta />
+        <Container>
+          <NavCta color={baseColor} />
 
           <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
             {/* <Icon glyph={toggled ? 'view-close' : 'menu'} /> */}
           </ToggleContainer>
-        </Content>
+        </Container>
         <Navigation
           as="nav"
           aria-hidden={!mobile}
