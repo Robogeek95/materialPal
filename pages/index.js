@@ -375,8 +375,8 @@ export default function Home() {
               // href="https://apply.hackclub.com/"
               variant="interactive"
               sx={{
-                background: "#1b4758",
-                color: "#f7f2f6",
+                backgroundColor: "secondary",
+                color: "gray100",
                 cursor: "pointer",
               }}
             >
@@ -389,8 +389,8 @@ export default function Home() {
             </Card>
             <Card
               sx={{
-                background: "#1b4758",
-                color: "#f7f2f6",
+                backgroundColor: "secondary",
+                color: "gray100",
               }}
             >
               <Feature
@@ -402,8 +402,8 @@ export default function Home() {
             </Card>
             <Card
               sx={{
-                background: "#1b4758",
-                color: "#f7f2f6",
+                backgroundColor: "secondary",
+                color: "gray100",
               }}
             >
               <Feature
