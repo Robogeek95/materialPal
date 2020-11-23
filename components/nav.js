@@ -8,6 +8,7 @@ import {
   Flex,
   Grid,
   IconButton,
+  Image,
   Input,
   Link,
   Text,
@@ -19,6 +20,8 @@ import ScrollLock from "react-scrolllock";
 import NextLink from "next/link";
 import { Icon, InlineIcon } from "@iconify/react";
 import baselineSearch from "@iconify/icons-ic/baseline-search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const rgbaBgColor = (props, opacity) =>
   `rgba(
@@ -158,21 +161,20 @@ const Navigation = (props) => (
 );
 
 const NavCta = (props) => (
-  <Grid
-    gap={[4, 3, 4]}
-    py={[3]}
-    columns={[null, "1fr 1.5fr 1fr"]}
-    sx={{
-      svg: { fill: "currentColor" },
-      display: "none",
-      "@media (min-width: 56em)": {
-        display: "grid",
-      },
-    }}
-  >
-    <Navigation color={props.color} as="nav" />
+  <Grid gap={[4, 3, 4]} py={[3]} columns={[null, "1fr 1.5fr 1fr"]}>
+    <Flex>
+      <Image src="./materialpal.svg" />
+      <Navigation
+        sx={{ display: ["none", "block", "block"] }}
+        color={props.color}
+        as="nav"
+      />
+    </Flex>
 
-    <Box as="div" sx={{ display: "flex", alignItems: "center" }}>
+    <Box
+      as="div"
+      sx={{ display: ["none", "flex", "flex"], alignItems: "center" }}
+    >
       <Box
         as="form"
         onSubmit={(e) => e.preventDefault()}
@@ -206,7 +208,7 @@ const NavCta = (props) => (
 
     <Box
       sx={{
-        display: "flex",
+        display: ["none", "flex", "flex"],
         columnGap: "15px",
         height: "50px",
         mx: "auto",
@@ -299,11 +301,11 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Container>
+        <Container sx={{ display: "flex" }}>
           <NavCta color={baseColor} />
 
           <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
-            {/* <Icon glyph={toggled ? 'view-close' : 'menu'} /> */}
+            <FontAwesomeIcon icon={toggled ? faTimes : faBars} />
           </ToggleContainer>
         </Container>
         <Navigation
