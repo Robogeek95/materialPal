@@ -122,6 +122,16 @@ export default function Home() {
             {/* <Button as="a" variant="ctaLg" href="https://apply.hackclub.com">
           Apply now
         </Button> */}
+
+            <Button
+              as="a"
+              mt="3"
+              href="/materials"
+              target="_self"
+              variant="ctaLg"
+            >
+              Get Started
+            </Button>
           </AnimFadeIn>
         </Box>
       </Box>
