@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Box, Button, Container, Grid, Input, Text } from "theme-ui";
-import Icon from "@iconify/react";
-import baselineSearch from "@iconify/icons-ic/baseline-search";
 import SearchNav from "./SearchNav";
 
 const categories = [

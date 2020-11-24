@@ -18,8 +18,6 @@ import theme from "../lib/theme";
 // import Flag from './flag'
 import ScrollLock from "react-scrolllock";
 import NextLink from "next/link";
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineSearch from "@iconify/icons-ic/baseline-search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
