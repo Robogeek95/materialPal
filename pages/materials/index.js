@@ -13,8 +13,6 @@ import {
   Text,
 } from "theme-ui";
 
-import { Icon, InlineIcon } from "@iconify/react";
-import filterIcon from "@iconify/icons-mi/filter";
 import Link from "next/link";
 import materials from "../../lib/materials.json";
 import SearchBar from "../../components/SearchBar";
