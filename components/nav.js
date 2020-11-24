@@ -14,12 +14,10 @@ import {
   Text,
 } from "theme-ui";
 import theme from "../lib/theme";
-// import Icon from './icon'
-// import Flag from './flag'
 import ScrollLock from "react-scrolllock";
 import NextLink from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const rgbaBgColor = (props, opacity) =>
   `rgba(
@@ -188,8 +186,8 @@ const NavCta = (props) => (
           px: "18px",
         }}
       >
-        <IconButton aria-label="Search Icon">
-          <Icon icon={baselineSearch} style={{ fontSize: "24px" }} />
+        <IconButton aria-label="Search Icon" color="lighter">
+          <FontAwesomeIcon size="lg" icon={faSearch} />
         </IconButton>
 
         <Input
