@@ -1,5 +1,15 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
-import { Box, Button, Container, Grid, Input, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Input,
+  Text,
+} from "theme-ui";
 import SearchNav from "./SearchNav";
 
 const categories = [
@@ -62,7 +72,9 @@ class SearchBar extends Component {
                         alignItems: "center",
                       }}
                     >
-                      <Icon icon={baselineSearch} height="24px" width="24px" />
+                      <IconButton aria-label="Search Icon" color="lighter">
+                        <FontAwesomeIcon size="lg" icon={faSearch} />
+                      </IconButton>
                     </Box>
                   </Grid>
                 </Box>

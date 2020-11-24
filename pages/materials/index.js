@@ -81,11 +81,8 @@ const Search = () => (
                   cursor: "pointer",
                 }}
               >
-                {/* <Icon
-                  icon={filterIcon}
-                  style={{ color: "#01333f", fontSize: "24px" }}
-                /> */}
-              </IconButton>
+                
+               </IconButton>
             </Grid>
 
             <Box></Box>
