@@ -35,7 +35,7 @@ const Search = () => (
       <Grid columns={["1fr", null, null, "8fr 4fr"]}>
         <Box as="form" onSubmit={(e) => e.preventDefault()}>
           <Grid
-            columns="1fr 1fr 1fr auto"
+            columns="1fr auto"
             gap={[3, 4]}
             pt={[3, 4]}
             sx={{
@@ -51,31 +51,44 @@ const Search = () => (
               },
             }}
           >
-            <Box>
-              <Select defaultValue="Hello">
-                <option>School</option>
-                <option>Hi</option>
-                <option>Beep</option>
-                <option>Boop</option>
-              </Select>
-            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                div: {
+                  width: "220px",
+                  pr: "3",
+                  flex: "0 0 auto",
+                },
+              }}
+            >
+              <Box>
+                <Select defaultValue="Hello">
+                  <option>School</option>
+                  <option>Hi</option>
+                  <option>Beep</option>
+                  <option>Boop</option>
+                </Select>
+              </Box>
 
-            <Box>
-              <Select defaultValue="Hello">
-                <option>Department</option>
-                <option>Hi</option>
-                <option>Beep</option>
-                <option>Boop</option>
-              </Select>
-            </Box>
+              <Box>
+                <Select defaultValue="Hello">
+                  <option>Department</option>
+                  <option>Hi</option>
+                  <option>Beep</option>
+                  <option>Boop</option>
+                </Select>
+              </Box>
 
-            <Box>
-              <Select defaultValue="Hello">
-                <option>Course</option>
-                <option>Hi</option>
-                <option>Beep</option>
-                <option>Boop</option>
-              </Select>
+              <Box>
+                <Select defaultValue="Hello">
+                  <option>Course</option>
+                  <option>Hi</option>
+                  <option>Beep</option>
+                  <option>Boop</option>
+                </Select>
+              </Box>
             </Box>
 
             <IconButton
