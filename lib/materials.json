@@ -1,65 +1,74 @@
 [
   {
     "id": 1,
-    "name": "CSC 111 past questions ",
+    "name": "CSC 111 past questions  for 2011",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 2,
-    "name": "CSC 111 past questions ",
+    "name": "Intro to computer Science",
     "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10"
+    "rating": "5.0",
+    "pages": "50",
+    "tags": ["Text books"]
   },
   {
     "id": 3,
-    "name": "CSC 111 past questions ",
-    "author": "Micheal Andrew",
+    "name": "MAC 202 test questions ",
+    "author": "Akpan Okeke",
     "rating": "4.9",
-    "pages": "100"
+    "pages": "5",
+    "tags": ["Test questions"]
   },
   {
     "id": 4,
-    "name": "CSC 111 past questions ",
-    "author": "Micheal Andrew",
+    "name": "CSC 111 past questions and answers ",
+    "author": "Exceding Grace",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 5,
     "name": "CSC 111 past questions ",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 6,
     "name": "CSC 111 past questions ",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 7,
     "name": "CSC 111 past questions ",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 8,
     "name": "CSC 111 past questions ",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   },
   {
     "id": 9,
     "name": "CSC 111 past questions ",
     "author": "Micheal Andrew",
     "rating": "4.9",
-    "pages": "10"
+    "pages": "10",
+    "tags": ["past questions"]
   }
 ]
