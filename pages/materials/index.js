@@ -16,6 +16,7 @@ import {
 
 import Link from "next/link";
 import materials from "../../lib/materials.json";
+import categories from "../../lib/categories.json";
 import SearchBar from "../../components/SearchBar";
 import MaterialModal from "../../components/MaterialModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,88 +32,116 @@ const Search = () => (
   <>
     <Nav />
 
-    <Container mt={[5]}>
-      <Grid columns={["1fr", null, null, "8fr 4fr"]}>
-        <Box as="form" onSubmit={(e) => e.preventDefault()}>
-          <Grid
-            columns="1fr auto"
-            gap={[3, 4]}
-            pt={[3, 4]}
+    <Box bg="gray300" pt={[4]} pb={[0]}>
+      <Container pt={[4, 5]}>
+        <Grid columns={["1fr", null, null, "8fr 4fr"]}>
+          <Box
             sx={{
-              ".input_container": {
-                background: "#FFFFFF",
-                boxShadow: "small",
-                borderRadius: "default",
-                border: "1px solid black",
-                ":hover": {
-                  boxShadow: "elevated",
-                },
-                px: [3],
+              display: "flex",
+              flexWrap: "nowrap",
+              overflowX: "auto",  
+              py: [4],
+            }}
+          >
+            {categories.map((category) => (
+              <Button
+                variant="outline"
+                as="a"
+                mr={[3]}
+                sx={{
+                  display: "inline-block",
+                  opacity: "0.3",
+                  flex: "0 0 auto",
+                }}
+              >
+                {category}
+              </Button>
+            ))}
+          </Box>
+        </Grid>
+      </Container>
+    </Box>
+
+    <Container>
+      <Box as="form" onSubmit={(e) => e.preventDefault()}>
+        <Grid
+          columns="1fr auto"
+          gap={[3, 4]}
+          pt={[3, 4]}
+          sx={{
+            ".input_container": {
+              background: "#FFFFFF",
+              boxShadow: "small",
+              borderRadius: "default",
+              border: "1px solid black",
+              ":hover": {
+                boxShadow: "elevated",
+              },
+              px: [3],
+            },
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "nowrap",
+              overflowX: "auto",
+              div: {
+                width: "220px",
+                pr: "3",
+                flex: "0 0 auto",
               },
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "nowrap",
-                overflowX: "auto",
-                div: {
-                  width: "220px",
-                  pr: "3",
-                  flex: "0 0 auto",
-                },
-              }}
-            >
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>School</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
-
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>Department</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
-
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>Course</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
+            <Box>
+              <Select defaultValue="Hello">
+                <option>School</option>
+                <option>Hi</option>
+                <option>Beep</option>
+                <option>Boop</option>
+              </Select>
             </Box>
 
-            <IconButton
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "35px",
-                height: "35px",
-                border: "none",
-                backgroundColor: "lighter",
-                borderRadius: "default",
-                boxShadow: "card",
-                color: "gray200",
-                // mt: ["25px"],
-                cursor: "pointer",
-              }}
-            >
-              <FontAwesomeIcon icon={faFilter} />
-            </IconButton>
-          </Grid>
+            <Box>
+              <Select defaultValue="Hello">
+                <option>Department</option>
+                <option>Hi</option>
+                <option>Beep</option>
+                <option>Boop</option>
+              </Select>
+            </Box>
 
-          <Box></Box>
-        </Box>
-      </Grid>
+            <Box>
+              <Select defaultValue="Hello">
+                <option>Course</option>
+                <option>Hi</option>
+                <option>Beep</option>
+                <option>Boop</option>
+              </Select>
+            </Box>
+          </Box>
+
+          <IconButton
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "35px",
+              height: "35px",
+              border: "none",
+              backgroundColor: "lighter",
+              borderRadius: "default",
+              boxShadow: "card",
+              color: "gray200",
+              // mt: ["25px"],
+              cursor: "pointer",
+            }}
+          >
+            <FontAwesomeIcon icon={faFilter} />
+          </IconButton>
+        </Grid>
+
+        <Box></Box>
+      </Box>
 
       <Grid columns={["1fr", null, null, "8fr 4fr"]} my={[4]}>
         <Grid columns={[2, 4]}>
