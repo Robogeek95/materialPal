@@ -3,72 +3,96 @@
     "id": 1,
     "name": "CSC 111 past questions  for 2011",
     "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": ["past questions"],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   },
   {
     "id": 2,
-    "name": "Intro to computer Science",
+    "name": "CSC 111 past questions  for 2011",
     "author": "Micheal Andrew",
-    "rating": "5.0",
-    "pages": "50",
-    "tags": ["Text books"]
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": ["past questions"],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   },
   {
     "id": 3,
-    "name": "MAC 202 test questions ",
-    "author": "Akpan Okeke",
-    "rating": "4.9",
-    "pages": "5",
-    "tags": ["Test questions"]
+    "name": "CSC 111 past questions  for 2011",
+    "author": "Micheal Andrew",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": ["past questions"],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   },
   {
     "id": 4,
-    "name": "CSC 111 past questions and answers ",
-    "author": "Exceding Grace",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
+    "name": "CSC 111 past questions  for 2011",
+    "author": "Micheal Andrew",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": ["past questions"],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   },
   {
     "id": 5,
-    "name": "CSC 111 past questions ",
+    "name": "CSC 111 past questions  for 2011",
     "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": ["past questions"],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   },
   {
     "id": 6,
-    "name": "CSC 111 past questions ",
+    "name": "CSC 111 past questions  for 2011",
     "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
-  },
-  {
-    "id": 7,
-    "name": "CSC 111 past questions ",
-    "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
-  },
-  {
-    "id": 8,
-    "name": "CSC 111 past questions ",
-    "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
-  },
-  {
-    "id": 9,
-    "name": "CSC 111 past questions ",
-    "author": "Micheal Andrew",
-    "rating": "4.9",
-    "pages": "10",
-    "tags": ["past questions"]
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed enim proin mi egestas malesuada viverra. Mattis nulla elit sed mauris volutpat in tortor, vitae ullamcorper. Viverra risus sem aliquam sagittis. Vel id at ipsum lectus eget.",
+    "details": {
+      "stars": 4.9,
+      "pages": 20,
+      "rating": 4.9,
+      "downloads": 29,
+      "date": 2020,
+      "tags": [],
+      "school": "Lagos State University",
+      "course": "Computer Science"
+    }
   }
 ]
