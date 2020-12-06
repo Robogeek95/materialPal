@@ -107,7 +107,7 @@ const Footer = ({ dark = false, children, ...props }) => (
             Ready to get started?
           </Heading>
           <Box as="div">
-            <Button as="a" href="#" target="_self" variant="ctaLg">
+            <Button as="a" href="#" target="_self" variant="roundedLg">
               Get Started
             </Button>
           </Box>

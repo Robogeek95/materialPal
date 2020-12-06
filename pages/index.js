@@ -128,7 +128,7 @@ export default function Home() {
               mt="3"
               href="/materials"
               target="_self"
-              variant="ctaLg"
+              variant="roundedLg"
             >
               Get Started
             </Button>
@@ -323,7 +323,7 @@ export default function Home() {
           <Button
             as="a"
             href="#"
-            variant="ctaLg"
+            variant="roundedLg"
             sx={{
               background: "linear-gradient(-32deg, #6f31b7 14%, #fb558e 82%)",
             }}
@@ -424,7 +424,7 @@ export default function Home() {
               />
             </Card>
           </Grid>
-          <Button as="a" href="#" target="_self" variant="ctaLg">
+          <Button as="a" href="#" target="_self" variant="roundedLg">
             Create your free account
           </Button>
         </Container>

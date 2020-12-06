@@ -150,16 +150,17 @@ const Bar = css`
 
 const Navigation = (props) => (
   <NavBar role="navigation" {...props}>
-    <Link href="#" children="Home" />
     <Link href="#" children="About " />
     <Link href="#" children="Contact" />
   </NavBar>
 );
 
 const NavCta = (props) => (
-  <Grid gap={[4, 3, 4]} py={[3]} columns={[null, "1fr 1.5fr 1fr"]}>
+  <Grid gap={[4, 3, 4]} py={[3]} columns={[null, "1fr 2fr 1fr"]}>
     <Flex>
-      <Image src="./materialpal.svg" />
+      <Link sx={{ cursor: "pointer" }} href="/">
+        <Image src="./materialpal.svg" />
+      </Link>
       <Navigation
         sx={{ display: ["none", "block", "block"] }}
         color={props.color}
@@ -208,13 +209,15 @@ const NavCta = (props) => (
         columnGap: "15px",
         height: "50px",
         mx: "auto",
+        alignItems: "center",
+        justifyContent: "flex-end",
       }}
     >
-      <Button as="a" href="#" target="_self" variant="ctaLg">
+      <Button as="a" href="#" target="_self" variant="outlineRoundedLg">
         SignIn
       </Button>
 
-      <Button as="a" href="#" target="_self" variant="outlineLg">
+      <Button as="a" href="#" target="_self" variant="roundedLg">
         SignUp
       </Button>
     </Box>
@@ -297,7 +300,7 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Container sx={{ display: "flex" }}>
+        <Container sx={{ display: ["flex", null, "block"] }}>
           <NavCta color={baseColor} />
 
           <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>

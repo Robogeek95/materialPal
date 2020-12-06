@@ -1,7 +1,23 @@
-import { faStar, faTenge } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faGolfBall,
+  faMinusCircle,
+  faStar,
+  faTenge,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import { Box, Container, Flex, Grid, Image, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Flex,
+  Grid,
+  Image,
+  Text,
+} from "theme-ui";
+import Footer from "../../components/footer";
 import Nav from "../../components/nav";
 import materials from "../../lib/materials.json";
 import mymaterials from "../../lib/materials.json";
@@ -15,22 +31,42 @@ const materialPage = (props) => {
       <Container>
         <Grid
           as="section"
-          columns={"10fr 2fr"}
-          mt={[6]}
-          p="2"
-          sx={{ boxShadow: "card" }}
+          sx={{ justifyContent: "center" }}
+          columns={"80%"}
+          my={[6]}
+          p={["2"]}
         >
-          <Grid columns={[2]}>
+          <Grid
+            p={["3"]}
+            sx={{
+              boxShadow: "card",
+              borderRadius: "extra",
+              bg: "gray200",
+            }}
+            columns={["1.5fr 2fr"]}
+          >
             <Box>
               <Image
-                height="auto"
-                width="100%"
+                variant="balmain"
                 src="/search/austrian-national-library.jpg"
               />
             </Box>
 
-            <Box>
+            <Box p={3}>
               {/* filter */}
+              <Flex
+                sx={{
+                  mb: [3],
+                  "button:not(:last-child)": {
+                    mr: [3],
+                  },
+                }}
+              >
+                <Button variant="textButton">Free</Button>
+                <Button variant="rounded">Download</Button>
+                <Button variant="outlineRounded">Save</Button>
+              </Flex>
+
               <Text variant="headline4"> {material.name} </Text>
               <Text variant="body">
                 uploaded by{" "}
@@ -38,18 +74,19 @@ const materialPage = (props) => {
                   {material.author}
                 </Text>
               </Text>
-              <Text variant="body" mt="2">
+              <Text variant="body" my="2">
                 {material.description}
               </Text>
-              {material.name}
 
-              <hr />
+              <Box my={3}>
+                <hr />
+              </Box>
 
               <Box>
                 <Flex>
                   <FontAwesomeIcon
                     sx={{ alignItems: "center" }}
-                    icon={faTenge}
+                    icon={faMinusCircle}
                   />
                   <Text ml={2} variant="headline6">
                     Hide Details
@@ -57,72 +94,103 @@ const materialPage = (props) => {
                 </Flex>
 
                 <Grid columns={["auto auto auto"]}>
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
+                    <FontAwesomeIcon icon={faGolfBall} />
+                    <Text ml={2} variant="smallBody">
                       {material.details.rating} stars
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.pages} pages
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.downloads} downloads
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.tags.map((tag) => (
-                        <Text variant="smallLabel" color="dark300">
+                        <Text variant="smallBody" color="dark300">
                           {tag}
                         </Text>
                       ))}
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.date}
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.school}
                     </Text>
                   </Flex>
 
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
+                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
                     <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallText">
+                    <Text ml={2} variant="smallBody">
                       {material.details.course}
                     </Text>
                   </Flex>
                 </Grid>
               </Box>
 
-              <hr />
+              <Box my={3}>
+                <hr />
+              </Box>
 
               <Box>
-                <Box>
-                  <Image src="/search/book.png" />
-                </Box>
+                <Flex
+                  sx={{
+                    div: {
+                      p: [0],
+                      mr: [3],
+                    },
+                  }}
+                >
+                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
+                    <Image variant="balmain" src="/search/book.png" />
+                  </Card>
+
+                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
+                    <Image variant="balmain" src="/search/book.png" />
+                  </Card>
+
+                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
+                    <Image variant="balmain" src="/search/book.png" />
+                  </Card>
+                </Flex>
               </Box>
             </Box>
           </Grid>
         </Grid>
       </Container>
+
+      <Footer
+        dark
+        sx={{
+          textShadow: "0 1px 2px rgba(0,0,0,0.375)",
+          "h2,span,p,a": { color: "white !important" },
+          svg: {
+            fill: "white",
+            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))",
+          },
+        }}
+      ></Footer>
     </>
   );
 };

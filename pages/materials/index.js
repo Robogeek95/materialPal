@@ -46,12 +46,13 @@ const Materials = ({ materials, categories }) => {
             >
               {categories.map((category) => (
                 <Button
-                  variant="outline"
-                  as="a"
+                  variant="outlineRounded"
+                  // as="a"
                   mr={[3]}
                   sx={{
                     display: "inline-block",
                     opacity: "0.3",
+                    px: [3],
                     flex: "0 0 auto",
                   }}
                 >
