@@ -24,7 +24,7 @@ const Base = styled(Box)`
       background-size: ${theme.space[4]}px ${theme.space[4]}px;
     `} @media print {
     display: none;
-  } 
+  }
 `;
 
 const Logo = (props) => (
@@ -70,7 +70,7 @@ const Footer = ({ dark = false, children, ...props }) => (
       <Grid
         as="article"
         gap={[20, 4]}
-        columns={["null", "4fr 2fr 2fr 3fr"]}
+        columns={["1fr 1fr", "4fr 2fr 2fr 3fr"]}
         sx={{
           px: 0,
           a: {
@@ -85,35 +85,38 @@ const Footer = ({ dark = false, children, ...props }) => (
           },
           "h2,p": { color: "muted" },
           h2: { fontSize: 3 },
-          "a,p": { fontSize: 2 },
         }}
       >
         <Box>
           <Text
-            as="h1"
-            sx={{
-              color: "#07184a",
-              textShadow: "text",
-              filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              fontSize: "50px",
-            }}
+            variant="headline2"
+            sx={
+              {
+                // color: "#07184a",
+                // textShadow: "text",
+                // filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+                // WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
+                // fontSize: "50px",
+              }
+            }
           >
             Material Pal
           </Text>
 
-          <Heading as="h2" variant="subheadline" mb={3}>
+          <Heading variant="headline4" mb={3}>
             Ready to get started?
           </Heading>
           <Box as="div">
-            <Button as="a" href="#" target="_self" variant="ctaLg">
+            <Button as="a" href="#" target="_self" variant="roundedLg">
               Get Started
             </Button>
           </Box>
         </Box>
 
+        <Box sx={{ display: ["block", "none"] }}></Box>
+
         <Box>
-          <Heading as="h2" variant="subheadline" mb={3}>
+          <Heading variant="headline4" mb={3}>
             Services
           </Heading>
           <Link href="#" children="Slack" />
@@ -124,7 +127,7 @@ const Footer = ({ dark = false, children, ...props }) => (
           <Link href="#" children="Press Inquiries" />
         </Box>
         <Box>
-          <Heading as="h2" variant="subheadline" mb={3}>
+          <Heading variant="headline4" mb={3}>
             About
           </Heading>
           <Link href="#" children="Code of Conduct" />
@@ -135,17 +138,14 @@ const Footer = ({ dark = false, children, ...props }) => (
         </Box>
 
         <Box>
-          <Heading as="h2" variant="subheadline" mb={3}>
+          <Heading variant="headline4" mb={3}>
             Help
           </Heading>
-          <Link
-            href="https://hackclub.com/conduct/"
-            children="Code of Conduct"
-          />
+          <Link href="#" children="Code of Conduct" />
         </Box>
       </Grid>
       <Text as="p" variant="caption" sx={{ mt: 3 }}>
-        © {new Date().getFullYear()} Material Pal
+        © {new Date().getFullYear()} MaterialPal
       </Text>
     </Container>
   </Base>

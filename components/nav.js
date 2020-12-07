@@ -8,17 +8,16 @@ import {
   Flex,
   Grid,
   IconButton,
+  Image,
   Input,
   Link,
   Text,
 } from "theme-ui";
 import theme from "../lib/theme";
-// import Icon from './icon'
-// import Flag from './flag'
 import ScrollLock from "react-scrolllock";
 import NextLink from "next/link";
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineSearch from "@iconify/icons-ic/baseline-search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const rgbaBgColor = (props, opacity) =>
   `rgba(
@@ -67,19 +66,6 @@ const Root = styled(Box)`
   ${fixed};
   @media print {
     display: none;
-  }
-`;
-
-export const Content = styled(Container)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  min-height: 60px;
-  z-index: 2;
-  padding-left: ${theme.space[3]}px;
-  @media (min-width: ${theme.breakpoints[2]}em) {
-    padding: 0 ${theme.space[4]}px;
   }
 `;
 
@@ -143,6 +129,7 @@ const NavBar = styled(Box)`
   display: none;
   ${layout};
   a {
+    font-size: ${theme.fontSizes[3]}px;
     margin-left: ${theme.space[3]}px;
     padding: ${theme.space[3]}px;
     text-decoration: none;
@@ -163,28 +150,28 @@ const Bar = css`
 
 const Navigation = (props) => (
   <NavBar role="navigation" {...props}>
-    <Link href="#" children="Home" />
     <Link href="#" children="About " />
     <Link href="#" children="Contact" />
   </NavBar>
 );
 
-const NavCta = () => (
-  <Grid
-    gap={[4, 3, 4]}
-    py={[3]}
-    columns={[null, "1fr 1.5fr 1fr"]}
-    sx={{
-      svg: { fill: "currentColor" },
-      display: "none",
-      "@media (min-width: 56em)": {
-        display: "grid",
-      },
-    }}
-  >
-    <Navigation as="nav" />
+const NavCta = (props) => (
+  <Grid gap={[4, 3, 4]} py={[3]} columns={[null, "1fr 2fr 1fr"]}>
+    <Flex>
+      <Link sx={{ cursor: "pointer" }} href="/">
+        <Image src="./materialpal.svg" />
+      </Link>
+      <Navigation
+        sx={{ display: ["none", "block", "block"] }}
+        color={props.color}
+        as="nav"
+      />
+    </Flex>
 
-    <Box as="div" sx={{ display: "flex", alignItems: "center" }}>
+    <Box
+      as="div"
+      sx={{ display: ["none", "flex", "flex"], alignItems: "center" }}
+    >
       <Box
         as="form"
         onSubmit={(e) => e.preventDefault()}
@@ -200,8 +187,8 @@ const NavCta = () => (
           px: "18px",
         }}
       >
-        <IconButton aria-label="Search Icon">
-          <Icon icon={baselineSearch} style={{ fontSize: "24px" }} />
+        <IconButton aria-label="Search Icon" color="lighter">
+          <FontAwesomeIcon size="lg" icon={faSearch} />
         </IconButton>
 
         <Input
@@ -218,16 +205,19 @@ const NavCta = () => (
 
     <Box
       sx={{
-        display: "flex",
+        display: ["none", "flex", "flex"],
         columnGap: "15px",
         height: "50px",
+        mx: "auto",
+        alignItems: "center",
+        justifyContent: "flex-end",
       }}
     >
-      <Button as="a" href="#" target="_self" variant="ctaLg">
+      <Button as="a" href="#" target="_self" variant="outlineRoundedLg">
         SignIn
       </Button>
 
-      <Button as="a" href="#" target="_self" variant="outlineLg">
+      <Button as="a" href="#" target="_self" variant="roundedLg">
         SignUp
       </Button>
     </Box>
@@ -296,16 +286,8 @@ class Header extends Component {
   render() {
     const { color, fixed, bgColor, dark, ...props } = this.props;
     const { mobile, scrolled, toggled } = this.state;
-    const baseColor = dark
-      ? color || "white"
-      : color === "white" && scrolled
-      ? "black"
-      : color;
-    const toggleColor = dark
-      ? color || "snow"
-      : toggled || (color === "white" && scrolled)
-      ? "slate"
-      : color;
+    const baseColor = scrolled ? "dark500" : "primary";
+    const toggleColor = scrolled ? "dark500" : "primary";
 
     return (
       <Root
@@ -318,26 +300,13 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Content>
-          {/* <Flag scrolled={scrolled || fixed} /> */}
-          {/* <Text
-            as="h1"
-            sx={{
-              color: "#07184a",
-              textShadow: "text",
-              filter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-              WebkitFilter: "drop-shadow(0 -2px 4px rgba(0,0,0,0.5))",
-            }}
-          >
-            Material Pal
-          </Text> */}
-          
-          <NavCta />
+        <Container sx={{ display: ["flex", null, "block"] }}>
+          <NavCta color={baseColor} />
 
           <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
-            {/* <Icon glyph={toggled ? 'view-close' : 'menu'} /> */}
+            <FontAwesomeIcon icon={toggled ? faTimes : faBars} />
           </ToggleContainer>
-        </Content>
+        </Container>
         <Navigation
           as="nav"
           aria-hidden={!mobile}
