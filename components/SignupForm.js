@@ -1,5 +1,16 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  Grid,
+  Input,
+  Label,
+  Link,
+  Text,
+} from "theme-ui";
 import { useAuth } from "../hooks/useAuth";
 // interface SignUpData {
 //  name: string;
@@ -18,99 +29,180 @@ const SignUpForm = () => {
     });
   };
 
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit, getValues } = useForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-md shadow-sm">
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium leading-5 text-gray-700"
-        >
-          Name
-        </label>
-        <input
-          id="name"
-          className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-          type="text"
-          name="name"
-          ref={register({
-            required: "Please enter a name",
-          })}
-        />
-        {errors.password && (
-          <div className="mt-2 text-xs text-red-600">
-            {errors.password.message}
-          </div>
-        )}
-      </div>
-      <div className="mt-6">
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium leading-5 text-gray-700"
-        >
-          Email address
-        </label>
-        <div className="mt-1 rounded-md shadow-sm">
-          <input
-            id="email"
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+    <Box sx={{ textAlign: "center" }}>
+      <Box>
+        <Text variant="headline1">Create your Account</Text>
+        <Text variant="headline5">Sign up for your account</Text>
+      </Box>
+
+      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Grid columns={2}>
+          <Box mt="4">
+            <Label htmlFor="username">First Name</Label>
+            <Input
+              variant="inputBgMedium"
+              type="text"
+              name="fname"
+              ref={register({
+                required: "Please enter your first name",
+                minLength: {
+                  value: 3,
+                  message: "Should have at least 3 characters",
+                },
+              })}
+              id="fname"
+              mb={3}
+            />
+
+            {errors.fname && <Text color="red">{errors.fname.message}</Text>}
+          </Box>
+
+          <Box mt="4">
+            <Label htmlFor="lname">Last Name</Label>
+            <Input
+              variant="inputBgMedium"
+              type="text"
+              name="lname"
+              ref={register({
+                required: "Please enter your last name",
+                minLength: {
+                  value: 6,
+                  message: "Should have at least 3 characters",
+                },
+              })}
+              id="lname"
+              mb={3}
+            />
+            {errors.lname && <Text color="red">{errors.lname.message}</Text>}
+          </Box>
+        </Grid>
+
+        <Box mt="4">
+          <Label htmlFor="username">Email Address</Label>
+          <Input
+            variant="inputBgMedium"
             type="email"
             name="email"
             ref={register({
-              required: "Please enter an email",
+              required: "Please enter your email address",
               pattern: {
                 value: `/^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/`,
                 message: "Not a valid email",
               },
             })}
+            id="email"
+            mb={3}
           />
-          {errors.email && (
-            <div className="mt-2 text-xs text-red-600">
-              {errors.email.message}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="mt-6">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium leading-5 text-gray-700"
-        >
-          Password
-        </label>
-        <div className="mt-1 rounded-md shadow-sm">
-          <input
-            id="password"
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-            type="password"
-            name="password"
-            ref={register({
-              required: "Please enter a password",
-              minLength: {
-                value: 6,
-                message: "Should have at least 6 characters",
-              },
-            })}
-          />
-          {errors.password && (
-            <div className="mt-2 text-xs text-red-600">
-              {errors.password.message}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="mt-6">
-        <span className="block w-full rounded-md shadow-sm">
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >
-            Sign up
-          </button>
-        </span>
-      </div>
-    </form>
+          {errors.email && <Text color="red">{errors.email.message}</Text>}
+        </Box>
+
+        <Grid columns={[2]}>
+          <Box mt="4">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              variant="inputBgMedium"
+              type="password"
+              id="password"
+              name="password"
+              ref={register({
+                required: "Please enter your password",
+                minLength: {
+                  value: 6,
+                  message: "Should have at least 6 characters",
+                },
+              })}
+              mb={3}
+            />
+            {errors.password && (
+              <Text color="red">{errors.password.message}</Text>
+            )}
+          </Box>
+
+          <Box mt="4">
+            <Label htmlFor="cpassword">Confirm Password</Label>
+            <Input
+              variant="inputBgMedium"
+              type="password"
+              id="cpassword"
+              name="cpassword"
+              ref={register({
+                required: "Please Confirm your password",
+                minLength: {
+                  value: 6,
+                  message: "Should have at least 6 characters",
+                },
+                validate: {
+                  match: (value) =>
+                    value === getValues("password") || "Passwords do not match",
+                },
+              })}
+              mb={3}
+            />
+            {errors.cpassword && (
+              <Text color="red">{errors.cpassword.message}</Text>
+            )}
+          </Box>
+        </Grid>
+
+        <Grid columns={"auto 1fr"} mt="4">
+          <Label>
+            <Checkbox />
+          </Label>
+          <Label>Remember me?</Label>
+        </Grid>
+
+        <Button type="submit" variant="roundedLg" mt="4">
+          Continue To Material Pal
+        </Button>
+      </Box>
+
+      <Box mt="4">
+        <Text variant="capitalized" color="dark300">
+          OR
+        </Text>
+
+        <Grid columns={[2]} my="4">
+          <Button variant="outlineRoundedLg">Sign In With Google</Button>
+
+          <Button variant="outlineRoundedLg">Sign In With Facebook</Button>
+        </Grid>
+
+        <hr />
+
+        <Box my={[4]}>
+          <Flex mb="2" sx={{ justifyContent: "center" }}>
+            <Link href="/reset-password">
+              <Text mr="4" variant="mediumLabel" color="dark300">
+                Cant Log in?
+              </Text>
+            </Link>
+
+            <Link href="/signup">
+              <Text variant="mediumLabel" color="dark300">
+                Sign up for an account
+              </Text>
+            </Link>
+          </Flex>
+
+          <Flex sx={{ justifyContent: "center" }}>
+            <Link href="#">
+              <Text variant="mediumLabel" color="dark300" mr="3">
+                Privacy Policy
+              </Text>
+            </Link>
+
+            <Link href="#">
+              <Text variant="mediumLabel" color="dark300">
+                Terms & Conditions
+              </Text>
+            </Link>
+          </Flex>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
