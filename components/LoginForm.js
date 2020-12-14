@@ -39,10 +39,11 @@ const LoginForm = () => {
         <Box mt="4">
           <Label htmlFor="username">Username</Label>
           <Input
+            variant="inputBgMedium"
             type="email"
             name="email"
             ref={register({
-              required: "Please enter an email",
+              required: "Please enter your email address",
               pattern: {
                 value: `/^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/`,
                 message: "Not a valid email",
@@ -51,21 +52,18 @@ const LoginForm = () => {
             id="email"
             mb={3}
           />
-          {errors.email && (
-            <div className="mt-2 text-xs text-red-600">
-              {errors.email.message}
-            </div>
-          )}
+          {errors.email && <Text color="red">{errors.email.message}</Text>}
         </Box>
 
         <Box mt="4">
           <Label htmlFor="password">Password</Label>
           <Input
+            variant="inputBgMedium"
             type="password"
             id="password"
             name="password"
             ref={register({
-              required: "Please enter a password",
+              required: "Please enter your password",
               minLength: {
                 value: 6,
                 message: "Should have at least 6 characters",
@@ -73,6 +71,9 @@ const LoginForm = () => {
             })}
             mb={3}
           />
+          {errors.password && (
+            <Text color="red">{errors.password.message}</Text>
+          )}
         </Box>
 
         <Grid columns={"auto 1fr"} mt="4">
