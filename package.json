@@ -16,9 +16,11 @@
     "@hackclub/theme": "^0.3.0",
     "@iconify/icons-cib": "^1.0.3",
     "emotion": "^10.0.27",
+    "firebase": "^8.2.0",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^6.13.0",
     "react-scrolllock": "^5.0.1",
     "theme-ui": "^0.3.1"
   },
