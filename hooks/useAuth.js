@@ -1,6 +1,12 @@
 import { resolveHref } from "next/dist/next-server/lib/router/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth, db } from "../config/firebase";
+import {
+  auth,
+  db,
+  facebookProvider,
+  googleProvider,
+  githubProvider,
+} from "../config/firebase";
 // Provider hook that creates an auth object and handles it's state
 
 const authContext = createContext({ user: {} });
@@ -99,11 +105,62 @@ const useAuthProvider = () => {
     });
   };
 
+  const googleSignIn = () => {
+    return auth
+      .signInWithRedirect(googleProvider)
+      .then(function (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        let token = result.credential.accessToken;
+        console.log(token);
+        // The signed-in user info.
+        let user = result.user;
+        setUser(user);
+        // ...
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        // The email of the user's account used.
+        let email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        let credential = error.credential;
+        // ...
+      });
+  };
+
+  const facebookSignIn = () => {
+    return auth
+      .signInWithRedirect(githubProvider)
+      .then(function (result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        let token = result.credential.accessToken;
+        // console.log("name");
+        // The signed-in user info.
+        let user = result.user;
+        setUser(user);
+        // ...
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        console.log(error);
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        // The email of the user's account used.
+        let email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        let credential = error.credential;
+        // ...
+      });
+  };
+
   return {
     user,
     signUp,
     signIn,
     signOut,
     sendPasswordResetEmail,
+    googleSignIn,
+    facebookSignIn,
   };
 };

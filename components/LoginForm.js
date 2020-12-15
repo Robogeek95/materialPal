@@ -28,6 +28,18 @@ const LoginForm = () => {
     });
   };
 
+  const signInWithGoogle = () => {
+    return auth.googleSignIn().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
+  const signInWithFacebook = () => {
+    return auth.facebookSignIn().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box>
@@ -94,9 +106,13 @@ const LoginForm = () => {
         </Text>
 
         <Grid columns={[2]} my="4">
-          <Button variant="outlineRoundedLg">Sign In With Google</Button>
+          <Button variant="outlineRoundedLg" onClick={signInWithGoogle}>
+            Sign In With Google
+          </Button>
 
-          <Button variant="outlineRoundedLg">Sign In With Facebook</Button>
+          <Button variant="outlineRoundedLg" onClick={signInWithFacebook}>
+            Sign In With Facebook
+          </Button>
         </Grid>
 
         <hr />
