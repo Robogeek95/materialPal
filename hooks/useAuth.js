@@ -1,12 +1,6 @@
 import { resolveHref } from "next/dist/next-server/lib/router/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  auth,
-  db,
-  facebookProvider,
-  googleProvider,
-  githubProvider,
-} from "../config/firebase";
+import { auth, db, facebookProvider, googleProvider } from "../config/firebase";
 // Provider hook that creates an auth object and handles it's state
 
 const authContext = createContext({ user: {} });
@@ -41,7 +35,9 @@ const useAuthProvider = () => {
     db.collection("users")
       .doc(user.uid)
       .set(user)
-      .then(function () {})
+      .then(function () {
+        console.log("saved user details in db");
+      })
       .catch(function (error) {
         console.error("Error writing document: ", error);
       });
@@ -107,15 +103,23 @@ const useAuthProvider = () => {
 
   const googleSignIn = () => {
     return auth
-      .signInWithRedirect(googleProvider)
+      .signInWithPopup(googleProvider)
       .then(function (result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         let token = result.credential.accessToken;
-        console.log(token);
-        // The signed-in user info.
-        let user = result.user;
-        setUser(user);
-        // ...
+        // The signed-in user info.AIzaSyCZvFDrr9T8i90RgdXIU01wVVktUVVyoO0
+        // let user = result.user;
+
+        let name = result.user.displayName.split(" ");
+
+        let details = {
+          uid: result.user.uid,
+          email: result.user.email,
+          fname: name[0],
+          lname: name[1],
+        };
+
+        return details;
       })
       .catch(function (error) {
         // Handle Errors here.
@@ -131,15 +135,25 @@ const useAuthProvider = () => {
 
   const facebookSignIn = () => {
     return auth
-      .signInWithRedirect(githubProvider)
+      .signInWithPopup(facebookProvider)
       .then(function (result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        console.log(result);
         let token = result.credential.accessToken;
         // console.log("name");
-        // The signed-in user info.
-        let user = result.user;
-        setUser(user);
-        // ...
+
+        let name = result.user.displayName.split(" ");
+
+        let details = {
+          uid: result.user.uid,
+          email: result.user.email,
+          fname: name[0],
+          lname: name[1],
+        };
+
+        console.log(details);
+
+        return details;
       })
       .catch(function (error) {
         // Handle Errors here.
@@ -154,13 +168,41 @@ const useAuthProvider = () => {
       });
   };
 
+  const signInWithGoogle = async () => {
+    await googleSignIn().then((res) => {
+      setUser(res);
+      getUserAdditionalData(user);
+    });
+  };
+
+  const signInWithFacebook = async () => {
+    await facebookSignIn().then((res) => {
+      setUser(res);
+      getUserAdditionalData(user);
+    });
+  };
+
+  const signUpWithGoogle = async () => {
+    await googleSignIn().then((res) => {
+      return createUser(res);
+    });
+  };
+
+  const signUpWithFacebook = async () => {
+    await facebookSignIn().then((res) => {
+      return createUser(res);
+    });
+  };
+
   return {
     user,
     signUp,
     signIn,
     signOut,
     sendPasswordResetEmail,
-    googleSignIn,
-    facebookSignIn,
+    signInWithGoogle,
+    signInWithFacebook,
+    signUpWithGoogle,
+    signUpWithFacebook,
   };
 };

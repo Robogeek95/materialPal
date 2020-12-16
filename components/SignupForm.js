@@ -29,6 +29,18 @@ const SignUpForm = () => {
     });
   };
 
+  const signUpWithFacebook = () => {
+    return auth.signUpWithFacebook().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
+  const signUpWithGoogle = () => {
+    return auth.signUpWithGoogle().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
   const { register, errors, handleSubmit, getValues } = useForm();
 
   return (
@@ -165,9 +177,13 @@ const SignUpForm = () => {
         </Text>
 
         <Grid columns={[2]} my="4">
-          <Button variant="outlineRoundedLg">Sign In With Google</Button>
+          <Button variant="outlineRoundedLg" onClick={signUpWithGoogle}>
+            Sign Up With Google
+          </Button>
 
-          <Button variant="outlineRoundedLg">Sign In With Facebook</Button>
+          <Button variant="outlineRoundedLg" onClick={signUpWithFacebook}>
+            Sign Up With Facebook
+          </Button>
         </Grid>
 
         <hr />
