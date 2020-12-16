@@ -16,6 +16,9 @@ import { useAuth } from "../hooks/useAuth";
 //  email: string;
 //  password: string;
 // }
+
+import { toast, ToastContainer } from "react-toastify";
+
 const LoginForm = () => {
   const { register, errors, handleSubmit } = useForm();
   const auth = useAuth();
@@ -23,26 +26,48 @@ const LoginForm = () => {
   const router = useRouter();
 
   const onSubmit = (data) => {
-    return auth.signIn(data).then(() => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signIn(data)
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   const signInWithGoogle = () => {
-    return auth.signInWithGoogle().then((user) => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signInWithGoogle()
+      .then((user) => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   const signInWithFacebook = () => {
-    return auth.signInWithFacebook().then(() => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signInWithFacebook()
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box>
+        <ToastContainer />
         <Text variant="headline1">Welcome Back</Text>
         <Text variant="headline5">Sign into your account</Text>
       </Box>

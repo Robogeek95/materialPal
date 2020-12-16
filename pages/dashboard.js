@@ -3,9 +3,9 @@ import { useRequireAuth } from "../hooks/useRequireAuth";
 const DashBoardPage = () => {
   const auth = useRequireAuth();
 
-  // if (auth.user) {
-  //   console.log(auth.user);
-  // }
+  if (auth.user) {
+    console.log(auth.user);
+  }
   if (!auth.user) return <h3>No user</h3>;
   return (
     <div className="min-h-screen flex bg-gray-200">

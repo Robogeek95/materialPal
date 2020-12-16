@@ -44,20 +44,26 @@ const useAuthProvider = () => {
   };
 
   //   creates a user using the firebase "createUserWithEmailAndPassword" function
-  const signUp = ({ name, email, password }) => {
+  const signUp = ({ fname, lname, email, password }) => {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
         auth.currentUser.sendEmailVerification();
-        return createUser({
+
+        let details = {
           uid: response.user.uid,
           email,
-          fname: fname.value,
-          lname: lname.value,
-        });
+          fname,
+          lname,
+        };
+
+        createUser(details);
+        getUserAdditionalData(details);
+
+        return details;
       })
       .catch((error) => {
-        return { error };
+        throw error;
       });
   };
 
@@ -70,7 +76,7 @@ const useAuthProvider = () => {
         return response.user;
       })
       .catch((error) => {
-        return { error };
+        throw error;
       });
   };
 
@@ -79,6 +85,7 @@ const useAuthProvider = () => {
   };
 
   const getUserAdditionalData = (user) => {
+    console.log(user);
     db.collection("users")
       .doc(user.uid)
       .get()
@@ -129,6 +136,8 @@ const useAuthProvider = () => {
         let email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         let credential = error.credential;
+
+        throw error;
         // ...
       });
   };
@@ -164,7 +173,7 @@ const useAuthProvider = () => {
         let email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         let credential = error.credential;
-        // ...
+        throw error;
       });
   };
 
