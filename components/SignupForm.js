@@ -192,13 +192,13 @@ const SignUpForm = () => {
           <Flex mb="2" sx={{ justifyContent: "center" }}>
             <Link href="/reset-password">
               <Text mr="4" variant="mediumLabel" color="dark300">
-                Cant Log in?
+                Cant Sign Up?
               </Text>
             </Link>
 
-            <Link href="/signup">
+            <Link href="/login">
               <Text variant="mediumLabel" color="dark300">
-                Sign up for an account
+                Log In to your account
               </Text>
             </Link>
           </Flex>
