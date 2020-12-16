@@ -213,11 +213,11 @@ const NavCta = (props) => (
         justifyContent: "flex-end",
       }}
     >
-      <Button as="a" href="#" target="_self" variant="outlineRoundedLg">
-        SignIn
+      <Button as="a" href="/login" target="_self" variant="outlineRoundedLg">
+        LogIn
       </Button>
 
-      <Button as="a" href="#" target="_self" variant="roundedLg">
+      <Button as="a" href="/signup" target="_self" variant="roundedLg">
         SignUp
       </Button>
     </Box>
