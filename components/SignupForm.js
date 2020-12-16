@@ -29,6 +29,18 @@ const SignUpForm = () => {
     });
   };
 
+  const signUpWithFacebook = () => {
+    return auth.signUpWithFacebook().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
+  const signUpWithGoogle = () => {
+    return auth.signUpWithGoogle().then(() => {
+      router.push("/dashboard");
+    });
+  };
+
   const { register, errors, handleSubmit, getValues } = useForm();
 
   return (
@@ -165,9 +177,13 @@ const SignUpForm = () => {
         </Text>
 
         <Grid columns={[2]} my="4">
-          <Button variant="outlineRoundedLg">Sign In With Google</Button>
+          <Button variant="outlineRoundedLg" onClick={signUpWithGoogle}>
+            Sign Up With Google
+          </Button>
 
-          <Button variant="outlineRoundedLg">Sign In With Facebook</Button>
+          <Button variant="outlineRoundedLg" onClick={signUpWithFacebook}>
+            Sign Up With Facebook
+          </Button>
         </Grid>
 
         <hr />
@@ -176,13 +192,13 @@ const SignUpForm = () => {
           <Flex mb="2" sx={{ justifyContent: "center" }}>
             <Link href="/reset-password">
               <Text mr="4" variant="mediumLabel" color="dark300">
-                Cant Log in?
+                Cant Sign Up?
               </Text>
             </Link>
 
-            <Link href="/signup">
+            <Link href="/login">
               <Text variant="mediumLabel" color="dark300">
-                Sign up for an account
+                Log In to your account
               </Text>
             </Link>
           </Flex>

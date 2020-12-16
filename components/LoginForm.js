@@ -29,13 +29,13 @@ const LoginForm = () => {
   };
 
   const signInWithGoogle = () => {
-    return auth.googleSignIn().then(() => {
+    return auth.signInWithGoogle().then((user) => {
       router.push("/dashboard");
     });
   };
 
   const signInWithFacebook = () => {
-    return auth.facebookSignIn().then(() => {
+    return auth.signInWithFacebook().then(() => {
       router.push("/dashboard");
     });
   };
