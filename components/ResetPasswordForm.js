@@ -1,56 +1,95 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useAuth } from "../hooks/useAuth";
+import { Box, Button, Flex, Grid, Input, Label, Link, Text } from "theme-ui";
+import AuthButton from "./AuthButton";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const ResetPasswordForm = () => {
   const { register, errors, handleSubmit } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+
   const auth = useAuth();
   const router = useRouter();
+
   const onSubmit = (data) => {
-    auth.sendPasswordResetEmail(data.email);
+    setIsLoading(true);
+    auth
+      .sendPasswordResetEmail(data.email)
+      .then((data) => {
+        setIsLoading(false);
+        toast.success("Reset Password Instructions Sent", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      })
+
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+  };
+
+  const routeToLogin = () => {
     router.push("/login");
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-md">
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium leading-5 text-gray-700"
-        >
-          Email address
-        </label>
-        <div className="mt-1 rounded-md">
-          <input
-            id="email"
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 shadow-sm"
+    <Box sx={{ textAlign: "center" }}>
+      <ToastContainer />
+      <Text variant="headline1" color="darker">
+        Forgot Password?
+      </Text>
+
+      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box mt="4">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            variant="inputBgMedium"
             type="email"
             name="email"
             ref={register({
-              required: "Please enter an email",
+              required: "Please enter your email address",
               pattern: {
                 value: `/^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/`,
                 message: "Not a valid email",
               },
             })}
+            id="email"
+            mb={3}
           />
-          {errors.email && (
-            <div className="mt-2 text-xs text-red-600">
-              {errors.email.message}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="mt-4">
-        <span className="block w-full rounded-md shadow-sm">
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >
-            Send reset link
-          </button>
-        </span>
-      </div>
-    </form>
+          {errors.email && <Text color="red">{errors.email.message}</Text>}
+        </Box>
+
+        <AuthButton
+          variant="roundedLg"
+          mt="4"
+          type="submit"
+          isLoading={isLoading}
+        >
+          Send Recovery Link
+        </AuthButton>
+      </Box>
+
+      <Box py="3">
+        <hr />
+      </Box>
+
+      <Button variant="outlineRoundedLg" onClick={routeToLogin}>
+        Return To Login
+      </Button>
+
+      <Flex sx={{ justifyContent: "center" }} mt="4">
+        <Link>
+          <Text mr={4}>Login Help</Text>
+        </Link>
+        <Link>
+          <Text>Contact Support</Text>
+        </Link>
+      </Flex>
+    </Box>
   );
 };
+
 export default ResetPasswordForm;

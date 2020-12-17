@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
 import {
   Box,
   Button,
@@ -24,27 +25,49 @@ const SignUpForm = () => {
   const router = useRouter();
 
   const onSubmit = (data) => {
-    return auth.signUp(data).then(() => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signUp(data)
+      .then(() => {
+        router.push("/materials");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   const signUpWithFacebook = () => {
-    return auth.signUpWithFacebook().then(() => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signUpWithFacebook()
+      .then(() => {
+        router.push("/materials");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   const signUpWithGoogle = () => {
-    return auth.signUpWithGoogle().then(() => {
-      router.push("/dashboard");
-    });
+    return auth
+      .signUpWithGoogle()
+      .then(() => {
+        router.push("/materials");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
   };
 
   const { register, errors, handleSubmit, getValues } = useForm();
 
   return (
     <Box sx={{ textAlign: "center" }}>
+      <ToastContainer />
       <Box>
         <Text variant="headline1">Create your Account</Text>
         <Text variant="headline5">Sign up for your account</Text>
@@ -176,7 +199,7 @@ const SignUpForm = () => {
           OR
         </Text>
 
-        <Grid columns={[2]} my="4">
+        <Grid columns={[1, 1, 2]} my="4">
           <Button variant="outlineRoundedLg" onClick={signUpWithGoogle}>
             Sign Up With Google
           </Button>
