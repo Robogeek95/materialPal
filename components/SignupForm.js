@@ -199,7 +199,7 @@ const SignUpForm = () => {
           OR
         </Text>
 
-        <Grid columns={[2]} my="4">
+        <Grid columns={[1, 1, 2]} my="4">
           <Button variant="outlineRoundedLg" onClick={signUpWithGoogle}>
             Sign Up With Google
           </Button>

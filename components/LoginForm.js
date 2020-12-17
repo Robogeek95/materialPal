@@ -12,26 +12,35 @@ import {
   Link,
 } from "theme-ui";
 import { useAuth } from "../hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
+import AuthButton from "./AuthButton";
+
 // interface LoginData {
 //  email: string;
 //  password: string;
 // }
 
-import { toast, ToastContainer } from "react-toastify";
-
 const LoginForm = () => {
   const { register, errors, handleSubmit } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleAuthLoading, setIsGoogleAuthLoading] = useState(false);
+  const [isFacebookAuthLoading, setIsFacebookAuthLoading] = useState(false);
+
   const auth = useAuth();
 
   const router = useRouter();
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     return auth
       .signIn(data)
       .then(() => {
+        setIsLoading(false);
         router.push("/materials");
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.message, {
           position: toast.POSITION.TOP_LEFT,
         });
@@ -39,12 +48,15 @@ const LoginForm = () => {
   };
 
   const signInWithGoogle = () => {
+    setIsGoogleAuthLoading(true);
     return auth
       .signInWithGoogle()
       .then((user) => {
+        setIsGoogleAuthLoading(false);
         router.push("/materials");
       })
       .catch((error) => {
+        setIsGoogleAuthLoading(false);
         toast.error(error.message, {
           position: toast.POSITION.TOP_LEFT,
         });
@@ -52,12 +64,15 @@ const LoginForm = () => {
   };
 
   const signInWithFacebook = () => {
+    setIsFacebookAuthLoading(true);
     return auth
       .signInWithFacebook()
       .then(() => {
+        setIsFacebookAuthLoading(false);
         router.push("/materials");
       })
       .catch((error) => {
+        setIsFacebookAuthLoading(false);
         toast.error(error.message, {
           position: toast.POSITION.TOP_LEFT,
         });
@@ -120,9 +135,14 @@ const LoginForm = () => {
           <Label>Remember me?</Label>
         </Grid>
 
-        <Button type="submit" variant="roundedLg" mt="4">
+        <AuthButton
+          variant="roundedLg"
+          mt="4"
+          type="submit"
+          isLoading={isLoading}
+        >
           Continue To Material Pal
-        </Button>
+        </AuthButton>
       </Box>
 
       <Box mt="4">
@@ -130,14 +150,22 @@ const LoginForm = () => {
           OR
         </Text>
 
-        <Grid columns={[2]} my="4">
-          <Button variant="outlineRoundedLg" onClick={signInWithGoogle}>
+        <Grid columns={[1, 1, 2]} my="4">
+          <AuthButton
+            variant="outlineRoundedLg"
+            isLoading={isGoogleAuthLoading}
+            onClick={signInWithGoogle}
+          >
             Sign In With Google
-          </Button>
+          </AuthButton>
 
-          <Button variant="outlineRoundedLg" onClick={signInWithFacebook}>
+          <AuthButton
+            variant="outlineRoundedLg"
+            isLoading={isFacebookAuthLoading}
+            onClick={signInWithFacebook}
+          >
             Sign In With Facebook
-          </Button>
+          </AuthButton>
         </Grid>
 
         <hr />
