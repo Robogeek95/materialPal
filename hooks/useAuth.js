@@ -44,44 +44,42 @@ const useAuthProvider = () => {
   };
 
   //   creates a user using the firebase "createUserWithEmailAndPassword" function
-  const signUp = ({ fname, lname, email, password }) => {
-    return auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        auth.currentUser.sendEmailVerification();
+  const signUp = async ({ fname, lname, email, password }) => {
+    try {
+      const response = await auth
+        .createUserWithEmailAndPassword(email, password);
+      auth.currentUser.sendEmailVerification();
 
-        let details = {
-          uid: response.user.uid,
-          email,
-          fname,
-          lname,
-        };
+      let details = {
+        uid: response.user.uid,
+        email,
+        fname,
+        lname,
+      };
 
-        createUser(details);
-        getUserAdditionalData(details);
-
-        return details;
-      })
-      .catch((error) => {
-        throw error;
-      });
+      createUser(details);
+      getUserAdditionalData(details);
+      return details;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const signIn = ({ email, password }) => {
-    return auth
-      .signInWithEmailAndPassword(email, password)
-      .then((response) => {
-        setUser(response.user);
-        getUserAdditionalData(user);
-        return response.user;
-      })
-      .catch((error) => {
-        throw error;
-      });
+  const signIn = async ({ email, password }) => {
+    try {
+      const response = await auth
+        .signInWithEmailAndPassword(email, password);
+      setUser(response.user);
+      getUserAdditionalData(user);
+      return response.user;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const signOut = () => {
-    return auth.signOut().then(() => setUser(false));
+  const signOut = async () => {
+    await auth.signOut();
+    return setUser(false);
   };
 
   const getUserAdditionalData = (user) => {
@@ -102,79 +100,71 @@ const useAuthProvider = () => {
       });
   };
 
-  const sendPasswordResetEmail = (email) => {
-    return auth.sendPasswordResetEmail(email).then((response) => {
-      return response;
-    });
+  const sendPasswordResetEmail = async (email) => {
+    const response = await auth.sendPasswordResetEmail(email);
+    return response;
   };
 
-  const googleSignIn = () => {
-    return auth
-      .signInWithPopup(googleProvider)
-      .then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = result.credential.accessToken;
-        // The signed-in user info.AIzaSyCZvFDrr9T8i90RgdXIU01wVVktUVVyoO0
-        // let user = result.user;
+  const googleSignIn = async () => {
+    try {
+      const result = await auth
+        .signInWithPopup(googleProvider);
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      let token = result.credential.accessToken;
+      // The signed-in user info.AIzaSyCZvFDrr9T8i90RgdXIU01wVVktUVVyoO0
+      // let user = result.user;
+      let name = result.user.displayName.split(" ");
 
-        let name = result.user.displayName.split(" ");
+      let details = {
+        uid: result.user.uid,
+        email: result.user.email,
+        fname: name[0],
+        lname: name[1],
+      };
+      return details;
+    } catch (error) {
+      // Handle Errors here.
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      // The email of the user's account used.
+      let email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      let credential = error.credential;
 
-        let details = {
-          uid: result.user.uid,
-          email: result.user.email,
-          fname: name[0],
-          lname: name[1],
-        };
-
-        return details;
-      })
-      .catch(function (error) {
-        // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        // The email of the user's account used.
-        let email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        let credential = error.credential;
-
-        throw error;
-        // ...
-      });
+      throw error;
+    }
   };
 
-  const facebookSignIn = () => {
-    return auth
-      .signInWithPopup(facebookProvider)
-      .then(function (result) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        console.log(result);
-        let token = result.credential.accessToken;
-        // console.log("name");
+  const facebookSignIn = async () => {
+    try {
+      const result = await auth
+        .signInWithPopup(facebookProvider);
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      console.log(result);
+      let token = result.credential.accessToken;
+      // console.log("name");
+      let name = result.user.displayName.split(" ");
 
-        let name = result.user.displayName.split(" ");
+      let details = {
+        uid: result.user.uid,
+        email: result.user.email,
+        fname: name[0],
+        lname: name[1],
+      };
 
-        let details = {
-          uid: result.user.uid,
-          email: result.user.email,
-          fname: name[0],
-          lname: name[1],
-        };
-
-        console.log(details);
-
-        return details;
-      })
-      .catch(function (error) {
-        // Handle Errors here.
-        console.log(error);
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        // The email of the user's account used.
-        let email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        let credential = error.credential;
-        throw error;
-      });
+      console.log(details);
+      return details;
+    } catch (error) {
+      // Handle Errors here.
+      console.log(error);
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      // The email of the user's account used.
+      let email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      let credential = error.credential;
+      throw error;
+    }
   };
 
   const signInWithGoogle = async () => {
