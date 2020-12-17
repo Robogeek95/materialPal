@@ -64,7 +64,7 @@ const ResetPasswordForm = () => {
 
         <AuthButton
           variant="roundedLg"
-          mt="4"
+          mt="3"
           type="submit"
           isLoading={isLoading}
         >
