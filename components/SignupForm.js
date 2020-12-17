@@ -28,7 +28,7 @@ const SignUpForm = () => {
     return auth
       .signUp(data)
       .then(() => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {
@@ -41,7 +41,7 @@ const SignUpForm = () => {
     return auth
       .signUpWithFacebook()
       .then(() => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {
@@ -54,7 +54,7 @@ const SignUpForm = () => {
     return auth
       .signUpWithGoogle()
       .then(() => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {

@@ -29,7 +29,7 @@ const LoginForm = () => {
     return auth
       .signIn(data)
       .then(() => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {
@@ -42,7 +42,7 @@ const LoginForm = () => {
     return auth
       .signInWithGoogle()
       .then((user) => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {
@@ -55,7 +55,7 @@ const LoginForm = () => {
     return auth
       .signInWithFacebook()
       .then(() => {
-        router.push("/dashboard");
+        router.push("/materials");
       })
       .catch((error) => {
         toast.error(error.message, {
