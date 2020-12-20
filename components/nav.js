@@ -18,6 +18,7 @@ import ScrollLock from "react-scrolllock";
 import NextLink from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
+import AuthBar from "./AuthBar";
 
 const rgbaBgColor = (props, opacity) =>
   `rgba(
@@ -203,7 +204,7 @@ const NavCta = (props) => (
       </Box>
     </Box>
 
-    <Box
+    {/* <Box
       sx={{
         display: ["none", "flex", "flex"],
         columnGap: "15px",
@@ -220,7 +221,9 @@ const NavCta = (props) => (
       <Button as="a" href="/signup" target="_self" variant="roundedLg">
         SignUp
       </Button>
-    </Box>
+    </Box> */}
+
+    <AuthBar />
   </Grid>
 );
 
