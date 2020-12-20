@@ -59,7 +59,7 @@ class CustomDropDown extends Component {
     super(props);
 
     this.state = {
-      isOpen: true,
+      isOpen: false,
     };
 
     this.toggleDropDown = this.toggleDropDown.bind(this);
