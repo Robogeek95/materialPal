@@ -1,8 +1,13 @@
-import { Box, Button, Flex, Spinner, Text } from "theme-ui";
+import { Box, Button, Flex, Link, Spinner, Text } from "theme-ui";
 import { useAuth } from "../hooks/useAuth";
 import Avatar from "react-avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faCaretUp,
+  faExternalLinkAlt,
+  faExternalLinkSquareAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { Component } from "react";
 import { useRouter } from "next/router";
 
@@ -115,7 +120,7 @@ class CustomDropDown extends Component {
     const { isOpen } = this.state;
 
     return (
-      <Box sx={{ position: "relative" }}>
+      <>
         <Box
           onClick={this.toggleDropDown}
           ref={(ref) => (this.dropTogglerRef = ref)}
@@ -144,27 +149,43 @@ class CustomDropDown extends Component {
           </Box>
         </Box>
 
-        <Box>
-          {isOpen && (
-            <Box
-              sx={{
-                position: "absolute",
-                backgroundColor: "gray100",
-                width: "100%",
-                mt: [3],
-                p: [4],
-                borderWidth: "1px",
-                borderStyle: "solid",
-                borderColor: "dark200",
-              }}
-              ref={(ref) => (this.displayAreaRef = ref)}
-            >
-              <Text>Hello {`${this.user.fname} ${this.user.lname}`} </Text>
-              <button onClick={this.signOut}>Sign out</button>
-            </Box>
-          )}
-        </Box>
-      </Box>
+        {isOpen && (
+          <Box
+            sx={{
+              position: "absolute",
+              backgroundColor: "gray100",
+              // width: "100%",
+              mt: [7],
+              p: [4],
+              borderWidth: "1px",
+              borderStyle: "solid",
+              borderColor: "primary",
+              borderRadius: "7px",
+            }}
+            ref={(ref) => (this.displayAreaRef = ref)}
+          >
+            {/* <Text> {`${this.user.fname} ${this.user.lname}`} </Text> */}
+            <Text variant="lead">{`${this.user.email}`} </Text>
+
+            <Link href="#" sx={{textDecoration: "none"}}>
+              <Box mt="2" sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box >
+                  <Text>Account Settings</Text>
+                  <Text variant="smallText" color="dark300">Manage your account</Text>
+                </Box>
+
+                <Box>
+                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                </Box>
+              </Box>
+            </Link>
+
+            <Button mt={2} variant={"textButton"} onClick={this.signOut}>
+              Sign out
+            </Button>
+          </Box>
+        )}
+      </>
     );
   }
 }
