@@ -125,7 +125,7 @@ const ImageUpload = () => {
   );
 
   return (
-    <Grid columns={[2, 2, 3]}>
+    <Grid columns={[2, 3, 3]}>
       <Box
         sx={{
           width: "100%",
