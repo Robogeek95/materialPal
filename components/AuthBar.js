@@ -48,7 +48,7 @@ const AuthBar = () => {
         justifyContent: "flex-end",
       }}
     >
-      <Button as="a" href="#" target="_self" variant="roundedLg">
+      <Button as="a" href="/upload" target="_self" variant="roundedLg">
         Upload
       </Button>
 
@@ -167,11 +167,16 @@ class CustomDropDown extends Component {
             {/* <Text> {`${this.user.fname} ${this.user.lname}`} </Text> */}
             <Text variant="lead">{`${this.user.email}`} </Text>
 
-            <Link href="#" sx={{textDecoration: "none"}}>
-              <Box mt="2" sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Box >
+            <Link href="#" sx={{ textDecoration: "none" }}>
+              <Box
+                mt="2"
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Box>
                   <Text>Account Settings</Text>
-                  <Text variant="smallText" color="dark300">Manage your account</Text>
+                  <Text variant="smallText" color="dark300">
+                    Manage your account
+                  </Text>
                 </Box>
 
                 <Box>
