@@ -1,4 +1,14 @@
-import { Box, Button, Grid, Image, Input, Label, Select, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Image,
+  Input,
+  Label,
+  Select,
+  Text,
+} from "theme-ui";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
 import { faFileImage, faFilePdf } from "@fortawesome/free-solid-svg-icons";
@@ -44,7 +54,7 @@ const FileUpload = () => {
     <Box
       sx={{
         width: "100%",
-        height: "390px",
+        height: ["290px", "390px"],
         border: "2px dashed #DBDBDB",
         borderRadius: "7px",
       }}
@@ -115,7 +125,7 @@ const ImageUpload = () => {
   );
 
   return (
-    <Grid columns={3}>
+    <Grid columns={[2, 2, 3]}>
       <Box
         sx={{
           width: "100%",
@@ -178,154 +188,156 @@ export default function Dashboard() {
           pt: [5, 6],
           pb: [4, 5],
           textAlign: "center",
-          mb: "-80px",
+          mb: [4, "-80px"],
         }}
       ></Box>
 
-      <Grid columns={["40%"]} sx={{ justifyContent: "center" }}>
-        <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-          <FileUpload />
+      <Container>
+        <Grid columns={[1, 1, "80%", "40%"]} sx={{ justifyContent: "center" }}>
+          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+            <FileUpload />
 
-          <Box mt={[4]}>
-            <Label mb={[2]} htmlFor="password">
-              Add some Images
-            </Label>
+            <Box mt={[4]}>
+              <Label mb={[2]} htmlFor="password">
+                Add some Images
+              </Label>
 
-            <ImageUpload />
+              <ImageUpload />
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                variant="inputBgMedium"
+                type="text"
+                placeholder="What material is this?"
+                id="title"
+                name="title"
+                mb={3}
+                ref={register({
+                  required: "Please enter the material name or title",
+                  minLength: {
+                    value: 3,
+                    message: "Title too short...",
+                  },
+                })}
+              />
+              {errors.title && <Text color="red">{errors.title.message}</Text>}
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="title">Course Title</Label>
+              <Input
+                variant="inputBgMedium"
+                type="text"
+                placeholder="What material is this?"
+                name="courseTitle"
+                mb={3}
+                ref={register({
+                  required: "Please enter the course title",
+                  minLength: {
+                    value: 3,
+                    message: "Course title too short...",
+                  },
+                })}
+              />
+              {errors.courseTitle && (
+                <Text color="red">{errors.courseTitle.message}</Text>
+              )}
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="title">Course Code</Label>
+              <Input
+                variant="inputBgMedium"
+                type="text"
+                placeholder="The course code for the material"
+                name="courseCode"
+                mb={3}
+                ref={register({
+                  required: "Please enter the course Code",
+                  minLength: {
+                    value: 3,
+                    message: "Course Code too short...",
+                  },
+                })}
+              />
+              {errors.courseCode && (
+                <Text color="red">{errors.courseCode.message}</Text>
+              )}
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="password">Tags</Label>
+
+              <Input
+                variant="inputBgMedium"
+                type="tags"
+                name="tags"
+                mb={3}
+                ref={register}
+              />
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="category">Category</Label>
+
+              <Select
+                variant="inputBgMedium"
+                defaultValue={false}
+                name="category"
+                ref={register}
+              >
+                <option>Select Category</option>
+                {categories.map((category) => (
+                  <option>{category}</option>
+                ))}
+              </Select>
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="school">School</Label>
+
+              <Select
+                variant="inputBgMedium"
+                defaultValue={false}
+                name="school"
+                ref={register}
+              >
+                <option>Select School</option>
+                <option>Lagos State University</option>
+                <option>Lagos State University</option>
+                <option>Lagos State University</option>
+                <option>Lagos State University</option>
+              </Select>
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="password">Department</Label>
+
+              <Select
+                variant="inputBgMedium"
+                defaultValue={false}
+                name="department"
+                ref={register}
+              >
+                <option>Select Department</option>
+                <option> Computer Science</option>
+                <option>Economics</option>
+                <option>Fisheries</option>
+                <option>Transport</option>
+              </Select>
+            </Box>
+
+            <Box my={[4]} sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button variant="outlineRoundedLg" mr={[3]}>
+                Cancel
+              </Button>
+              <Button variant="roundedLg">Upload</Button>
+            </Box>
           </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="title">Title</Label>
-            <Input
-              variant="inputBgMedium"
-              type="text"
-              placeholder="What material is this?"
-              id="title"
-              name="title"
-              mb={3}
-              ref={register({
-                required: "Please enter the material name or title",
-                minLength: {
-                  value: 3,
-                  message: "Title too short...",
-                },
-              })}
-            />
-            {errors.title && <Text color="red">{errors.title.message}</Text>}
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="title">Course Title</Label>
-            <Input
-              variant="inputBgMedium"
-              type="text"
-              placeholder="What material is this?"
-              name="courseTitle"
-              mb={3}
-              ref={register({
-                required: "Please enter the course title",
-                minLength: {
-                  value: 3,
-                  message: "Course title too short...",
-                },
-              })}
-            />
-            {errors.courseTitle && (
-              <Text color="red">{errors.courseTitle.message}</Text>
-            )}
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="title">Course Code</Label>
-            <Input
-              variant="inputBgMedium"
-              type="text"
-              placeholder="The course code for the material"
-              name="courseCode"
-              mb={3}
-              ref={register({
-                required: "Please enter the course Code",
-                minLength: {
-                  value: 3,
-                  message: "Course Code too short...",
-                },
-              })}
-            />
-            {errors.courseCode && (
-              <Text color="red">{errors.courseCode.message}</Text>
-            )}
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="password">Tags</Label>
-
-            <Input
-              variant="inputBgMedium"
-              type="tags"
-              name="tags"
-              mb={3}
-              ref={register}
-            />
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="category">Category</Label>
-
-            <Select
-              variant="inputBgMedium"
-              defaultValue={false}
-              name="category"
-              ref={register}
-            >
-              <option>Select Category</option>
-              {categories.map((category) => (
-                <option>{category}</option>
-              ))}
-            </Select>
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="school">School</Label>
-
-            <Select
-              variant="inputBgMedium"
-              defaultValue={false}
-              name="school"
-              ref={register}
-            >
-              <option>Select School</option>
-              <option>Lagos State University</option>
-              <option>Lagos State University</option>
-              <option>Lagos State University</option>
-              <option>Lagos State University</option>
-            </Select>
-          </Box>
-
-          <Box mt={[4]}>
-            <Label htmlFor="password">Department</Label>
-
-            <Select
-              variant="inputBgMedium"
-              defaultValue={false}
-              name="department"
-              ref={register}
-            >
-              <option>Select Department</option>
-              <option> Computer Science</option>
-              <option>Economics</option>
-              <option>Fisheries</option>
-              <option>Transport</option>
-            </Select>
-          </Box>
-
-          <Box my={[4]} sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button variant="outlineRoundedLg" mr={[3]}>
-              Cancel
-            </Button>
-            <Button variant="roundedLg">Upload</Button>
-          </Box>
-        </Box>
-      </Grid>
+        </Grid>
+      </Container>
 
       <Footer
         dark
