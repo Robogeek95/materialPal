@@ -8,14 +8,19 @@ import {
   Label,
   Select,
   Text,
+  Textarea,
 } from "theme-ui";
-import Nav from "../components/nav";
 import Footer from "../components/footer";
 import { faFileImage, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import useUpload from "../hooks/useUpload";
+import { storageRef } from "../config/firebase";
+import firebase from "firebase/app";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 
 const categories = [
   "Assessment",
@@ -30,7 +35,9 @@ const categories = [
   "Handouts",
 ];
 
-const FileUpload = () => {
+const FileUpload = (props) => {
+  const [file, setFile] = useState();
+
   const {
     isDragActive,
     acceptedFiles,
@@ -40,15 +47,15 @@ const FileUpload = () => {
     getInputProps,
   } = useDropzone({
     accept: "application/pdf",
+    onDrop: (acceptedFiles) => {
+      setFile(acceptedFiles[0]);
+    },
   });
 
-  const files = acceptedFiles.map((file) => (
-    <Box key={file.path}>
-      <Text sx={{ textAlign: "center" }} variant="blockquote" color="text">
-        {file.path} - {file.size} bytes
-      </Text>
-    </Box>
-  ));
+  // Send the file object to the parent component via props
+  useEffect(() => {
+    props.onSelectFile(file);
+  });
 
   return (
     <Box
@@ -59,24 +66,7 @@ const FileUpload = () => {
         borderRadius: "7px",
       }}
     >
-      <Box
-        sx={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          bg: "gray100",
-          p: [4],
-          color: "secondary",
-          cursor: `${isDragReject ? "no-drop" : "copy"}`,
-          outline: "none",
-          ":hover": {
-            backgroundColor: "gray400",
-          },
-        }}
-        {...getRootProps({ className: "dropzone" })}
-      >
+      <Box variant="inputBox" {...getRootProps({ className: "dropzone" })}>
         <FontAwesomeIcon size="5x" icon={faFilePdf} />
         <input {...getInputProps()} />
         <Text sx={{ textAlign: "center" }} variant="body" mt="4">
@@ -86,14 +76,24 @@ const FileUpload = () => {
           {!isDragActive && "Drag and drop file here or click to upload"}
         </Text>
 
-        {files}
+        {file && (
+          <Box>
+            <Text
+              sx={{ textAlign: "center" }}
+              variant="blockquote"
+              color="text"
+            >
+              {file.name} - {file.size} bytes
+            </Text>
+          </Box>
+        )}
       </Box>
     </Box>
   );
 };
 
-const ImageUpload = () => {
-  const [files, setFiles] = useState([]);
+const ImageUpload = (props) => {
+  const [images, setImages] = useState([]);
   const {
     isDragActive,
     acceptedFiles,
@@ -106,7 +106,7 @@ const ImageUpload = () => {
     multiple: true,
     maxFiles: 2,
     onDrop: (acceptedFiles) => {
-      setFiles(
+      setImages(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -118,11 +118,15 @@ const ImageUpload = () => {
 
   useEffect(
     () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      // revoke the data uris to avoid memory leaks
+      images.forEach((file) => URL.revokeObjectURL(file.preview));
     },
-    [files]
+    [images]
   );
+
+  useEffect(() => {
+    props.onSelectImages(images);
+  });
 
   return (
     <Grid columns={[2, 3, 3]}>
@@ -134,24 +138,7 @@ const ImageUpload = () => {
           borderRadius: "7px",
         }}
       >
-        <Box
-          sx={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            bg: "gray100",
-            p: [3],
-            color: "secondary",
-            cursor: `${isDragReject ? "no-drop" : "copy"}`,
-            outline: "none",
-            ":hover": {
-              backgroundColor: "gray400",
-            },
-          }}
-          {...getRootProps({ className: "dropzone" })}
-        >
+        <Box variant="inputBox" {...getRootProps({ className: "dropzone" })}>
           <FontAwesomeIcon size="3x" icon={faFileImage} />
           <input {...getInputProps()} />
           <Text sx={{ textAlign: "center" }} variant="body" mt="1">
@@ -163,8 +150,9 @@ const ImageUpload = () => {
         </Box>
       </Box>
 
-      {files.map((file) => (
+      {images.map((file) => (
         <Image
+          key={file.path}
           sx={{ width: "100%", height: "150px", borderRadius: "7px" }}
           src={file.preview}
         />
@@ -176,7 +164,153 @@ const ImageUpload = () => {
 export default function Dashboard() {
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const [file, setFile] = useState();
+  const [images, setImages] = useState([]);
+  // const [imageURLs, setImageURLs] = useState([]);
+  // const [fileURL, setFileURL] = useState("");
+
+  const handleFile = (file) => {
+    setFile(file);
+  };
+
+  const handleImages = (images) => {
+    setImages(images);
+  };
+
+  const storeFile = (file) => {
+    return new Promise((resolve, reject) => {
+      var metadata = {
+        contentType: "application/pdf",
+      };
+
+      var uploadTask = storageRef
+        .child("files/" + file.name)
+        .put(file, metadata);
+
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        function (snapshot) {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function (error) {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          console.log("e don happen");
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        function () {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const storeImages = (images) => {
+    return new Promise((resolve, reject) => {
+      var metadata = {
+        contentType: "image/jpeg, image/png",
+      };
+
+      let image = images[0];
+
+      var uploadTask = storageRef
+        .child("images/" + image.name)
+        .put(image, metadata);
+
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        function (snapshot) {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function (error) {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          console.log("e don happen");
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        function () {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const onSubmit = (data) => {
+    let imageURL = "";
+    let fileURL = "";
+
+    // storeFile();
+    storeImages(images)
+      .then((url) => {
+        imageURL = url;
+        return storeFile(file);
+      })
+      .then((url) => {
+        fileURL = url;
+        let materialData = {
+          imageURL,
+          fileURL,
+          data,
+        };
+
+        return materialData;
+      })
+      .then((materialData) => {
+        console.log(materialData);
+      });
+  };
 
   return (
     <>
@@ -193,40 +327,40 @@ export default function Dashboard() {
       ></Box>
 
       <Container>
-        <Grid columns={[1, 1, "80%", "40%"]} sx={{ justifyContent: "center" }}>
+        <Grid columns={[1, 1, "80%", "50%"]} sx={{ justifyContent: "center" }}>
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-            <FileUpload />
+            <FileUpload onSelectFile={handleFile} />
 
             <Box mt={[4]}>
               <Label mb={[2]} htmlFor="password">
                 Add some Images
               </Label>
 
-              <ImageUpload />
+              <ImageUpload onSelectImages={handleImages} />
             </Box>
 
             <Box mt={[4]}>
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="name">Name</Label>
               <Input
                 variant="inputBgMedium"
                 type="text"
                 placeholder="What material is this?"
-                id="title"
-                name="title"
+                id="name"
+                name="name"
                 mb={3}
                 ref={register({
-                  required: "Please enter the material name or title",
+                  required: "Please enter the material name",
                   minLength: {
                     value: 3,
                     message: "Title too short...",
                   },
                 })}
               />
-              {errors.title && <Text color="red">{errors.title.message}</Text>}
+              {errors.name && <Text color="red">{errors.name.message}</Text>}
             </Box>
 
             <Box mt={[4]}>
-              <Label htmlFor="title">Course Title</Label>
+              <Label htmlFor="courseTitle">Course Title</Label>
               <Input
                 variant="inputBgMedium"
                 type="text"
@@ -234,10 +368,10 @@ export default function Dashboard() {
                 name="courseTitle"
                 mb={3}
                 ref={register({
-                  required: "Please enter the course title",
+                  required: "Please enter the course name",
                   minLength: {
                     value: 3,
-                    message: "Course title too short...",
+                    message: "Course name too short...",
                   },
                 })}
               />
@@ -247,7 +381,7 @@ export default function Dashboard() {
             </Box>
 
             <Box mt={[4]}>
-              <Label htmlFor="title">Course Code</Label>
+              <Label htmlFor="name">Course Code</Label>
               <Input
                 variant="inputBgMedium"
                 type="text"
@@ -264,6 +398,21 @@ export default function Dashboard() {
               />
               {errors.courseCode && (
                 <Text color="red">{errors.courseCode.message}</Text>
+              )}
+            </Box>
+
+            <Box mt={[4]}>
+              <Label htmlFor="name">Description</Label>
+              <Textarea
+                variant="inputBgMedium"
+                type="text"
+                placeholder="Tell us about this material"
+                name="description"
+                mb={3}
+                ref={register}
+              />
+              {errors.description && (
+                <Text color="red">{errors.description.message}</Text>
               )}
             </Box>
 
@@ -286,13 +435,24 @@ export default function Dashboard() {
                 variant="inputBgMedium"
                 defaultValue={false}
                 name="category"
-                ref={register}
+                mb={3}
+                ref={register({
+                  validate: {
+                    match: (value) =>
+                      value != "Select Category" ||
+                      "Select a category from the list",
+                  },
+                })}
               >
                 <option>Select Category</option>
                 {categories.map((category) => (
                   <option>{category}</option>
                 ))}
               </Select>
+
+              {errors.category && (
+                <Text color="red">{errors.category.message}</Text>
+              )}
             </Box>
 
             <Box mt={[4]}>
@@ -302,7 +462,14 @@ export default function Dashboard() {
                 variant="inputBgMedium"
                 defaultValue={false}
                 name="school"
-                ref={register}
+                mb={3}
+                ref={register({
+                  validate: {
+                    match: (value) =>
+                      value != "Select School" ||
+                      "Select a School from the list",
+                  },
+                })}
               >
                 <option>Select School</option>
                 <option>Lagos State University</option>
@@ -310,6 +477,10 @@ export default function Dashboard() {
                 <option>Lagos State University</option>
                 <option>Lagos State University</option>
               </Select>
+
+              {errors.school && (
+                <Text color="red">{errors.school.message}</Text>
+              )}
             </Box>
 
             <Box mt={[4]}>
@@ -319,7 +490,13 @@ export default function Dashboard() {
                 variant="inputBgMedium"
                 defaultValue={false}
                 name="department"
-                ref={register}
+                mb={3}
+                ref={register({
+                  validate: {
+                    match: (value) =>
+                      value != "Select Department" || "select a department",
+                  },
+                })}
               >
                 <option>Select Department</option>
                 <option> Computer Science</option>
@@ -327,12 +504,13 @@ export default function Dashboard() {
                 <option>Fisheries</option>
                 <option>Transport</option>
               </Select>
+
+              {errors.department && (
+                <Text color="red">{errors.department.message}</Text>
+              )}
             </Box>
 
             <Box my={[4]} sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button variant="outlineRoundedLg" mr={[3]}>
-                Cancel
-              </Button>
               <Button variant="roundedLg">Upload</Button>
             </Box>
           </Box>

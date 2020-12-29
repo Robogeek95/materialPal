@@ -26,6 +26,8 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const githubProvider = new firebase.auth.GithubAuthProvider();
 const twitterProvider = new firebase.auth.TwitterAuthProvider();
+const storageRef = firebase.storage().ref();
+
 export {
   auth,
   db,
@@ -35,5 +37,6 @@ export {
   facebookProvider,
   githubProvider,
   twitterProvider,
+  storageRef,
 };
 console.log(app.name ? "Firebase Mode Activated!" : "Firebase not working :(");

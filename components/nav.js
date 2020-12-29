@@ -163,7 +163,7 @@ const NavCta = (props) => (
         <Image src="./materialpal.svg" />
       </Link>
       <Navigation
-        sx={{ display: ["none", "block", "block"] }}
+        sx={{ display: ["none", "none", "none", "flex"] }}
         color={props.color}
         as="nav"
       />
@@ -171,7 +171,7 @@ const NavCta = (props) => (
 
     <Box
       as="div"
-      sx={{ display: ["none", "flex", "flex"], alignItems: "center" }}
+      sx={{ display: ["none", "none", "none", "flex"], alignItems: "center" }}
     >
       <Box
         as="form"
@@ -204,26 +204,9 @@ const NavCta = (props) => (
       </Box>
     </Box>
 
-    {/* <Box
-      sx={{
-        display: ["none", "flex", "flex"],
-        columnGap: "15px",
-        height: "50px",
-        mx: "auto",
-        alignItems: "center",
-        justifyContent: "flex-end",
-      }}
-    >
-      <Button as="a" href="/login" target="_self" variant="outlineRoundedLg">
-        LogIn
-      </Button>
-
-      <Button as="a" href="/signup" target="_self" variant="roundedLg">
-        SignUp
-      </Button>
-    </Box> */}
-
-    <AuthBar />
+    <Box sx={{ display: ["none", "none", "none", "flex"] }}>
+      <AuthBar />
+    </Box>
   </Grid>
 );
 
@@ -303,7 +286,7 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Container sx={{ display: ["flex", null, "block"] }}>
+        <Container sx={{ display: ["flex", "flex", null, "block"] }}>
           <NavCta color={baseColor} />
 
           <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
