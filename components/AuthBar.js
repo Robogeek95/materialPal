@@ -88,15 +88,15 @@ class CustomDropDown extends Component {
   //If click is outside the dropdown button or display area
   //Close the dropdown
   handleClickOutside(event) {
-    const { path } = event;
-    if (
-      !path.includes(this.displayAreaRef) &&
-      !path.includes(this.dropTogglerRef)
-    ) {
-      this.setState({
-        isOpen: false,
-      });
-    }
+    // const { path } = event;
+    // if (
+    //   !path.includes(this.displayAreaRef) &&
+    //   !path.includes(this.dropTogglerRef)
+    // ) {
+    //   this.setState({
+    //     isOpen: false,
+    //   });
+    // }
   }
 
   //DropDown toggler

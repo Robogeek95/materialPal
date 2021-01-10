@@ -88,6 +88,7 @@ export default function useUpload() {
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           console.log("e don happen");
+          console.log(error);
           switch (error.code) {
             case "storage/unauthorized":
               // User doesn't have permission to access the object
@@ -112,16 +113,19 @@ export default function useUpload() {
     });
   };
 
-  const storeMaterial = async (material) => {
-    db.collection("materials")
-      .doc(material.data.name)
-      .set(material)
-      .then(function () {
-        console.log("saved material details in db");
-      })
-      .catch(function (error) {
-        console.error("Error writing document: ", error);
-      });
+  const storeMaterial = (material) => {
+    return new Promise((resolve, reject) => {
+      db.collection("materials")
+        .doc(material.name)
+        .set(material)
+        .then(() => {
+          resolve("success");
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+          reject(error);
+        });
+    });
   };
 
   return {

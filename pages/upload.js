@@ -21,6 +21,7 @@ import useUpload from "../hooks/useUpload";
 import { storageRef } from "../config/firebase";
 import firebase from "firebase/app";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
+import { useAuth } from "../hooks/useAuth";
 
 const categories = [
   "Assessment",
@@ -161,11 +162,15 @@ const ImageUpload = (props) => {
   );
 };
 
-export default function Dashboard() {
+export default function Upload() {
   const { register, handleSubmit, errors } = useForm();
 
   const [file, setFile] = useState();
   const [images, setImages] = useState([]);
+
+  const auth = useAuth();
+
+  let user = auth.user;
 
   const handleFile = (file) => {
     setFile(file);
@@ -178,28 +183,47 @@ export default function Dashboard() {
   const uploader = useUpload();
 
   const onSubmit = (data) => {
-    let imageURL = "";
-    let fileURL = "";
+    let {
+      name,
+      category,
+      courseCode,
+      courseTitle,
+      department,
+      description,
+      school,
+      tags,
+    } = data;
 
-    // storeFile();
+    let materialData = {
+      name,
+      tags,
+      // pages = 0,
+      // rating
+      school,
+      category,
+      courseCode,
+      courseTitle,
+      department,
+      desc: description,
+      userHandle: user.email,
+      created: new Date().toISOString(),
+      likeCount: 0,
+      commentCount: 0,
+    };
+
     uploader
       .storeImages(images)
-      .then((url) => {
-        imageURL = url;
+      .then((imageUrl) => {
+        materialData.imageURL = imageUrl;
         return uploader.storeFile(file);
       })
-      .then((url) => {
-        fileURL = url;
-        let materialData = {
-          imageURL,
-          fileURL,
-          data,
-        };
-
-        return materialData;
-      })
-      .then((materialData) => {
+      .then((fileURL) => {
+        materialData.fileURL = fileURL;
+        console.log(materialData);
         uploader.storeMaterial(materialData);
+      })
+      .then((res) => {
+        console.log(res);
       });
   };
 
