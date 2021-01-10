@@ -74,7 +74,7 @@ const FileUpload = (props) => {
           {isDragAccept && "Drop file here"}
           {isDragReject &&
             "File format is not supported, please ensure it is a pdf format"}
-          {!isDragActive && "Drag and drop file here or click to upload"}
+          {!isDragActive && "Drag and drop file or click to upload"}
         </Text>
 
         {file && (
@@ -134,7 +134,7 @@ const ImageUpload = (props) => {
       <Box
         sx={{
           width: "100%",
-          height: "150px",
+          height: "170px",
           border: "2px dashed #DBDBDB",
           borderRadius: "7px",
         }}
@@ -146,7 +146,7 @@ const ImageUpload = (props) => {
             {isDragAccept && "Drop file here"}
             {isDragReject &&
               "File format is not supported, please ensure it is a pdf format"}
-            {!isDragActive && "Drag and drop image here or click to upload"}
+            {!isDragActive && "Drag and drop image or click to upload"}
           </Text>
         </Box>
       </Box>
@@ -197,15 +197,14 @@ export default function Upload() {
     let materialData = {
       name,
       tags,
-      // pages = 0,
-      // rating
       school,
       category,
       courseCode,
       courseTitle,
       department,
       desc: description,
-      userHandle: user.email,
+      authorHandle: user.email,
+      authorName: `${user.fname} ${user.lname}`,
       created: new Date().toISOString(),
       likeCount: 0,
       commentCount: 0,
