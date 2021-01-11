@@ -1,13 +1,4 @@
-import {
-  faClock,
-  faDotCircle,
-  faDownload,
-  faEllipsisH,
-  faFile,
-  faPager,
-  faSchool,
-  faTags,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
@@ -22,10 +13,10 @@ import {
 import Footer from "../../components/footer";
 import Nav from "../../components/nav";
 import { db } from "../../config/firebase";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import Download from "../../components/download";
 import Reactions from "../../components/reactions";
 import Share from "../../components/share";
+import InfoMenu from "../../components/infoMenu";
 
 const materialPage = ({ material }) => {
   // let material = props.material[0];
@@ -37,8 +28,8 @@ const materialPage = ({ material }) => {
         <Grid
           as="section"
           sx={{ justifyContent: "center" }}
-          columns={"80%"}
-          my={[6]}
+          columns={["100%", "80%"]}
+          my={[5, 6]}
           p={["2"]}
         >
           <Grid
@@ -49,18 +40,14 @@ const materialPage = ({ material }) => {
               bg: "gray200",
               boxShadow: "modal",
             }}
-            columns={["1.5fr 2fr"]}
+            columns={["1fr", "1.5fr 2fr"]}
           >
-            <Box>
+            <Box sx={{ display: ["none", "block"] }}>
               <Image variant="balmain" src={material.images[0].imageUrl} />
             </Box>
 
-            <Box p={3}>
+            <Box p={[0, 3]}>
               {/* topBar */}
-              {/* <Flex
-                sx={{ justifyContent: "space-between", alignItems: "center" }}
-              > */}
-
               <Flex
                 mb={[3]}
                 sx={{ alignItems: "center", justifyContent: "space-between" }}
@@ -69,7 +56,7 @@ const materialPage = ({ material }) => {
                   <FontAwesomeIcon size="lg" icon={faEllipsisH} />
                 </Button>
 
-                <Reactions material={material} />
+                <Download material={material} />
 
                 <Grid
                   gap={[3]}
@@ -78,152 +65,29 @@ const materialPage = ({ material }) => {
                 >
                   <Share />
 
-                  <Download material={material} />
+                  <Reactions material={material} />
                 </Grid>
               </Flex>
 
-              {/* </Flex> */}
+              {/* image shows on mobile */}
+              <Box sx={{ display: ["block", "none"] }}>
+                <Image variant="balmain" src={material.images[0].imageUrl} />
+              </Box>
 
+              {/* </Flex> */}
               <Text variant="headline4"> {material.name} </Text>
-              <Text variant="body">
+              <Text variant="label">
                 uploaded by{" "}
                 <Text as="span" variant="headline6">
                   {material.author.authorName}
                 </Text>
               </Text>
               <Text variant="body" my="2">
-                {material.description}
+                {material.desc}
               </Text>
 
-              <Box my={3}>
-                <hr />
-              </Box>
-
-              <Box>
-                <Text ml={2} variant="headline6">
-                  Details
-                </Text>
-
-                <Box>
-                  <Grid columns={["auto auto"]} gap={[2]}>
-                    {/* date */}
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faClock} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        Published{" "}
-                        {formatDistanceToNow(new Date(material.created), {
-                          addSuffix: true,
-                        })}
-                      </Text>
-                    </Flex>
-
-                    {/* downloaads */}
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faDownload} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.downloads} downloads
-                      </Text>
-                    </Flex>
-                  </Grid>
-
-                  <Grid columns={["auto auto auto"]} gap={[2]}>
-                    {/* pages */}
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faPager} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.pages} pages
-                      </Text>
-                    </Flex>
-
-                    {/* size */}
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faDotCircle} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.pages} size
-                      </Text>
-                    </Flex>
-
-                    {/* format */}
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faFile} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.pages} format
-                      </Text>
-                    </Flex>
-                  </Grid>
-
-                  <Grid columns={["auto auto"]} gap={[2]}>
-                    <Flex mt={3} sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faSchool} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.school}
-                      </Text>
-                    </Flex>
-
-                    <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                      <Text as="span" color="darker">
-                        <FontAwesomeIcon icon={faDotCircle} />
-                      </Text>
-                      <Text ml={2} variant="smallBody">
-                        {material.course}
-                      </Text>
-                    </Flex>
-                  </Grid>
-
-                  {/* tags */}
-                  <Flex mt={3} sx={{ alignItems: "center" }}>
-                    <Text as="span" color="darker">
-                      <FontAwesomeIcon icon={faTags} />
-                    </Text>
-                    <Text ml={2} variant="smallBody">
-                      {material.tags}
-                      {/* {material.tags.map((tag) => (
-                        <Text variant="smallBody" color="dark300">
-                          {tag}
-                        </Text>
-                      ))} */}
-                    </Text>
-                  </Flex>
-                </Box>
-              </Box>
-
-              <Box my={3}>
-                <hr />
-              </Box>
-
-              <Box>
-                <Flex
-                  sx={{
-                    div: {
-                      p: [0],
-                      mr: [3],
-                    },
-                  }}
-                >
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-                </Flex>
+              <Box mt={4}>
+                <InfoMenu material={material} />
               </Box>
             </Box>
           </Grid>

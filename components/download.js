@@ -1,6 +1,8 @@
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState } from "react";
-import { Button } from "theme-ui";
+import { Button, Flex, Text } from "theme-ui";
 
 export default function Download(props) {
   const [material, setMaterial] = useState(props.material);
@@ -21,9 +23,15 @@ export default function Download(props) {
       as="a"
       href={material.file.fileURL}
       target="blank"
-      variant="roundedLg"
+      variant="roundIconButton"
+      color="purple"
     >
-      Download
+      <Flex sx={{ alignItems: "center" }}>
+        <FontAwesomeIcon icon={faDownload} />
+        <Text ml={2} variant="label">
+          {material.downloads}
+        </Text>
+      </Flex>
     </Button>
   );
 }
