@@ -202,12 +202,12 @@ const Materials = ({ materials, categories }) => {
                         </Text>
                       </Flex>
 
-                      <Flex>
+                      <Box sx={{ display: ["none", "none", "flex"] }}>
                         <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
                         <Text ml="2" variant="smallText">
                           {material.pages} 378kb
                         </Text>
-                      </Flex>
+                      </Box>
 
                       <Flex>
                         <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>

@@ -48,7 +48,12 @@ const AuthBar = () => {
         justifyContent: "flex-end",
       }}
     >
-      <Button as="a" href="/upload" target="_self" variant="roundedLg">
+      <Button
+        as="a"
+        href="/materials/upload"
+        target="_self"
+        variant="roundedLg"
+      >
         Upload
       </Button>
 

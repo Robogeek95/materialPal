@@ -10,18 +10,18 @@ import {
   Text,
   Textarea,
 } from "theme-ui";
-import Footer from "../components/footer";
+import Footer from "../../components/footer";
 import { faFileImage, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Nav from "../components/nav";
+import Nav from "../../components/nav";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import useUpload from "../hooks/useUpload";
-import { storageRef } from "../config/firebase";
+import useUpload from "../../hooks/useUpload";
+import { storageRef } from "../../config/firebase";
 import firebase from "firebase/app";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const categories = [
   "Assessment",
