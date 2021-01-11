@@ -198,26 +198,36 @@ export default function Upload() {
       name,
       tags,
       school,
+      rating: 0,
       category,
       courseCode,
       courseTitle,
       department,
       desc: description,
-      authorHandle: user.email,
-      authorName: `${user.fname} ${user.lname}`,
+      author: {
+        authorHandle: user.email,
+        authorName: `${user.fname} ${user.lname}`,
+      },
+      file: {},
+      images: [],
       created: new Date().toISOString(),
       likeCount: 0,
+      disLikeCount: 0,
       commentCount: 0,
+      downloads: 0,
     };
 
     uploader
       .storeImages(images)
       .then((imageUrl) => {
-        materialData.imageURL = imageUrl;
+        let image = {
+          imageUrl,
+        };
+        materialData.images.push(image);
         return uploader.storeFile(file);
       })
       .then((fileURL) => {
-        materialData.fileURL = fileURL;
+        materialData.file.fileURL = fileURL;
         console.log(materialData);
         uploader.storeMaterial(materialData);
       })

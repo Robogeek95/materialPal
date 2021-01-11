@@ -116,8 +116,7 @@ export default function useUpload() {
   const storeMaterial = (material) => {
     return new Promise((resolve, reject) => {
       db.collection("materials")
-        .doc(material.name)
-        .set(material)
+        .add(material)
         .then(() => {
           resolve("success");
         })

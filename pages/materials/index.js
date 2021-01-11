@@ -27,6 +27,7 @@ import {
   faBook,
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
+import { db } from "../../config/firebase";
 
 const Materials = ({ materials, categories }) => {
   return (
@@ -46,6 +47,7 @@ const Materials = ({ materials, categories }) => {
             >
               {categories.map((category) => (
                 <Button
+                  key={category}
                   variant="outlineRounded"
                   // as="a"
                   mr={[3]}
@@ -146,17 +148,26 @@ const Materials = ({ materials, categories }) => {
         </Box>
 
         <Grid columns={["1fr", null, null, "8fr 4fr"]} my={[4]}>
-          <Grid columns={[2, 4]}>
+          <Grid columns={[2, 3]}>
             {materials.map((material) => (
-              <Link key={material.id} href={`./materials/${material.id}`}>
-                <Card key={material.id} variant="detailCard" pb="2">
-                  <Box>
-                    <Image
+              <Link
+                key={material.materialId}
+                href={`./materials/${material.materialId}`}
+              >
+                <Card variant="detailCard" pb="2">
+                  <Box
+                    sx={{
+                      height: "180px",
+                      background: `URL("${material.images[0].imageUrl}")`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    {/* <Image
                       src="./search/book.png"
                       alt={`cover photo for ${material.name}`}
-                      width="100%"
-                      height="auto"
-                    ></Image>
+                      sx={{ width: "100%", height: "270px" }}
+                    ></Image> */}
                   </Box>
                   <Box p="2">
                     <Flex sx={{ minHeight: "50px", alignItems: "center" }}>
@@ -164,15 +175,15 @@ const Materials = ({ materials, categories }) => {
                     </Flex>
 
                     <Flex>
-                      {material.details.tags.map((tag) => (
+                      {/* {material.tags.map((tag) => (
                         <Text variant="smallLabel" color="dark300">
                           {tag}
                         </Text>
-                      ))}
+                      ))} */}
                     </Flex>
 
                     <Text variant="mediumLabel" color="darker">
-                      {material.author}
+                      {material.author.authorName}
                     </Text>
 
                     <Flex
@@ -187,14 +198,21 @@ const Materials = ({ materials, categories }) => {
                           icon={faBasketballBall}
                         ></FontAwesomeIcon>
                         <Text ml="2" variant="smallText">
-                          {material.details.rating} Stars
+                          {material.rating} Pages
                         </Text>
                       </Flex>
 
                       <Flex>
                         <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
                         <Text ml="2" variant="smallText">
-                          {material.details.pages} pages
+                          {material.pages} 378kb
+                        </Text>
+                      </Flex>
+
+                      <Flex>
+                        <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
+                        <Text ml="2" variant="smallText">
+                          {material.pages} PDF
                         </Text>
                       </Flex>
                     </Flex>
@@ -204,7 +222,7 @@ const Materials = ({ materials, categories }) => {
             ))}
           </Grid>
 
-          <Box sx={{ display: ["none", null, "block"] }}>
+          {/* <Box sx={{ display: ["none", null, "block"] }}>
             <Card variant="infoCard" p={[4]}>
               <Grid columns={["auto 1fr"]}>
                 <Box
@@ -257,6 +275,7 @@ const Materials = ({ materials, categories }) => {
               </Box>
             </Card>
           </Box>
+         */}
         </Grid>
       </Container>
 
@@ -277,8 +296,27 @@ const Materials = ({ materials, categories }) => {
 
 export async function getStaticProps() {
   // Call an external API endpoint to get posts
-  // const res = await fetch("https://.../posts");
-  const materials = myMaterials;
+  let materials = await db
+    .collection("materials")
+    .orderBy("created", "desc")
+    .get()
+    .then((snapshot) => {
+      let materials = [];
+
+      snapshot.forEach((doc) => {
+        materials.push({
+          materialId: doc.id,
+          ...doc.data(),
+        });
+      });
+
+      return materials;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  // const materials = myMaterials;
   const categories = myCategories;
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
