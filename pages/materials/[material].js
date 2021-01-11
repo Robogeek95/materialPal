@@ -29,7 +29,7 @@ const materialPage = ({ material }) => {
           as="section"
           sx={{ justifyContent: "center" }}
           columns={["100%", "80%"]}
-          my={[5, 6]}
+          my={[5, null, 6]}
           p={["2"]}
         >
           <Grid
@@ -40,9 +40,9 @@ const materialPage = ({ material }) => {
               bg: "gray200",
               boxShadow: "modal",
             }}
-            columns={["1fr", "1.5fr 2fr"]}
+            columns={["1fr", null, "1.5fr 2fr"]}
           >
-            <Box sx={{ display: ["none", "block"] }}>
+            <Box sx={{ display: ["none", null, "block"] }}>
               <Image variant="balmain" src={material.images[0].imageUrl} />
             </Box>
 
@@ -70,7 +70,7 @@ const materialPage = ({ material }) => {
               </Flex>
 
               {/* image shows on mobile */}
-              <Box sx={{ display: ["block", "none"] }}>
+              <Box sx={{ display: ["block", null, "none"] }}>
                 <Image variant="balmain" src={material.images[0].imageUrl} />
               </Box>
 
