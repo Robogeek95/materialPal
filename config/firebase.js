@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import firebase from "firebase";
 import "firebase/auth";
 import "firebase/auth";
 import "firebase/firestore";
@@ -17,6 +17,9 @@ export const firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+
+firebase.functions().useEmulator("localhost", 5000);
+
 const app = firebase.app();
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -26,6 +29,9 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const githubProvider = new firebase.auth.GithubAuthProvider();
 const twitterProvider = new firebase.auth.TwitterAuthProvider();
+const storageRef = firebase.storage().ref();
+const functions = firebase.functions();
+
 export {
   auth,
   db,
@@ -35,5 +41,7 @@ export {
   facebookProvider,
   githubProvider,
   twitterProvider,
+  storageRef,
+  functions,
 };
 console.log(app.name ? "Firebase Mode Activated!" : "Firebase not working :(");

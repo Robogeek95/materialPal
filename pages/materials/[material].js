@@ -1,12 +1,5 @@
-import {
-  faBars,
-  faGolfBall,
-  faMinusCircle,
-  faStar,
-  faTenge,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/router";
 import {
   Box,
   Button,
@@ -19,11 +12,16 @@ import {
 } from "theme-ui";
 import Footer from "../../components/footer";
 import Nav from "../../components/nav";
-import materials from "../../lib/materials.json";
-import mymaterials from "../../lib/materials.json";
+import { db } from "../../config/firebase";
+import Download from "../../components/download";
+import Reactions from "../../components/reactions";
+import Share from "../../components/share";
+import MoreMenu from "../../components/moreMenu";
+import InfoMenu from "../../components/infoMenu";
+import { useState, useEffect } from "react";
 
-const materialPage = (props) => {
-  let material = props.material[0];
+const materialPage = ({ material }) => {
+  // let material = props.material[0];
   return (
     <>
       <Nav />
@@ -32,8 +30,8 @@ const materialPage = (props) => {
         <Grid
           as="section"
           sx={{ justifyContent: "center" }}
-          columns={"80%"}
-          my={[6]}
+          columns={["100%", "80%"]}
+          my={[5, null, 6]}
           p={["2"]}
         >
           <Grid
@@ -42,138 +40,59 @@ const materialPage = (props) => {
               boxShadow: "card",
               borderRadius: "extra",
               bg: "gray200",
+              boxShadow: "modal",
             }}
-            columns={["1.5fr 2fr"]}
+            columns={["1fr", null, "1.5fr 2fr"]}
           >
-            <Box>
-              <Image
-                variant="balmain"
-                src="/search/austrian-national-library.jpg"
-              />
+            <Box
+              sx={{
+                display: ["none", null, "block"],
+                minHeight: [null, null, null, "400px"],
+              }}
+            >
+              <Image variant="balmain" src={material.images[0].imageUrl} />
             </Box>
 
-            <Box p={3}>
-              {/* filter */}
+            <Box p={[0, 3]}>
+              {/* topBar */}
               <Flex
-                sx={{
-                  mb: [3],
-                  "button:not(:last-child)": {
-                    mr: [3],
-                  },
-                }}
+                mb={[3]}
+                sx={{ alignItems: "center", justifyContent: "space-between" }}
               >
-                <Button variant="textButton">Free</Button>
-                <Button variant="rounded">Download</Button>
-                <Button variant="outlineRounded">Save</Button>
+                <MoreMenu />
+
+                <Download material={material} />
+
+                <Grid
+                  gap={[3]}
+                  columns={["auto auto"]}
+                  sx={{ alignItems: "center" }}
+                >
+                  <Share />
+
+                  <Reactions material={material} />
+                </Grid>
               </Flex>
 
+              {/* image shows on mobile */}
+              <Box sx={{ display: ["block", null, "none"] }}>
+                <Image variant="balmain" src={material.images[0].imageUrl} />
+              </Box>
+
+              {/* </Flex> */}
               <Text variant="headline4"> {material.name} </Text>
-              <Text variant="body">
+              <Text variant="label">
                 uploaded by{" "}
                 <Text as="span" variant="headline6">
-                  {material.author}
+                  {material.author.authorName}
                 </Text>
               </Text>
               <Text variant="body" my="2">
-                {material.description}
+                {material.desc}
               </Text>
 
-              <Box my={3}>
-                <hr />
-              </Box>
-
-              <Box>
-                <Flex>
-                  <FontAwesomeIcon
-                    sx={{ alignItems: "center" }}
-                    icon={faMinusCircle}
-                  />
-                  <Text ml={2} variant="headline6">
-                    Hide Details
-                  </Text>
-                </Flex>
-
-                <Grid columns={["auto auto auto"]}>
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faGolfBall} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.rating} stars
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.pages} pages
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.downloads} downloads
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.tags.map((tag) => (
-                        <Text variant="smallBody" color="dark300">
-                          {tag}
-                        </Text>
-                      ))}
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.date}
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.school}
-                    </Text>
-                  </Flex>
-
-                  <Flex mt={3} color="primary" sx={{ alignItems: "center" }}>
-                    <FontAwesomeIcon icon={faStar} />
-                    <Text ml={2} variant="smallBody">
-                      {material.details.course}
-                    </Text>
-                  </Flex>
-                </Grid>
-              </Box>
-
-              <Box my={3}>
-                <hr />
-              </Box>
-
-              <Box>
-                <Flex
-                  sx={{
-                    div: {
-                      p: [0],
-                      mr: [3],
-                    },
-                  }}
-                >
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-
-                  <Card variant="interactive" sx={{ cursor: "pointer" }}>
-                    <Image variant="balmain" src="/search/book.png" />
-                  </Card>
-                </Flex>
+              <Box mt={4}>
+                <InfoMenu material={material} />
               </Box>
             </Box>
           </Grid>
@@ -198,10 +117,30 @@ const materialPage = (props) => {
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
-  const materials = mymaterials;
+  let materials = await db
+    .collection("materials")
+    .orderBy("created", "desc")
+    .get()
+    .then((snapshot) => {
+      let materials = [];
 
-  // Get the paths we want to pre-render based on posts
-  const paths = materials.map((material) => `/materials/${material.id}`);
+      snapshot.forEach((doc) => {
+        materials.push({
+          materialId: doc.id,
+          ...doc.data(),
+        });
+      });
+
+      return materials;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  // Get the paths we want to pre-render based on materials
+  const paths = materials.map(
+    (material) => `/materials/${material.materialId}`
+  );
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
@@ -212,11 +151,50 @@ export async function getStaticProps({ params }) {
   // params contains the post `id`.
   // If the route is like /posts/1, then params.id is 1
   // const res = await fetch(`https://.../posts/${params.id}`);
-  const material = materials.filter(
-    (material) => material.id.toString() === params.material
-  );
 
-  console.log(material);
+  let materialData = {};
+  let material = await db
+    .doc(`/materials/${params.material}`)
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return console.log({ error: "Material not found" });
+      }
+      materialData = doc.data();
+      materialData.materialId = doc.id;
+
+      //   return db
+      //     .collection("comments")
+      //     .orderBy("created", "desc")
+      //     .where("materialId", "==", params.material)
+      //     .get();
+      // })
+      // .then((data) => {
+      //   materialData.comments = [];
+      //   data.forEach((doc) => {
+      //     materialData.comments.push(doc.data());
+      //   });
+      //   return materialData;
+      // })
+      // .then(() => {
+      //   return db
+      //     .collection("likes")
+      //     .orderBy("created", "desc")
+      //     .where("materialId", "==", params.material)
+      //     .get();
+      // })
+      // .then((data) => {
+      //   materialData.likes = [];
+      //   data.forEach((doc) => {
+      //     materialData.likes.push(doc.data());
+      //   });
+
+      return materialData;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
   // const post = await res.json();
 
   // Pass post data to the page via props

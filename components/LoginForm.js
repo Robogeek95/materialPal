@@ -174,7 +174,7 @@ const LoginForm = () => {
           <Flex mb="2" sx={{ justifyContent: "center" }}>
             <Link href="/reset-password">
               <Text mr="4" variant="mediumLabel" color="dark300">
-                Cant Log in?
+                Can't Log in?
               </Text>
             </Link>
 
