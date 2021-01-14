@@ -44,7 +44,12 @@ const materialPage = ({ material }) => {
             }}
             columns={["1fr", null, "1.5fr 2fr"]}
           >
-            <Box sx={{ display: ["none", null, "block"], minHeight: [null, null, null, "400px"] }}>
+            <Box
+              sx={{
+                display: ["none", null, "block"],
+                minHeight: [null, null, null, "400px"],
+              }}
+            >
               <Image variant="balmain" src={material.images[0].imageUrl} />
             </Box>
 
@@ -112,59 +117,25 @@ const materialPage = ({ material }) => {
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
-  // let materials = await db
-  //   .collection("materials")
-  //   .orderBy("created", "desc")
-  //   .get()
-  //   .then((snapshot) => {
-  //     let materials = [];
+  let materials = await db
+    .collection("materials")
+    .orderBy("created", "desc")
+    .get()
+    .then((snapshot) => {
+      let materials = [];
 
-  //     snapshot.forEach((doc) => {
-  //       materials.push({
-  //         materialId: doc.id,
-  //         ...doc.data(),
-  //       });
-  //     });
+      snapshot.forEach((doc) => {
+        materials.push({
+          materialId: doc.id,
+          ...doc.data(),
+        });
+      });
 
-  //     return materials;
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
-  const materials = [
-    {
-      materialId: "jhIEf5uhBGhQrEJpgchm",
-      author: {
-        authorHandle: "azeezlukman95@gmail.com",
-        authorName: "Azeez Lukman",
-      },
-      category: "Text Books",
-      commentCount: 0,
-      courseCode: "man101",
-      courseTitle: "Manchine Learning",
-      created: "2021-01-10T14:37:27.731Z",
-      department: "Computer Science",
-      desc: "Manchine learning for everyone including beginners",
-      disLikeCount: 0,
-      downloads: 0,
-      likeCount: 1,
-      name: "Manchine Learning for everyone",
-      rating: 0,
-      school: "Lagos State University",
-      tags: "computer science",
-      file: {
-        fileURL:
-          "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/files%2FMachine%20Learning%20With%20Python%20For%20Everyone%20by%20Mark%20E.%20Fenner%20(z-lib.org).pdf?alt=media&token=ab983f5e-f912-4988-969e-d7c6c0c8f565",
-      },
-      images: [
-        {
-          imageUrl:
-            "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/images%2FGolang-fprint-fprintf-fprintln-fmt-package.png?alt=media&token=9f5e7855-5a9f-48fe-a4a5-127e6c3ebc8e",
-        },
-      ],
-    },
-  ];
+      return materials;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   // Get the paths we want to pre-render based on materials
   const paths = materials.map(
@@ -181,82 +152,50 @@ export async function getStaticProps({ params }) {
   // If the route is like /posts/1, then params.id is 1
   // const res = await fetch(`https://.../posts/${params.id}`);
 
-  // let materialData = {};
-  // let material = await db
-  //   .doc(`/materials/${params.material}`)
-  //   .get()
-  //   .then((doc) => {
-  //     if (!doc.exists) {
-  //       return console.log({ error: "Material not found" });
-  //     }
-  //     materialData = doc.data();
-  //     materialData.materialId = doc.id;
+  let materialData = {};
+  let material = await db
+    .doc(`/materials/${params.material}`)
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return console.log({ error: "Material not found" });
+      }
+      materialData = doc.data();
+      materialData.materialId = doc.id;
 
-  //   return db
-  //     .collection("comments")
-  //     .orderBy("created", "desc")
-  //     .where("materialId", "==", params.material)
-  //     .get();
-  // })
-  // .then((data) => {
-  //   materialData.comments = [];
-  //   data.forEach((doc) => {
-  //     materialData.comments.push(doc.data());
-  //   });
-  //   return materialData;
-  // })
-  // .then(() => {
-  //   return db
-  //     .collection("likes")
-  //     .orderBy("created", "desc")
-  //     .where("materialId", "==", params.material)
-  //     .get();
-  // })
-  // .then((data) => {
-  //   materialData.likes = [];
-  //   data.forEach((doc) => {
-  //     materialData.likes.push(doc.data());
-  //   });
+      //   return db
+      //     .collection("comments")
+      //     .orderBy("created", "desc")
+      //     .where("materialId", "==", params.material)
+      //     .get();
+      // })
+      // .then((data) => {
+      //   materialData.comments = [];
+      //   data.forEach((doc) => {
+      //     materialData.comments.push(doc.data());
+      //   });
+      //   return materialData;
+      // })
+      // .then(() => {
+      //   return db
+      //     .collection("likes")
+      //     .orderBy("created", "desc")
+      //     .where("materialId", "==", params.material)
+      //     .get();
+      // })
+      // .then((data) => {
+      //   materialData.likes = [];
+      //   data.forEach((doc) => {
+      //     materialData.likes.push(doc.data());
+      //   });
 
-  //   return materialData;
-  // })
-  // .catch((err) => {
-  //   console.error(err);
-  // });
+      return materialData;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 
   // const post = await res.json();
-
-  const material = {
-    materialId: "jhIEf5uhBGhQrEJpgchm",
-    author: {
-      authorHandle: "azeezlukman95@gmail.com",
-      authorName: "Azeez Lukman",
-    },
-    category: "Text Books",
-    commentCount: 0,
-    courseCode: "man101",
-    courseTitle: "Manchine Learning",
-    created: "2021-01-10T14:37:27.731Z",
-    department: "Computer Science",
-    desc: "Manchine learning for everyone including beginners",
-    disLikeCount: 0,
-    downloads: 0,
-    likeCount: 1,
-    name: "Manchine Learning for everyone",
-    rating: 0,
-    school: "Lagos State University",
-    tags: "computer science",
-    file: {
-      fileURL:
-        "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/files%2FMachine%20Learning%20With%20Python%20For%20Everyone%20by%20Mark%20E.%20Fenner%20(z-lib.org).pdf?alt=media&token=ab983f5e-f912-4988-969e-d7c6c0c8f565",
-    },
-    images: [
-      {
-        imageUrl:
-          "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/images%2FGolang-fprint-fprintf-fprintln-fmt-package.png?alt=media&token=9f5e7855-5a9f-48fe-a4a5-127e6c3ebc8e",
-      },
-    ],
-  };
 
   // Pass post data to the page via props
   return { props: { material } };

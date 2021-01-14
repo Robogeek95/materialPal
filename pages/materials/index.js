@@ -297,59 +297,25 @@ const Materials = ({ materials, categories }) => {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts
 
-  // let materials = await db
-  //   .collection("materials")
-  //   .orderBy("created", "desc")
-  //   .get()
-  //   .then((snapshot) => {
-  //     let materials = [];
+  let materials = await db
+    .collection("materials")
+    .orderBy("created", "desc")
+    .get()
+    .then((snapshot) => {
+      let materials = [];
 
-  //     snapshot.forEach((doc) => {
-  //       materials.push({
-  //         materialId: doc.id,
-  //         ...doc.data(),
-  //       });
-  //     });
+      snapshot.forEach((doc) => {
+        materials.push({
+          materialId: doc.id,
+          ...doc.data(),
+        });
+      });
 
-  //     return materials;
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
-  const materials = [
-    {
-      materialId: "jhIEf5uhBGhQrEJpgchm",
-      author: {
-        authorHandle: "azeezlukman95@gmail.com",
-        authorName: "Azeez Lukman",
-      },
-      category: "Text Books",
-      commentCount: 0,
-      courseCode: "man101",
-      courseTitle: "Manchine Learning",
-      created: "2021-01-10T14:37:27.731Z",
-      department: "Computer Science",
-      desc: "Manchine learning for everyone including beginners",
-      disLikeCount: 0,
-      downloads: 0,
-      likeCount: 1,
-      name: "Manchine Learning for everyone",
-      rating: 0,
-      school: "Lagos State University",
-      tags: "computer science",
-      file: {
-        fileURL:
-          "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/files%2FMachine%20Learning%20With%20Python%20For%20Everyone%20by%20Mark%20E.%20Fenner%20(z-lib.org).pdf?alt=media&token=ab983f5e-f912-4988-969e-d7c6c0c8f565",
-      },
-      images: [
-        {
-          imageUrl:
-            "https://firebasestorage.googleapis.com/v0/b/material-pal.appspot.com/o/images%2FGolang-fprint-fprintf-fprintln-fmt-package.png?alt=media&token=9f5e7855-5a9f-48fe-a4a5-127e6c3ebc8e",
-        },
-      ],
-    },
-  ];
+      return materials;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   // const materials = myMaterials;
   const categories = myCategories;
