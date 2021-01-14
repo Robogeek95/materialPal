@@ -7,6 +7,7 @@ import {
   Input,
   Label,
   Select,
+  Spinner,
   Text,
   Textarea,
 } from "theme-ui";
@@ -22,6 +23,7 @@ import { storageRef } from "../../config/firebase";
 import firebase from "firebase/app";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
 import { useAuth } from "../../hooks/useAuth";
+import { useRouter } from "next/router";
 
 const categories = [
   "Assessment",
@@ -167,7 +169,9 @@ export default function Upload() {
 
   const [file, setFile] = useState();
   const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
+  const router = useRouter();
   const auth = useAuth();
 
   let user = auth.user;
@@ -183,6 +187,7 @@ export default function Upload() {
   const uploader = useUpload();
 
   const onSubmit = (data) => {
+    setUploading(true);
     let {
       name,
       category,
@@ -232,6 +237,9 @@ export default function Upload() {
         uploader.storeMaterial(materialData);
       })
       .then((res) => {
+        setUploading(false);
+        router.push("/materials");
+
         console.log(res);
       });
   };
@@ -239,207 +247,224 @@ export default function Upload() {
   return (
     <>
       <Nav />
-      <Box
-        as="section"
-        sx={{
-          bg: "gray300",
-          pt: [5, 6],
-          pb: [4, 5],
-          textAlign: "center",
-          mb: [4, "-80px"],
-        }}
-      ></Box>
 
-      <Container>
-        <Grid columns={[1, 1, "80%", "50%"]} sx={{ justifyContent: "center" }}>
-          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-            <FileUpload onSelectFile={handleFile} />
+      <Box sx={{ position: "relative" }}>
+        <Container>
+          <Grid
+            columns={[1, 1, "80%", "50%"]}
+            sx={{ justifyContent: "center" }}
+            pt={[5]}
+            my={[5]}
+          >
+            <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+              <FileUpload onSelectFile={handleFile} />
 
-            <Box mt={[4]}>
-              <Label mb={[2]} htmlFor="password">
-                Add some Images
-              </Label>
+              <Box mt={[4]}>
+                <Label mb={[2]} htmlFor="password">
+                  Add some Images
+                </Label>
 
-              <ImageUpload onSelectImages={handleImages} />
-            </Box>
+                <ImageUpload onSelectImages={handleImages} />
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                variant="inputBgMedium"
-                type="text"
-                placeholder="What material is this?"
-                id="name"
-                name="name"
-                mb={3}
-                ref={register({
-                  required: "Please enter the material name",
-                  minLength: {
-                    value: 3,
-                    message: "Title too short...",
-                  },
-                })}
-              />
-              {errors.name && <Text color="red">{errors.name.message}</Text>}
-            </Box>
+              <Box mt={[4]}>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  variant="inputBgMedium"
+                  type="text"
+                  placeholder="What material is this?"
+                  id="name"
+                  name="name"
+                  mb={3}
+                  ref={register({
+                    required: "Please enter the material name",
+                    minLength: {
+                      value: 3,
+                      message: "Title too short...",
+                    },
+                  })}
+                />
+                {errors.name && <Text color="red">{errors.name.message}</Text>}
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="courseTitle">Course Title</Label>
-              <Input
-                variant="inputBgMedium"
-                type="text"
-                placeholder="What material is this?"
-                name="courseTitle"
-                mb={3}
-                ref={register({
-                  required: "Please enter the course name",
-                  minLength: {
-                    value: 3,
-                    message: "Course name too short...",
-                  },
-                })}
-              />
-              {errors.courseTitle && (
-                <Text color="red">{errors.courseTitle.message}</Text>
-              )}
-            </Box>
+              <Box mt={[4]}>
+                <Label htmlFor="courseTitle">Course Title</Label>
+                <Input
+                  variant="inputBgMedium"
+                  type="text"
+                  placeholder="What material is this?"
+                  name="courseTitle"
+                  mb={3}
+                  ref={register({
+                    required: "Please enter the course name",
+                    minLength: {
+                      value: 3,
+                      message: "Course name too short...",
+                    },
+                  })}
+                />
+                {errors.courseTitle && (
+                  <Text color="red">{errors.courseTitle.message}</Text>
+                )}
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="name">Course Code</Label>
-              <Input
-                variant="inputBgMedium"
-                type="text"
-                placeholder="The course code for the material"
-                name="courseCode"
-                mb={3}
-                ref={register({
-                  required: "Please enter the course Code",
-                  minLength: {
-                    value: 3,
-                    message: "Course Code too short...",
-                  },
-                })}
-              />
-              {errors.courseCode && (
-                <Text color="red">{errors.courseCode.message}</Text>
-              )}
-            </Box>
+              <Box mt={[4]}>
+                <Label htmlFor="name">Course Code</Label>
+                <Input
+                  variant="inputBgMedium"
+                  type="text"
+                  placeholder="The course code for the material"
+                  name="courseCode"
+                  mb={3}
+                  ref={register({
+                    required: "Please enter the course Code",
+                    minLength: {
+                      value: 3,
+                      message: "Course Code too short...",
+                    },
+                  })}
+                />
+                {errors.courseCode && (
+                  <Text color="red">{errors.courseCode.message}</Text>
+                )}
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="name">Description</Label>
-              <Textarea
-                variant="inputBgMedium"
-                type="text"
-                placeholder="Tell us about this material"
-                name="description"
-                mb={3}
-                ref={register}
-              />
-              {errors.description && (
-                <Text color="red">{errors.description.message}</Text>
-              )}
-            </Box>
+              <Box mt={[4]}>
+                <Label htmlFor="name">Description</Label>
+                <Textarea
+                  variant="inputBgMedium"
+                  type="text"
+                  placeholder="Tell us about this material"
+                  name="description"
+                  mb={3}
+                  ref={register}
+                />
+                {errors.description && (
+                  <Text color="red">{errors.description.message}</Text>
+                )}
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="password">Tags</Label>
+              <Box mt={[4]}>
+                <Label htmlFor="password">Tags</Label>
 
-              <Input
-                variant="inputBgMedium"
-                type="tags"
-                name="tags"
-                mb={3}
-                ref={register}
-              />
-            </Box>
+                <Input
+                  variant="inputBgMedium"
+                  type="tags"
+                  name="tags"
+                  mb={3}
+                  ref={register}
+                />
+              </Box>
 
-            <Box mt={[4]}>
-              <Label htmlFor="category">Category</Label>
+              <Box mt={[4]}>
+                <Label htmlFor="category">Category</Label>
 
-              <Select
-                variant="inputBgMedium"
-                defaultValue={false}
-                name="category"
-                mb={3}
-                ref={register({
-                  validate: {
-                    match: (value) =>
-                      value != "Select Category" ||
-                      "Select a category from the list",
-                  },
-                })}
+                <Select
+                  variant="inputBgMedium"
+                  defaultValue={false}
+                  name="category"
+                  mb={3}
+                  ref={register({
+                    validate: {
+                      match: (value) =>
+                        value != "Select Category" ||
+                        "Select a category from the list",
+                    },
+                  })}
+                >
+                  <option>Select Category</option>
+                  {categories.map((category) => (
+                    <option>{category}</option>
+                  ))}
+                </Select>
+
+                {errors.category && (
+                  <Text color="red">{errors.category.message}</Text>
+                )}
+              </Box>
+
+              <Box mt={[4]}>
+                <Label htmlFor="school">School</Label>
+
+                <Select
+                  variant="inputBgMedium"
+                  defaultValue={false}
+                  name="school"
+                  mb={3}
+                  ref={register({
+                    validate: {
+                      match: (value) =>
+                        value != "Select School" ||
+                        "Select a School from the list",
+                    },
+                  })}
+                >
+                  <option>Select School</option>
+                  <option>Lagos State University</option>
+                  <option>Lagos State University</option>
+                  <option>Lagos State University</option>
+                  <option>Lagos State University</option>
+                </Select>
+
+                {errors.school && (
+                  <Text color="red">{errors.school.message}</Text>
+                )}
+              </Box>
+
+              <Box mt={[4]}>
+                <Label htmlFor="password">Department</Label>
+
+                <Select
+                  variant="inputBgMedium"
+                  defaultValue={false}
+                  name="department"
+                  mb={3}
+                  ref={register({
+                    validate: {
+                      match: (value) =>
+                        value != "Select Department" || "select a department",
+                    },
+                  })}
+                >
+                  <option>Select Department</option>
+                  <option> Computer Science</option>
+                  <option>Economics</option>
+                  <option>Fisheries</option>
+                  <option>Transport</option>
+                </Select>
+
+                {errors.department && (
+                  <Text color="red">{errors.department.message}</Text>
+                )}
+              </Box>
+
+              <Box
+                my={[4]}
+                sx={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <option>Select Category</option>
-                {categories.map((category) => (
-                  <option>{category}</option>
-                ))}
-              </Select>
-
-              {errors.category && (
-                <Text color="red">{errors.category.message}</Text>
-              )}
+                <Button variant="roundedLg">Upload</Button>
+              </Box>
             </Box>
+          </Grid>
+        </Container>
 
-            <Box mt={[4]}>
-              <Label htmlFor="school">School</Label>
-
-              <Select
-                variant="inputBgMedium"
-                defaultValue={false}
-                name="school"
-                mb={3}
-                ref={register({
-                  validate: {
-                    match: (value) =>
-                      value != "Select School" ||
-                      "Select a School from the list",
-                  },
-                })}
-              >
-                <option>Select School</option>
-                <option>Lagos State University</option>
-                <option>Lagos State University</option>
-                <option>Lagos State University</option>
-                <option>Lagos State University</option>
-              </Select>
-
-              {errors.school && (
-                <Text color="red">{errors.school.message}</Text>
-              )}
-            </Box>
-
-            <Box mt={[4]}>
-              <Label htmlFor="password">Department</Label>
-
-              <Select
-                variant="inputBgMedium"
-                defaultValue={false}
-                name="department"
-                mb={3}
-                ref={register({
-                  validate: {
-                    match: (value) =>
-                      value != "Select Department" || "select a department",
-                  },
-                })}
-              >
-                <option>Select Department</option>
-                <option> Computer Science</option>
-                <option>Economics</option>
-                <option>Fisheries</option>
-                <option>Transport</option>
-              </Select>
-
-              {errors.department && (
-                <Text color="red">{errors.department.message}</Text>
-              )}
-            </Box>
-
-            <Box my={[4]} sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button variant="roundedLg">Upload</Button>
-            </Box>
-          </Box>
-        </Grid>
-      </Container>
+        <Box
+          sx={{
+            height: "100%",
+            width: "0",
+            position: "fixed",
+            zIndex: "5",
+            top: "0",
+            left: "0",
+            backgroundColor: "rgb(0,0,0)",
+            backgroundColor: "rgba(0,0,0, 0.9)",
+            overflowX: "hidden",
+            transition:" 0.5s,"
+          }}
+        >
+          <Spinner />
+        </Box>
+      </Box>
 
       <Footer
         dark

@@ -272,8 +272,8 @@ class Header extends Component {
   render() {
     const { color, fixed, bgColor, dark, ...props } = this.props;
     const { mobile, scrolled, toggled } = this.state;
-    const baseColor = scrolled ? "dark500" : "primary";
-    const toggleColor = scrolled ? "dark500" : "primary";
+    const baseColor = scrolled ? "dark500" : "dark400";
+    const toggleColor = scrolled ? "dark500" : "dark400";
 
     return (
       <Root

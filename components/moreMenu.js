@@ -1,22 +1,16 @@
-import {
-  faPen,
-  faPhone,
-  faCopy,
-  faShare,
-  faLink,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "theme-ui";
+import { Box, Button, Grid, Text } from "theme-ui";
 import ReactDOM from "react-dom";
 
-const Share = () => {
+export default function MoreMenu() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Box id="share">
+      <Box id="more">
         <Button variant="roundIconButton" onClick={() => setOpen(!open)}>
-          <FontAwesomeIcon size="lg" icon={faShare} />
+          <FontAwesomeIcon size="lg" icon={faEllipsisH} />
         </Button>
       </Box>
 
@@ -27,26 +21,24 @@ const Share = () => {
       />
     </>
   );
-};
-
-export default Share;
+}
 
 const Modal = ({ message, isOpen, onClose }) => {
   let container;
   let displayAreaRef;
   if (typeof window !== "undefined") {
     const rootContainer = document.createElement("div");
-    const parentElem = document.querySelector("#share");
+    const parentElem = document.querySelector("#more");
     parentElem.appendChild(rootContainer);
     container = rootContainer;
   }
 
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // });
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  });
 
   const handleClickOutside = (event) => {
     const { path } = event;
@@ -58,7 +50,6 @@ const Modal = ({ message, isOpen, onClose }) => {
   const elem = isOpen ? (
     <Grid
       ref={(ref) => (displayAreaRef = ref)}
-      columns={["auto auto"]}
       sx={{
         position: "absolute",
         bg: "gray400",
@@ -67,18 +58,14 @@ const Modal = ({ message, isOpen, onClose }) => {
         borderRadius: "default",
       }}
     >
-      <Button variant="roundIconButton">
-        <FontAwesomeIcon size="lg" icon={faLink} />
+      <Button variant="textButton" sx={{ textAlign: "left" }}>
+        Details
       </Button>
-      <Button variant="roundIconButton">
-        <FontAwesomeIcon size="lg" icon={faPhone} />
-      </Button>
-
-      <Button variant="roundIconButton">
-        <FontAwesomeIcon size="lg" icon={faPhone} />
+      <Button variant="textButton" sx={{ color: "red" }}>
+        Report or flag
       </Button>
     </Grid>
   ) : null;
 
-  return container ? ReactDOM.createPortal(elem, container) : "";
+  return container ? ReactDOM.createPortal(elem, container) : null;
 };

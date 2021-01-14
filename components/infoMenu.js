@@ -5,7 +5,7 @@ export default function InfoMenu({ material }) {
   return (
     <Box>
       <Flex my={[2]}>
-        <Button variant="textButton"> Pictures </Button>
+        {/* <Button variant="textButton"> Pictures </Button> */}
         <Button variant="textButton"> Comments </Button>
       </Flex>
 
