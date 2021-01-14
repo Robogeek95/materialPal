@@ -15,8 +15,9 @@ export default function BarModal({
   if (typeof window !== "undefined") {
     const rootContainer = document.createElement("div");
     const parentElem = document.querySelector(`#${parentID}`);
-    console.log(`#${parentID}`);
-    parentElem.appendChild(rootContainer);
+    if (parentElem) {
+      parentElem.appendChild(rootContainer);
+    }
     container = rootContainer;
   }
 
