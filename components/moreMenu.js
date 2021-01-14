@@ -52,7 +52,7 @@ const Modal = ({ message, isOpen, onClose }) => {
       ref={(ref) => (displayAreaRef = ref)}
       sx={{
         position: "absolute",
-        bg: "gray400",
+        bg: "gray300",
         p: [2],
         mt: [3],
         borderRadius: "default",
