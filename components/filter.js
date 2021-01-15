@@ -28,41 +28,65 @@ export default function Filter() {
           flexWrap: "nowrap",
         }}
       >
-        <Button
-          variant="textButton"
-          sx={{ textTransform: "none", color: "dark400" }}
+        <Box
+          sx={{
+            color: "primary",
+            fontWeight: "bold",
+            letterSpacing: "headline",
+            cursor: "pointer",
+            px: 2,
+            color: "dark400",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           <Text variant="mediumLabel">
             School
-            <Text ml="3" as="span">
+            <Text ml={[2, 3]} as="span">
               <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
             </Text>
           </Text>
-        </Button>
+        </Box>
 
-        <Button
-          variant="textButton"
-          sx={{ textTransform: "none", color: "dark400" }}
+        <Box
+          sx={{
+            color: "primary",
+            fontWeight: "bold",
+            letterSpacing: "headline",
+            cursor: "pointer",
+            px: 2,
+            color: "dark400",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           <Text variant="mediumLabel">
             Department
-            <Text ml="3" as="span">
+            <Text ml={[2, 3]} as="span">
               <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
             </Text>
           </Text>
-        </Button>
+        </Box>
 
-        <Button
-          variant="textButton"
-          sx={{ textTransform: "none", color: "dark400" }}
+        <Box
+          sx={{
+            color: "primary",
+            fontWeight: "bold",
+            letterSpacing: "headline",
+            cursor: "pointer",
+            px: 2,
+            color: "dark400",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           <Text variant="mediumLabel">
             Course
-            <Text ml="3" as="span">
+            <Text ml={[2, 3]} as="span">
               <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
             </Text>
           </Text>
-        </Button>
+        </Box>
       </Box>
 
       <IconButton
