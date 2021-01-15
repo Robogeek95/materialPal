@@ -18,7 +18,7 @@ export default function InfoMenu({ material }) {
         }}
       >
         {material.images.map((image) => (
-          <Grid columns={[3]}>
+          <Grid key={image.imageUrl} columns={[3]}>
             <Image
               key={image.imageUrl}
               variant="balmain"

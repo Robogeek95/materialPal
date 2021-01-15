@@ -12,6 +12,7 @@ import { useAuth } from "../hooks/useAuth";
 const Reactions = ({ material }) => {
   const [likeCount, setLikeCount] = useState(material.likeCount);
 
+  console.log(likeCount);
   let userAuth = useAuth();
 
   let toggleLike = functions.httpsCallable("toggleLike");

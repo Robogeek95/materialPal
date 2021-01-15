@@ -25,9 +25,11 @@ import {
   faBaseballBall,
   faBasketballBall,
   faBook,
+  faCaretDown,
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import { db } from "../../config/firebase";
+import Filter from "../../components/filter";
 
 const Materials = ({ materials, categories }) => {
   return (
@@ -41,7 +43,7 @@ const Materials = ({ materials, categories }) => {
               sx={{
                 display: "flex",
                 flexWrap: "nowrap",
-                overflowX: "auto",
+                overflowX: "hidden",
                 py: [4],
               }}
             >
@@ -53,8 +55,8 @@ const Materials = ({ materials, categories }) => {
                   mr={[3]}
                   sx={{
                     display: "inline-block",
-                    opacity: "0.3",
-                    px: [3],
+                    opacity: "0.5",
+                    // px: [3],
                     flex: "0 0 auto",
                   }}
                 >
@@ -68,83 +70,9 @@ const Materials = ({ materials, categories }) => {
 
       <Container>
         <Box as="form" onSubmit={(e) => e.preventDefault()}>
-          <Grid
-            columns="1fr auto"
-            gap={[3, 4]}
-            pt={[3, 4]}
-            sx={{
-              ".input_container": {
-                background: "#FFFFFF",
-                boxShadow: "small",
-                borderRadius: "default",
-                border: "1px solid black",
-                ":hover": {
-                  boxShadow: "elevated",
-                },
-                px: [3],
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "nowrap",
-                overflowX: "auto",
-                div: {
-                  width: "220px",
-                  pr: "3",
-                  flex: "0 0 auto",
-                },
-              }}
-            >
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>School</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
-
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>Department</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
-
-              <Box>
-                <Select defaultValue="Hello">
-                  <option>Course</option>
-                  <option>Hi</option>
-                  <option>Beep</option>
-                  <option>Boop</option>
-                </Select>
-              </Box>
-            </Box>
-
-            <IconButton
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "35px",
-                height: "35px",
-                border: "none",
-                backgroundColor: "lighter",
-                borderRadius: "default",
-                boxShadow: "card",
-                color: "gray200",
-                // mt: ["25px"],
-                cursor: "pointer",
-              }}
-            >
-              <FontAwesomeIcon icon={faFilter} />
-            </IconButton>
+          <Grid columns={["1fr", null, null, "8fr 4fr"]}>
+            <Filter />
           </Grid>
-
-          <Box></Box>
         </Box>
 
         <Grid columns={["1fr", null, null, "8fr 4fr"]} my={[4]}>

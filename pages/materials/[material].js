@@ -22,6 +22,7 @@ import { useState, useEffect } from "react";
 
 const materialPage = ({ material }) => {
   // let material = props.material[0];
+  console.log(material)
   return (
     <>
       <Nav />
