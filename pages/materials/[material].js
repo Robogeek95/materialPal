@@ -18,11 +18,8 @@ import Reactions from "../../components/reactions";
 import Share from "../../components/share";
 import MoreMenu from "../../components/moreMenu";
 import InfoMenu from "../../components/infoMenu";
-import { useState, useEffect } from "react";
 
 const materialPage = ({ material }) => {
-  // let material = props.material[0];
-  console.log(material)
   return (
     <>
       <Nav />
@@ -51,7 +48,7 @@ const materialPage = ({ material }) => {
                 minHeight: [null, null, null, "400px"],
               }}
             >
-              <Image variant="balmain" src={material.images[0].imageUrl} />
+              {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
             </Box>
 
             <Box p={[0, 3]}>
@@ -77,7 +74,7 @@ const materialPage = ({ material }) => {
 
               {/* image shows on mobile */}
               <Box sx={{ display: ["block", null, "none"] }}>
-                <Image variant="balmain" src={material.images[0].imageUrl} />
+                {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
               </Box>
 
               {/* </Flex> */}

@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/functions";
 import "firebase/auth";
 import "firebase/auth";
 import "firebase/firestore";
@@ -18,7 +19,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// firebase.functions().useEmulator("localhost", 5000);
+firebase.functions().useEmulator("localhost", 5000);
 
 const app = firebase.app();
 const auth = firebase.auth();
@@ -44,4 +45,4 @@ export {
   storageRef,
   functions,
 };
-console.log(app.name ? "Firebase Mode Activated!" : "Firebase not working :(");
+console.log(app.name ? "Firebase Mode Activated! :)" : "Firebase not working :(");

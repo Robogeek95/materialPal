@@ -86,7 +86,7 @@ const Materials = ({ materials, categories }) => {
                   <Box
                     sx={{
                       height: "180px",
-                      background: `URL("${material.images[0].imageUrl}")`,
+                      // background: `URL("${material.images[0].imageUrl}")`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}

@@ -1,5 +1,4 @@
-import { storageRef, db } from "../config/firebase";
-import firebase from "firebase/app";
+import { storageRef, storage, db } from "../config/firebase";
 
 export default function useUpload() {
   const storeFile = (file) => {
@@ -13,17 +12,17 @@ export default function useUpload() {
         .put(file, metadata);
 
       uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
+            case storage.TaskState.PAUSED: // or 'paused'
               console.log("Upload is paused");
               break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
+            case storage.TaskState.RUNNING: // or 'running'
               console.log("Upload is running");
               break;
           }
@@ -69,17 +68,17 @@ export default function useUpload() {
         .put(image, metadata);
 
       uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
+            case storage.TaskState.PAUSED: // or 'paused'
               console.log("Upload is paused");
               break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
+            case storage.TaskState.RUNNING: // or 'running'
               console.log("Upload is running");
               break;
           }

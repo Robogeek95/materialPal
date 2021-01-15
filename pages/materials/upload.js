@@ -19,9 +19,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import useUpload from "../../hooks/useUpload";
-import { storageRef } from "../../config/firebase";
-import firebase from "firebase/app";
-import { resolveHref } from "next/dist/next-server/lib/router/router";
 import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "next/router";
 
@@ -43,7 +40,6 @@ const FileUpload = (props) => {
 
   const {
     isDragActive,
-    acceptedFiles,
     isDragReject,
     isDragAccept,
     getRootProps,
@@ -99,7 +95,6 @@ const ImageUpload = (props) => {
   const [images, setImages] = useState([]);
   const {
     isDragActive,
-    acceptedFiles,
     isDragReject,
     isDragAccept,
     getRootProps,
@@ -168,8 +163,8 @@ export default function Upload() {
   const { register, handleSubmit, errors } = useForm();
 
   const [file, setFile] = useState();
-  const [images, setImages] = useState([]);
-  const [uploading, setUploading] = useState(false);
+  const [, setImages] = useState([]);
+  const [, setUploading] = useState(false);
 
   const router = useRouter();
   const auth = useAuth();
@@ -223,14 +218,7 @@ export default function Upload() {
     };
 
     uploader
-      .storeImages(images)
-      .then((imageUrl) => {
-        let image = {
-          imageUrl,
-        };
-        materialData.images.push(image);
-        return uploader.storeFile(file);
-      })
+      .storeFile(file)
       .then((fileURL) => {
         materialData.file.fileURL = fileURL;
         console.log(materialData);
@@ -459,7 +447,7 @@ export default function Upload() {
             backgroundColor: "rgb(0,0,0)",
             backgroundColor: "rgba(0,0,0, 0.9)",
             overflowX: "hidden",
-            transition:" 0.5s,"
+            transition: " 0.5s,",
           }}
         >
           <Spinner />
