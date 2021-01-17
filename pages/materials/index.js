@@ -76,7 +76,7 @@ const Materials = ({ materials, categories }) => {
         </Box>
 
         <Grid columns={["1fr", null, null, "8fr 4fr"]} my={[4]}>
-          <Grid columns={[2, 3]}>
+          <Grid columns={[2, 4]}>
             {materials.map((material) => (
               <Link
                 key={material.materialId}
@@ -86,13 +86,13 @@ const Materials = ({ materials, categories }) => {
                   <Box
                     sx={{
                       height: "180px",
-                      // background: `URL("${material.images[0].imageUrl}")`,
+                      background: `URL("28502.jpg")`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
                   >
                     {/* <Image
-                      src="./search/book.png"
+                      src="/28502.jpg"
                       alt={`cover photo for ${material.name}`}
                       sx={{ width: "100%", height: "270px" }}
                     ></Image> */}
@@ -110,10 +110,6 @@ const Materials = ({ materials, categories }) => {
                       ))} */}
                     </Flex>
 
-                    <Text variant="mediumLabel" color="darker">
-                      {material.author.authorName}
-                    </Text>
-
                     <Flex
                       sx={{
                         mt: "2",
@@ -122,25 +118,18 @@ const Materials = ({ materials, categories }) => {
                       }}
                     >
                       <Flex>
+                        <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
+                        <Text ml="2" variant="smallText">
+                          {material.pages} PDF
+                        </Text>
+                      </Flex>
+
+                      <Flex>
                         <FontAwesomeIcon
                           icon={faBasketballBall}
                         ></FontAwesomeIcon>
                         <Text ml="2" variant="smallText">
                           {material.rating} Pages
-                        </Text>
-                      </Flex>
-
-                      <Box sx={{ display: ["none", "none", "flex"] }}>
-                        <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
-                        <Text ml="2" variant="smallText">
-                          {material.pages} 378kb
-                        </Text>
-                      </Box>
-
-                      <Flex>
-                        <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
-                        <Text ml="2" variant="smallText">
-                          {material.pages} PDF
                         </Text>
                       </Flex>
                     </Flex>

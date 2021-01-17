@@ -45,51 +45,63 @@ const materialPage = ({ material }) => {
             <Box
               sx={{
                 display: ["none", null, "block"],
+                background: `URL("/28502.jpg")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
                 minHeight: [null, null, null, "400px"],
+                borderRadius: "extra",
               }}
             >
               {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
             </Box>
 
-            <Box p={[0, 3]}>
-              {/* topBar */}
-              <Flex
-                mb={[3]}
-                sx={{ alignItems: "center", justifyContent: "space-between" }}
-              >
-                <MoreMenu />
-
-                <Download material={material} />
-
-                <Grid
-                  gap={[3]}
-                  columns={["auto auto"]}
-                  sx={{ alignItems: "center" }}
+            <Box
+              p={[0, 2]}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Box>
+                {/* topBar */}
+                <Flex
+                  mb={[3]}
+                  sx={{ alignItems: "center", justifyContent: "space-between" }}
                 >
-                  <Share />
+                  <MoreMenu />
 
-                  <Reactions material={material} />
-                </Grid>
-              </Flex>
+                  <Download material={material} />
 
-              {/* image shows on mobile */}
-              <Box sx={{ display: ["block", null, "none"] }}>
-                {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
+                  <Grid
+                    gap={[3]}
+                    columns={["auto auto"]}
+                    sx={{ alignItems: "center" }}
+                  >
+                    <Share />
+
+                    <Reactions material={material} />
+                  </Grid>
+                </Flex>
+
+                {/* image shows on mobile */}
+                <Box sx={{ display: ["block", null, "none"] }}>
+                  {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
+                </Box>
+
+                {/* </Flex> */}
+                <Text variant="headline4"> {material.name} </Text>
+                <Text variant="label">
+                  uploaded by{" "}
+                  <Text as="span" variant="headline6">
+                    {material.author.authorName}
+                  </Text>
+                </Text>
+                <Text variant="body" my="2">
+                  {material.desc}
+                </Text>
               </Box>
 
-              {/* </Flex> */}
-              <Text variant="headline4"> {material.name} </Text>
-              <Text variant="label">
-                uploaded by{" "}
-                <Text as="span" variant="headline6">
-                  {material.author.authorName}
-                </Text>
-              </Text>
-              <Text variant="body" my="2">
-                {material.desc}
-              </Text>
-
-              <Box mt={4}>
+              <Box sx={{ height: "100%" }}>
                 <InfoMenu material={material} />
               </Box>
             </Box>
