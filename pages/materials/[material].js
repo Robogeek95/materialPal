@@ -55,14 +55,17 @@ const materialPage = ({ material }) => {
               {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
             </Box>
 
-            <Box
+            <Grid
               p={[0, 2]}
+              // sx={{
+              //   display: "flex",
+              //   flexDirection: "column",
+              // }}
               sx={{
-                display: "flex",
-                flexDirection: "column",
+                gridTemplateAreas: `"top" "bottom"`,
               }}
             >
-              <Box>
+              <Box sx={{ gridArea: "top" }}>
                 {/* topBar */}
                 <Flex
                   mb={[3]}
@@ -85,7 +88,7 @@ const materialPage = ({ material }) => {
 
                 {/* image shows on mobile */}
                 <Box sx={{ display: ["block", null, "none"] }}>
-                  {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
+                  <Image variant="balmain" src="/28502.jpg" />
                 </Box>
 
                 {/* </Flex> */}
@@ -101,10 +104,10 @@ const materialPage = ({ material }) => {
                 </Text>
               </Box>
 
-              <Box sx={{ height: "100%" }}>
+              <Box sx={{ gridArea: "bottom" }}>
                 <InfoMenu material={material} />
               </Box>
-            </Box>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
