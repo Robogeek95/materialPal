@@ -7,7 +7,7 @@ import SignUpForm from "./SignupForm";
 export default function ModalAuth({ onClose, reference }) {
   return (
     <Grid
-      columns={["90%", null, "60%", "45%"]}
+      columns={["100%", null, "60%", "45%"]}
       ref={reference}
       sx={{
         backgroundColor: "rgba(0,0,0,0.5)",
