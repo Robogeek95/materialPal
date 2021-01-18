@@ -19,7 +19,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-firebase.functions().useEmulator("localhost", 5000);
+// firebase.functions().useEmulator("localhost", 5000);
 
 const app = firebase.app();
 const auth = firebase.auth();

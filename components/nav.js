@@ -157,7 +157,7 @@ const Navigation = (props) => (
 );
 
 const NavCta = (props) => (
-  <Grid gap={[4, 3, 4]} py={[3]} columns={[null, "1fr 2fr 1fr"]}>
+  <Grid gap={[4, 3, 4]} py={[2]} columns={[null, "1fr 2fr 1fr"]}>
     <Flex>
       <Link sx={{ cursor: "pointer" }} href="/">
         <Image src="/materialpal.svg" />
