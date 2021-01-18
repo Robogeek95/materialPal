@@ -85,7 +85,7 @@ export default function InfoMenu({ material }) {
 
       <Box sx={{ gridArea: "comments" }}>
         {isLoading && <Spinner />}
-        {material.comments ? (
+        {material.comments.length > 0 ? (
           // incrementComments().map((comment) => {
           // return (
           material.comments.slice(0, 2).map((comment) => (

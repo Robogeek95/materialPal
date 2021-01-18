@@ -57,6 +57,7 @@ const materialPage = ({ material }) => {
 
             <Grid
               p={[0, 2]}
+              pb={[3, null, 0]}
               // sx={{
               //   display: "flex",
               //   flexDirection: "column",
