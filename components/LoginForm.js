@@ -13,7 +13,7 @@ import {
 } from "theme-ui";
 import { useAuth } from "../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthButton from "./AuthButton";
 
 // interface LoginData {

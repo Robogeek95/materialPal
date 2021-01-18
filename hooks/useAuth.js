@@ -17,10 +17,21 @@ export const useAuth = () => {
 
 const useAuthProvider = () => {
   const [user, setUser] = useState(null);
+  const [userToken, setUserToken] = useState(null);
   const handleAuthStateChanged = (user) => {
     setUser(user);
     if (user) {
       getUserAdditionalData(user);
+      let userToken = auth.currentUser
+        .getIdToken(true)
+        .then((token) => {
+          // You got the user token
+          return token;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      setUserToken(userToken);
     }
   };
 
@@ -46,8 +57,10 @@ const useAuthProvider = () => {
   //   creates a user using the firebase "createUserWithEmailAndPassword" function
   const signUp = async ({ fname, lname, email, password }) => {
     try {
-      const response = await auth
-        .createUserWithEmailAndPassword(email, password);
+      const response = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
       auth.currentUser.sendEmailVerification();
 
       let details = {
@@ -67,8 +80,7 @@ const useAuthProvider = () => {
 
   const signIn = async ({ email, password }) => {
     try {
-      const response = await auth
-        .signInWithEmailAndPassword(email, password);
+      const response = await auth.signInWithEmailAndPassword(email, password);
       setUser(response.user);
       getUserAdditionalData(user);
       return response.user;
@@ -83,7 +95,6 @@ const useAuthProvider = () => {
   };
 
   const getUserAdditionalData = (user) => {
-    console.log(user);
     db.collection("users")
       .doc(user.uid)
       .get()
@@ -107,8 +118,7 @@ const useAuthProvider = () => {
 
   const googleSignIn = async () => {
     try {
-      const result = await auth
-        .signInWithPopup(googleProvider);
+      const result = await auth.signInWithPopup(googleProvider);
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = result.credential.accessToken;
       // The signed-in user info.AIzaSyCZvFDrr9T8i90RgdXIU01wVVktUVVyoO0
@@ -137,8 +147,7 @@ const useAuthProvider = () => {
 
   const facebookSignIn = async () => {
     try {
-      const result = await auth
-        .signInWithPopup(facebookProvider);
+      const result = await auth.signInWithPopup(facebookProvider);
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       console.log(result);
       let token = result.credential.accessToken;
@@ -195,6 +204,7 @@ const useAuthProvider = () => {
 
   return {
     user,
+    userToken,
     signUp,
     signIn,
     signOut,

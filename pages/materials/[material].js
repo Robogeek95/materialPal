@@ -45,14 +45,14 @@ const materialPage = ({ material }) => {
             <Box
               sx={{
                 display: ["none", null, "block"],
-                background: `URL("/28502.jpg")`,
+                // background: `URL("/28502.jpg")`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 minHeight: [null, null, null, "400px"],
                 borderRadius: "extra",
               }}
             >
-              {/* <Image variant="balmain" src={material.images[0].imageUrl} /> */}
+              <Image variant="balmain" src="/28502.jpg" />
             </Box>
 
             <Grid
@@ -176,18 +176,18 @@ export async function getStaticProps({ params }) {
       materialData = doc.data();
       materialData.materialId = doc.id;
 
-      //   return db
-      //     .collection("comments")
-      //     .orderBy("created", "desc")
-      //     .where("materialId", "==", params.material)
-      //     .get();
-      // })
-      // .then((data) => {
-      //   materialData.comments = [];
-      //   data.forEach((doc) => {
-      //     materialData.comments.push(doc.data());
-      //   });
-      //   return materialData;
+      return db
+        .collection("comments")
+        .orderBy("created", "desc")
+        .where("materialId", "==", params.material)
+        .get();
+    })
+    .then((data) => {
+      materialData.comments = [];
+      data.forEach((doc) => {
+        materialData.comments.push(doc.data());
+      });
+      // return materialData;
       // })
       // .then(() => {
       //   return db
