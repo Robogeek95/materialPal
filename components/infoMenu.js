@@ -1,6 +1,10 @@
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCross,
+  faPaperPlane,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -17,32 +21,41 @@ import { useAuth } from "../hooks/useAuth";
 import { functions } from "../config/firebase";
 import Avatar from "react-avatar";
 import { format } from "date-fns";
+import ReactDOM from "react-dom";
+import SignupForm from "./SignupForm";
+import BarModal from "./barModal";
+import ModalAuth from "./modalAuth";
 
 export default function InfoMenu({ material }) {
   const { register, errors, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentComments, setCurrentComments] = useState([]);
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef(null);
+  const displayAreaRef = useRef(null);
 
   let userAuth = useAuth();
 
   let addComment = functions.httpsCallable("addComment");
   const onSubmit = (data) => {
-    console.log(data);
-    setIsLoading(true);
+    if (userAuth.user) {
+      return addComment(
+        { materialId: material.materialId, comment: data.comment },
+        { auth: userAuth.userToken }
+      )
+        .then((res) => {
+          reset({ comment: "" });
+          setIsLoading(false);
+          console.log(res);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
+    }
 
-    addComment(
-      { materialId: material.materialId, comment: data.comment },
-      { auth: userAuth.userToken }
-    )
-      .then((res) => {
-        reset({ comment: "" });
-        setIsLoading(false);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-    console.log("toggling");
-    return;
+    setOpen(true);
   };
 
   const incrementIndex = () => {
@@ -78,6 +91,16 @@ export default function InfoMenu({ material }) {
         gridTemplateAreas: `"header" "comments" "message"`,
       }}
     >
+      <BarModal
+        isOpen={open}
+        displayAreaRef={displayAreaRef}
+        parentRef={boxRef}
+        onClose={() => setOpen(false)}
+        parentID="__next"
+      >
+        <ModalAuth onClose={() => setOpen(false)} reference={displayAreaRef} />
+      </BarModal>
+
       {/* <Button variant="textButton"> Pictures </Button> */}
       <Box sx={{ fontWeight: "bold", gridArea: "header" }} variant="textButton">
         <Text>Comments</Text>
@@ -89,13 +112,11 @@ export default function InfoMenu({ material }) {
           // incrementComments().map((comment) => {
           // return (
           material.comments.slice(0, 2).map((comment) => (
-            <Box my={[3]}>
+            <Box my={[3]} key={comment.commentId}>
               <UserComment comment={comment} />
             </Box>
           ))
         ) : (
-          // );
-          // })
           <Text variant="label">Say something about this material...</Text>
         )}
       </Box>
@@ -120,11 +141,11 @@ export default function InfoMenu({ material }) {
             id="comment"
             name="comment"
             ref={register({
-              // required: "Please enter your password",
-              // minLength: {
-              //   value: 6,
-              //   message: "Should have at least 6 characters",
-              // },
+              required: "Please enter your password",
+              minLength: {
+                value: 1,
+                message: "Cannot send an empty comment",
+              },
             })}
             placeholder="Type a comment"
           />

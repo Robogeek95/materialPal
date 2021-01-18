@@ -4,51 +4,57 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Flex, Text } from "theme-ui";
 import { auth, functions } from "../config/firebase";
 import { useAuth } from "../hooks/useAuth";
+import BarModal from "./barModal";
+import ModalAuth from "./modalAuth";
 
 const Reactions = ({ material }) => {
   const [likeCount, setLikeCount] = useState(material.likeCount);
-
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef(null);
+  const displayAreaRef = useRef(null);
   let userAuth = useAuth();
 
   let toggleLike = functions.httpsCallable("toggleLike");
   let react = () => {
-    if (!userAuth.user) {
-      console.log("user not logged in");
+    if (userAuth.user) {
+      toggleLike(
+        { materialId: material.materialId },
+        { auth: userAuth.userToken }
+      )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      console.log("toggling");
       return;
     }
 
-    let userToken = auth.currentUser
-      .getIdToken(true)
-      .then(function (token) {
-        // You got the user token
-        return token;
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-
-    console.log(userToken);
-
-    toggleLike({ materialId: material.materialId })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    console.log("toggling");
-    return;
+    setOpen(true);
   };
 
   return (
-    <Button variant="roundIconButton">
-      <Flex sx={{ alignItems: "center" }}>
-        <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
-        <Text ml={2} variant="label">
-          {likeCount}
-        </Text>
-      </Flex>
-    </Button>
+    <>
+      <BarModal
+        isOpen={open}
+        displayAreaRef={displayAreaRef}
+        parentRef={boxRef}
+        onClose={() => setOpen(false)}
+        parentID="__next"
+      >
+        <ModalAuth onClose={() => setOpen(false)} reference={displayAreaRef} />
+      </BarModal>
+
+      <Button variant="roundIconButton">
+        <Flex sx={{ alignItems: "center" }}>
+          <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
+          <Text ml={2} variant="label">
+            {likeCount}
+          </Text>
+        </Flex>
+      </Button>
+    </>
   );
 };
 

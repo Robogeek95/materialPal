@@ -24,12 +24,12 @@ const materialPage = ({ material }) => {
     <>
       <Nav />
 
-      <Container>
+      <Container id="contain">
         <Grid
           as="section"
           sx={{ justifyContent: "center" }}
           columns={["100%", "80%"]}
-          my={[5, null, 6]}
+          my={[6, null, 6]}
           p={["2"]}
         >
           <Grid
@@ -57,7 +57,7 @@ const materialPage = ({ material }) => {
 
             <Grid
               p={[0, 2]}
-              pb={[3, null, 0]}
+              pb={[3]}
               // sx={{
               //   display: "flex",
               //   flexDirection: "column",
@@ -186,7 +186,9 @@ export async function getStaticProps({ params }) {
     .then((data) => {
       materialData.comments = [];
       data.forEach((doc) => {
-        materialData.comments.push(doc.data());
+        let comment = doc.data();
+        comment.commentId = doc.id;
+        materialData.comments.push(comment);
       });
       // return materialData;
       // })
