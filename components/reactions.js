@@ -18,28 +18,6 @@ const Reactions = ({ material }) => {
   const displayAreaRef = useRef(null);
   let userAuth = useAuth();
 
-  const [reactions, setReactions] = useState([]);
-
-  useEffect(() => {
-    db.collection("comments")
-      .orderBy("created", "desc")
-      .where("materialId", "==", material.materialId)
-      .onSnapshot((querySnapshot) => {
-        let commentsData = [];
-        querySnapshot.forEach((doc) => {
-          let comment = doc.data();
-          comment.commentId = doc.id;
-          commentsData.push(comment);
-        });
-
-        setComments(commentsData);
-      });
-
-    // return () => {
-    //   cleanup
-    // };
-  }, []);
-
   let toggleLike = functions.httpsCallable("toggleLike");
   let react = () => {
     if (userAuth.user) {
