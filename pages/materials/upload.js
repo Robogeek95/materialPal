@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Grid,
   Image,
   Input,
@@ -16,11 +17,13 @@ import { faFileImage, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Nav from "../../components/nav";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import useUpload from "../../hooks/useUpload";
 import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "next/router";
+import BarModal from "../../components/barModal";
+import ScrollLock from "react-scrolllock";
 
 const categories = [
   "Assessment",
@@ -164,7 +167,10 @@ export default function Upload() {
 
   const [file, setFile] = useState();
   const [, setImages] = useState([]);
-  const [, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const boxRef = useRef(null);
+  const displayAreaRef = useRef(null);
 
   const router = useRouter();
   const auth = useAuth();
@@ -235,6 +241,41 @@ export default function Upload() {
   return (
     <>
       <Nav />
+      {uploading && <ScrollLock />}
+
+      <BarModal
+        isOpen={uploading}
+        displayAreaRef={displayAreaRef}
+        parentRef={boxRef}
+        onClose={() => setUploading(false)}
+        parentID="__next"
+      >
+        <Grid
+          columns={["100%", null, "60%", "45%"]}
+          ref={displayAreaRef}
+          sx={{
+            backgroundColor: "rgba(0,0,0,0.5)",
+            position: "fixed",
+            overflow: "auto",
+            width: "100%",
+            height: "100%",
+            zIndex: "1000",
+            top: 0,
+            left: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            py: 5,
+            // mb: 5,
+          }}
+        >
+          <Flex sx={{ justifyContent: "center" }} columns={["auto auto"]}>
+            <Spinner mr="3" />
+            <Text variant="headline3" color="gray200">
+              Uploading...
+            </Text>
+          </Flex>
+        </Grid>
+      </BarModal>
 
       <Box sx={{ position: "relative" }}>
         <Container>
@@ -247,13 +288,13 @@ export default function Upload() {
             <Box as="form" onSubmit={handleSubmit(onSubmit)}>
               <FileUpload onSelectFile={handleFile} />
 
-              <Box mt={[4]}>
+              {/* <Box mt={[4]}>
                 <Label mb={[2]} htmlFor="password">
                   Add some Images
                 </Label>
 
                 <ImageUpload onSelectImages={handleImages} />
-              </Box>
+              </Box> */}
 
               <Box mt={[4]}>
                 <Label htmlFor="name">Name</Label>

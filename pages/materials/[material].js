@@ -24,7 +24,7 @@ const materialPage = ({ material }) => {
     <>
       <Nav />
 
-      <Container id="contain">
+      <Container>
         <Grid
           as="section"
           sx={{ justifyContent: "center" }}
@@ -33,6 +33,7 @@ const materialPage = ({ material }) => {
           p={["2"]}
         >
           <Grid
+            id="detailCard"
             p={["3"]}
             sx={{
               boxShadow: "card",

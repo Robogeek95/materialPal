@@ -25,9 +25,8 @@ const Reactions = ({ material }) => {
         { materialId: material.materialId },
         { auth: userAuth.userToken }
       )
-        .then((res) => console.log(res))
+        .then((res) => res)
         .catch((err) => console.log(err));
-      console.log("toggling");
       return;
     }
 

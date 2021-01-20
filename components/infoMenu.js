@@ -96,7 +96,7 @@ export default function InfoMenu({ material }) {
 
     setCurrentComments(newData);
 
-    console.log(currentComments);
+    // console.log(currentComments);
     return currentComments;
   };
 
@@ -169,7 +169,7 @@ export default function InfoMenu({ material }) {
                 message: "Cannot send an empty comment",
               },
             })}
-            placeholder="Type a comment"
+            placeholder="Leave a comment"
           />
         </Box>
 
