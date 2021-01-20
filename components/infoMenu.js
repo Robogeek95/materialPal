@@ -4,7 +4,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ import {
 } from "theme-ui";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
-import { functions } from "../config/firebase";
+import { db, functions } from "../config/firebase";
 import Avatar from "react-avatar";
 import { format } from "date-fns";
 import ReactDOM from "react-dom";
@@ -35,6 +35,29 @@ export default function InfoMenu({ material }) {
   const boxRef = useRef(null);
   const displayAreaRef = useRef(null);
 
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    db.collection("comments")
+      .orderBy("created", "desc")
+      .where("materialId", "==", material.materialId)
+      .onSnapshot((querySnapshot) => {
+        let commentsData = [];
+        querySnapshot.forEach((doc) => {
+          let comment = doc.data();
+          comment.commentId = doc.id;
+          commentsData.push(comment);
+        });
+
+        setComments(commentsData);
+      });
+
+    // return () => {
+    //   cleanup
+    // };
+  }, []);
+
+  console.log(comments);
   let userAuth = useAuth();
 
   let addComment = functions.httpsCallable("addComment");
@@ -64,7 +87,7 @@ export default function InfoMenu({ material }) {
   };
 
   let incrementComments = () => {
-    let newComments = material.comments.slice(index, index + 5);
+    let newComments = comments.slice(index, index + 5);
     let currentData = currentComments;
     let newData = newComments.map((newComment) => {
       console.log(newComment);
@@ -108,10 +131,10 @@ export default function InfoMenu({ material }) {
 
       <Box sx={{ gridArea: "comments" }}>
         {isLoading && <Spinner />}
-        {material.comments.length > 0 ? (
+        {comments.length > 0 ? (
           // incrementComments().map((comment) => {
           // return (
-          material.comments.slice(0, 2).map((comment) => (
+          comments.slice(0, 2).map((comment) => (
             <Box my={[3]} key={comment.commentId}>
               <UserComment comment={comment} />
             </Box>

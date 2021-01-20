@@ -166,46 +166,15 @@ export async function getStaticProps({ params }) {
   // If the route is like /posts/1, then params.id is 1
   // const res = await fetch(`https://.../posts/${params.id}`);
 
-  let materialData = {};
-  comments = [];
-
-  await db
+  let material = await db
     .doc(`/materials/${params.material}`)
     .get()
     .then((doc) => {
       if (!doc.exists) {
         return console.log({ error: "Material not found" });
       }
-      materialData = doc.data();
+      let materialData = doc.data();
       materialData.materialId = doc.id;
-
-      return db
-        .collection("comments")
-        .orderBy("created", "desc")
-        .where("materialId", "==", params.material)
-        .get();
-    })
-    .then((data) => {
-      materialData.comments = [];
-      data.forEach((doc) => {
-        let comment = doc.data();
-        comment.commentId = doc.id;
-        materialData.comments.push(comment);
-      });
-      // return materialData;
-      // })
-      // .then(() => {
-      //   return db
-      //     .collection("likes")
-      //     .orderBy("created", "desc")
-      //     .where("materialId", "==", params.material)
-      //     .get();
-      // })
-      // .then((data) => {
-      //   materialData.likes = [];
-      //   data.forEach((doc) => {
-      //     materialData.likes.push(doc.data());
-      //   });
 
       return materialData;
     })
