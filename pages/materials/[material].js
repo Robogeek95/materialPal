@@ -167,7 +167,9 @@ export async function getStaticProps({ params }) {
   // const res = await fetch(`https://.../posts/${params.id}`);
 
   let materialData = {};
-  let material = await db
+  comments = [];
+
+  await db
     .doc(`/materials/${params.material}`)
     .get()
     .then((doc) => {
