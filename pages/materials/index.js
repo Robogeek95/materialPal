@@ -240,6 +240,7 @@ export async function getStaticProps() {
   // will receive `posts` as a prop at build time
   return {
     props: { materials, categories },
+    revalidate: 1,
   };
 }
 

@@ -300,6 +300,7 @@ export default function Home() {
           >
             {categories.map((category) => (
               <Card
+                key={category}
                 variant="interactive"
                 sx={{
                   backgroundColor: "secondary",
