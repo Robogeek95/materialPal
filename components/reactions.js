@@ -4,16 +4,16 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Flex, Text } from "theme-ui";
-import { auth, functions } from "../config/firebase";
+import { auth, db, functions } from "../config/firebase";
 import { useAuth } from "../hooks/useAuth";
 import BarModal from "./barModal";
 import ModalAuth from "./modalAuth";
 
 const Reactions = ({ material }) => {
-  const [likeCount, setLikeCount] = useState(material.likeCount);
   const [open, setOpen] = useState(false);
+  const [reactions, setReactions] = useState([]);
   const boxRef = useRef(null);
   const displayAreaRef = useRef(null);
   let userAuth = useAuth();
@@ -34,6 +34,26 @@ const Reactions = ({ material }) => {
     setOpen(true);
   };
 
+  useEffect(() => {
+    db.collection("likes")
+      .orderBy("created", "desc")
+      .where("materialId", "==", material.materialId)
+      .onSnapshot((querySnapshot) => {
+        let reactionsData = [];
+        querySnapshot.forEach((doc) => {
+          let reaction = doc.data();
+          reaction.reactionId = doc.id;
+          reactionsData.push(reaction);
+        });
+
+        setReactions(reactionsData);
+      });
+
+    // return () => {
+    //   cleanup
+    // };
+  }, []);
+
   return (
     <>
       <BarModal
@@ -50,7 +70,7 @@ const Reactions = ({ material }) => {
         <Flex sx={{ alignItems: "center" }}>
           <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
           <Text ml={2} variant="label">
-            {likeCount}
+            {reactions.length}
           </Text>
         </Flex>
       </Button>

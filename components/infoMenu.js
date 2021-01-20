@@ -57,7 +57,6 @@ export default function InfoMenu({ material }) {
     // };
   }, []);
 
-  console.log(comments);
   let userAuth = useAuth();
 
   let addComment = functions.httpsCallable("addComment");
