@@ -48,11 +48,12 @@ const materialPage = ({ materialId }) => {
           as="section"
           sx={{ justifyContent: "center" }}
           columns={["100%", "80%"]}
-          my={[6, null, 6]}
+          my={[5, null, 6]}
           p={["2"]}
         >
           <Grid
             id="detailCard"
+            mt={[2, null, 0]}
             p={["3"]}
             sx={{
               boxShadow: "card",
