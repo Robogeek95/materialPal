@@ -131,7 +131,7 @@ export default function InfoMenu({ material }) {
           <Text variant="label">Say something about this material...</Text>
         )}
       </Box>
-      {material.commmentCount > 0 && (
+      {material.commentCount > 0 && (
         <Button
           onClick={incrementIndex}
           sx={{ gridArea: "increment" }}
