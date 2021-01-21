@@ -193,26 +193,26 @@ export async function getStaticProps({ params }) {
   // If the route is like /posts/1, then params.id is 1
   // const res = await fetch(`https://.../posts/${params.id}`);
 
-  let material = await db
-    .doc(`/materials/${params.material}`)
-    .get()
-    .then((doc) => {
-      if (!doc.exists) {
-        return console.log({ error: "Material not found" });
-      }
-      let materialData = doc.data();
-      materialData.materialId = doc.id;
+  // let material = await db
+  //   .doc(`/materials/${params.material}`)
+  //   .get()
+  //   .then((doc) => {
+  //     if (!doc.exists) {
+  //       return console.log({ error: "Material not found" });
+  //     }
+  //     let materialData = doc.data();
+  //     materialData.materialId = doc.id;
 
-      return materialData;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  //     return materialData;
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 
   // const post = await res.json();
 
   // Pass post data to the page via props
-  return { props: { material, materialId: params.material } };
+  return { props: { materialId: params.material }, revalidate: 1 };
 }
 
 export default materialPage;
