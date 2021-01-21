@@ -18,8 +18,27 @@ import Reactions from "../../components/reactions";
 import Share from "../../components/share";
 import MoreMenu from "../../components/moreMenu";
 import InfoMenu from "../../components/infoMenu";
+import { useEffect, useState } from "react";
 
-const materialPage = ({ material }) => {
+const materialPage = ({ materialId }) => {
+  const [material, setMaterial] = useState({});
+
+  useEffect(() => {
+    db.doc(`/materials/${materialId}`).onSnapshot((doc) => {
+      if (!doc.exists) {
+        return console.log({ error: "Material not found" });
+      }
+      let materialData = doc.data();
+      materialData.materialId = doc.id;
+
+      return setMaterial(materialData);
+    });
+
+    // return () => {
+    //   cleanup
+    // };
+  }, []);
+
   return (
     <>
       <Nav />
@@ -69,25 +88,27 @@ const materialPage = ({ material }) => {
             >
               <Box sx={{ gridArea: "top" }}>
                 {/* topBar */}
-                <Flex
-                  mb={[3]}
-                  sx={{ alignItems: "center", justifyContent: "space-between" }}
-                >
-                  <MoreMenu />
-
-                  <Download material={material} />
-
-                  <Grid
-                    gap={[3]}
-                    columns={["auto auto"]}
-                    sx={{ alignItems: "center" }}
+                {Object.keys(material).length > 0 && (
+                  <Flex
+                    mb={[3]}
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <Share />
+                    <MoreMenu />
+                    <Download material={material} />
+                    <Grid
+                      gap={[3]}
+                      columns={["auto auto"]}
+                      sx={{ alignItems: "center" }}
+                    >
+                      <Share />
 
-                    <Reactions material={material} />
-                  </Grid>
-                </Flex>
-
+                      <Reactions material={material} />
+                    </Grid>
+                  </Flex>
+                )}
                 {/* image shows on mobile */}
                 <Box sx={{ display: ["block", null, "none"] }}>
                   <Image variant="balmain" src="/28502.jpg" />
@@ -97,18 +118,22 @@ const materialPage = ({ material }) => {
                 <Text variant="headline4"> {material.name} </Text>
                 <Text variant="label">
                   uploaded by{" "}
-                  <Text as="span" variant="headline6">
-                    {material.author.authorName}
-                  </Text>
+                  {Object.keys(material).length > 0 && (
+                    <Text as="span" variant="headline6">
+                      {material.author.authorName}
+                    </Text>
+                  )}
                 </Text>
                 <Text variant="body" my="2">
                   {material.desc}
                 </Text>
               </Box>
 
-              <Box sx={{ gridArea: "bottom" }}>
-                <InfoMenu material={material} />
-              </Box>
+              {Object.keys(material).length > 0 && (
+                <Box sx={{ gridArea: "bottom" }}>
+                  <InfoMenu material={material} />
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -186,7 +211,7 @@ export async function getStaticProps({ params }) {
   // const post = await res.json();
 
   // Pass post data to the page via props
-  return { props: { material } };
+  return { props: { material, materialId: params.material } };
 }
 
 export default materialPage;

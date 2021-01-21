@@ -13,7 +13,6 @@ import ModalAuth from "./modalAuth";
 
 const Reactions = ({ material }) => {
   const [open, setOpen] = useState(false);
-  const [reactions, setReactions] = useState([]);
   const boxRef = useRef(null);
   const displayAreaRef = useRef(null);
   let userAuth = useAuth();
@@ -33,26 +32,6 @@ const Reactions = ({ material }) => {
     setOpen(true);
   };
 
-  useEffect(() => {
-    db.collection("likes")
-      .orderBy("created", "desc")
-      .where("materialId", "==", material.materialId)
-      .onSnapshot((querySnapshot) => {
-        let reactionsData = [];
-        querySnapshot.forEach((doc) => {
-          let reaction = doc.data();
-          reaction.reactionId = doc.id;
-          reactionsData.push(reaction);
-        });
-
-        setReactions(reactionsData);
-      });
-
-    // return () => {
-    //   cleanup
-    // };
-  }, []);
-
   return (
     <>
       <BarModal
@@ -69,7 +48,7 @@ const Reactions = ({ material }) => {
         <Flex sx={{ alignItems: "center" }}>
           <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
           <Text ml={2} variant="label">
-            {reactions.length}
+            {material.likeCount}
           </Text>
         </Flex>
       </Button>

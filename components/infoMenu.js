@@ -244,9 +244,7 @@ const UserComment = ({ comment }) => {
             </Text>
             {/* date */}
             <Text variant="smallText">
-              {formatDistanceToNowStrict(new Date(comment.created), {
-                addSuffix: true,
-              })}
+              {format(new Date(comment.created), "MM/dd/yyyy")}
             </Text>
           </Flex>
           <Text>{comment.comment}</Text>
