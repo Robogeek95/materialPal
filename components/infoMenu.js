@@ -1,4 +1,5 @@
 import {
+  faArrowDown,
   faCross,
   faPaperPlane,
   faTimes,
@@ -20,7 +21,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
 import { db, functions } from "../config/firebase";
 import Avatar from "react-avatar";
-import { format } from "date-fns";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import ReactDOM from "react-dom";
 import SignupForm from "./SignupForm";
 import BarModal from "./barModal";
@@ -29,7 +30,7 @@ import ModalAuth from "./modalAuth";
 export default function InfoMenu({ material }) {
   const { register, errors, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(3);
   const [currentComments, setCurrentComments] = useState([]);
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -41,13 +42,19 @@ export default function InfoMenu({ material }) {
     db.collection("comments")
       .orderBy("created", "desc")
       .where("materialId", "==", material.materialId)
+      .limit(index)
       .onSnapshot((querySnapshot) => {
         let commentsData = [];
-        querySnapshot.forEach((doc) => {
-          let comment = doc.data();
-          comment.commentId = doc.id;
-          commentsData.push(comment);
-        });
+        querySnapshot.forEach(
+          (doc) => {
+            let comment = doc.data();
+            comment.commentId = doc.id;
+            commentsData.push(comment);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
 
         setComments(commentsData);
       });
@@ -55,7 +62,7 @@ export default function InfoMenu({ material }) {
     // return () => {
     //   cleanup
     // };
-  }, []);
+  }, [index]);
 
   let userAuth = useAuth();
 
@@ -81,28 +88,10 @@ export default function InfoMenu({ material }) {
   };
 
   const incrementIndex = () => {
-    setIndex(index.length + 5);
-    return index;
-  };
-
-  let incrementComments = () => {
-    let newComments = comments.slice(index, index + 5);
-    let currentData = currentComments;
-    let newData = newComments.map((newComment) => {
-      console.log(newComment);
-      currentData.push(newComment);
-      return currentData;
-    });
-
-    setCurrentComments(newData);
-
-    // console.log(currentComments);
-    return currentComments;
-  };
-
-  const Inccomments = () => {
-    incrementComments();
-    return;
+    if (index >= material.commentCount || index + 5 >= material.commentCount) {
+      return setIndex(material.commentCount);
+    }
+    setIndex(index + 5);
   };
 
   return (
@@ -110,7 +99,7 @@ export default function InfoMenu({ material }) {
       sx={{
         mt: [3],
         height: "100%",
-        gridTemplateAreas: `"header" "comments" "message"`,
+        gridTemplateAreas: `"header" "comments" "increment" "message"`,
       }}
     >
       <BarModal
@@ -133,7 +122,7 @@ export default function InfoMenu({ material }) {
         {comments.length > 0 ? (
           // incrementComments().map((comment) => {
           // return (
-          comments.slice(0, 2).map((comment) => (
+          comments.map((comment) => (
             <Box my={[3]} key={comment.commentId}>
               <UserComment comment={comment} />
             </Box>
@@ -142,6 +131,24 @@ export default function InfoMenu({ material }) {
           <Text variant="label">Say something about this material...</Text>
         )}
       </Box>
+      {material.commmentCount > 0 && (
+        <Button
+          onClick={incrementIndex}
+          sx={{ gridArea: "increment" }}
+          variant="textButton"
+        >
+          <Flex sx={{ alignItems: "center" }}>
+            <FontAwesomeIcon icon={faArrowDown} />
+            <Text
+              sx={{ textTransform: "none", color: "dark500" }}
+              ml={2}
+              variant="smallBody"
+            >
+              Showing {index} of {material.commentCount} comments
+            </Text>
+          </Flex>
+        </Button>
+      )}
 
       <Grid
         columns={["1fr auto"]}
@@ -237,7 +244,9 @@ const UserComment = ({ comment }) => {
             </Text>
             {/* date */}
             <Text variant="smallText">
-              {format(new Date(comment.created), "MM/dd/yyyy")}
+              {formatDistanceToNowStrict(new Date(comment.created), {
+                addSuffix: true,
+              })}
             </Text>
           </Flex>
           <Text>{comment.comment}</Text>
