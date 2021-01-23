@@ -98,6 +98,7 @@ export default function InfoMenu({ material }) {
     <Grid
       sx={{
         mt: [3],
+        gap: [0],
         height: "100%",
         gridTemplateAreas: `"header" "comments" "increment" "message"`,
       }}
@@ -131,74 +132,77 @@ export default function InfoMenu({ material }) {
           <Text variant="label">Say something about this material...</Text>
         )}
       </Box>
-      {material.commentCount > 0 && (
-        <Button
-          onClick={incrementIndex}
-          sx={{ gridArea: "increment" }}
-          variant="textButton"
-        >
-          <Flex sx={{ alignItems: "center" }}>
-            <FontAwesomeIcon icon={faArrowDown} />
-            <Text
-              sx={{ textTransform: "none", color: "dark500" }}
-              ml={2}
-              variant="smallBody"
-            >
-              Showing {index} of {material.commentCount} comments
-            </Text>
-          </Flex>
-        </Button>
-      )}
 
-      <Grid
-        columns={["1fr auto"]}
-        sx={{ alignItems: "center", gridArea: "message" }}
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Box>
-          <Input
+      <Box>
+        {material.commentCount > 0 && (
+          <Button
+            onClick={incrementIndex}
+            sx={{ gridArea: "increment" }}
+            variant="textButton"
+          >
+            <Flex sx={{ alignItems: "center" }}>
+              <FontAwesomeIcon icon={faArrowDown} />
+              <Text
+                sx={{ textTransform: "none", color: "dark500" }}
+                ml={2}
+                variant="smallBody"
+              >
+                Showing {index} of {material.commentCount} comments
+              </Text>
+            </Flex>
+          </Button>
+        )}
+
+        <Grid
+          columns={["1fr auto"]}
+          sx={{ alignItems: "center", gridArea: "message" }}
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Box>
+            <Input
+              sx={{
+                borderRadius: "extra",
+                outlineColor: "primary",
+                backgroundColor: "gray400",
+                px: [3],
+                "::placeholder": {
+                  color: "dark200",
+                },
+              }}
+              id="comment"
+              name="comment"
+              ref={register({
+                required: "Please enter your password",
+                minLength: {
+                  value: 1,
+                  message: "Cannot send an empty comment",
+                },
+              })}
+              placeholder="Leave a comment"
+            />
+          </Box>
+
+          <Button
+            variant="roundIconButton"
             sx={{
-              borderRadius: "extra",
-              outlineColor: "primary",
-              backgroundColor: "gray400",
-              px: [3],
-              "::placeholder": {
-                color: "dark200",
+              borderRadius: "circle",
+              bg: "primary",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "40px",
+              width: "40px",
+              color: "gray100",
+              ":hover": {
+                bg: "lighter",
               },
             }}
-            id="comment"
-            name="comment"
-            ref={register({
-              required: "Please enter your password",
-              minLength: {
-                value: 1,
-                message: "Cannot send an empty comment",
-              },
-            })}
-            placeholder="Leave a comment"
-          />
-        </Box>
-
-        <Button
-          variant="roundIconButton"
-          sx={{
-            borderRadius: "circle",
-            bg: "primary",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "40px",
-            width: "40px",
-            color: "gray100",
-            ":hover": {
-              bg: "lighter",
-            },
-          }}
-        >
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </Button>
-      </Grid>
+          >
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </Button>
+        </Grid>
+      </Box>
     </Grid>
   );
 }
