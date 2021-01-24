@@ -139,6 +139,11 @@ const Materials = ({ materials, categories }) => {
             ))}
           </Grid>
 
+          <Box>
+            <Text color="secondary" variant="headline3">
+              We constantly keep adding new materials and updates
+            </Text>
+          </Box>
           {/* <Box sx={{ display: ["none", null, "block"] }}>
             <Card variant="infoCard" p={[4]}>
               <Grid columns={["auto 1fr"]}>

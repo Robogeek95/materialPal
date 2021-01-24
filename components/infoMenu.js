@@ -129,7 +129,11 @@ export default function InfoMenu({ material }) {
             </Box>
           ))
         ) : (
-          <Text variant="label">Say something about this material...</Text>
+          <Box py={4}>
+            <Text variant="label">
+              Be the first to say something about this material...
+            </Text>
+          </Box>
         )}
       </Box>
 
@@ -212,7 +216,7 @@ const UserComment = ({ comment }) => {
     <Box>
       <Grid
         columns={["auto 1fr"]}
-        sx={{ alignItems: "center", gridArea: "message" }}
+        sx={{ alignItems: "start", gridArea: "message" }}
       >
         <Button
           variant="roundIconButton"
@@ -229,7 +233,7 @@ const UserComment = ({ comment }) => {
           <Avatar
             email={comment.userHandle}
             name={comment.userHandle}
-            size={50}
+            size={45}
             round
           />
         </Button>
