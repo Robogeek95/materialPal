@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import algoliasearch from "algoliasearch/lite";
 import { useRouter } from "next/router";
-import Nav from "../../components/nav";
+import Nav from "../components/nav";
 
 // Import components
 import {
@@ -37,8 +38,12 @@ import {
   faCircle,
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../../components/footer";
-import { searchClient } from "../../config/algolia";
+import Footer from "../components/footer";
+
+const searchClient = algoliasearch(
+  "XCEI56F811",
+  "67df24c06648eaa8c2a2d3235d73dcbe"
+);
 
 const Search = () => {
   let router = useRouter();
@@ -172,6 +177,7 @@ const Hit = ({ hit }) => (
 // const HitWithInsights = connectHitInsights(window.aa)(Hit);
 
 const Hits = ({ hits }) => {
+  console.log(hits);
   return (
     <Grid columns={[2, 2, 4, 5]}>
       {hits.map((hit) => (
@@ -273,36 +279,3 @@ const CustomSearchBox = connectSearchBox(SearchBox);
 // }
 
 export default Search;
-
-// export async function getStaticProps() {
-//   // Call an external API endpoint to get posts
-
-//   let materials = await db
-//     .collection("materials")
-//     .orderBy("created", "desc")
-//     .get()
-//     .then((snapshot) => {
-//       let materials = [];
-
-//       snapshot.forEach((doc) => {
-//         materials.push({
-//           materialId: doc.id,
-//           ...doc.data(),
-//         });
-//       });
-
-//       return materials;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-
-//   // const materials = myMaterials;
-//   const categories = myCategories;
-//   // By returning { props: { posts } }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     props: { materials, categories },
-//     revalidate: 1,
-//   };
-// }

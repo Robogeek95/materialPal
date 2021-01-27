@@ -19,6 +19,7 @@ import NextLink from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import AuthBar from "./AuthBar";
+import SearchBox from "./searchBox";
 
 const rgbaBgColor = (props, opacity) =>
   `rgba(
@@ -173,35 +174,7 @@ const NavCta = (props) => (
       as="div"
       sx={{ display: ["none", "none", "none", "flex"], alignItems: "center" }}
     >
-      <Box
-        as="form"
-        onSubmit={(e) => e.preventDefault()}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          background: "white",
-          height: "50px",
-          border: "1px solid",
-          borderColor: "#E5E5E5",
-          width: "100%",
-          borderRadius: "4px",
-          px: "18px",
-        }}
-      >
-        <IconButton aria-label="Search Icon" color="lighter">
-          <FontAwesomeIcon size="lg" icon={faSearch} />
-        </IconButton>
-
-        <Input
-          placeholder="Search Materials..."
-          sx={{
-            px: 10,
-            "&:focus": {
-              outline: "none",
-            },
-          }}
-        />
-      </Box>
+      <SearchBox />
     </Box>
 
     <Box sx={{ display: ["none", "none", "none", "flex"] }}>
