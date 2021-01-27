@@ -3,15 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { connectSearchBox } from "react-instantsearch-dom";
-import { Box, Button, Grid, IconButton, Input } from "theme-ui";
+import { Box, Grid, IconButton, Input } from "theme-ui";
 
 const SearchBox = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    router.push(`?q=${data.query}`, undefined, { shallow: true });
+    router.push(`/materials?q=${data.query}`, undefined, { shallow: true });
   };
 
   return (
