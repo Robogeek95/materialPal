@@ -35,6 +35,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBasketballBall,
   faBook,
+  faCaretUp,
+  faCaretDown,
   faCircle,
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
@@ -54,16 +56,56 @@ const Search = () => {
     router.push(`/materials?q=`);
   };
 
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <Nav />
+      <InstantSearch indexName="materials" searchClient={searchClient}>
+        <Box my={[5]}>
+          <Box>
+            <Flex
+              sx={{
+                justifyContent: "space-between",
+                cursor: "pointer",
+                width: "100%",
+                display: ["flex", null, null, "none"],
+                mb: 3,
+                bg: "gray300",
+                boxShadow: "button",
+                alignItems: "center",
+                px: 3,
+                pt: 1,
+              }}
+              onClick={() => setOpen(!open)}
+            >
+              <Text variant="blockquote" mb={[0]} color="dark300">
+                Categories
+              </Text>
 
-      <Box my={[5]}>
-        <Container py={[2]}>
-          <div className="ais-InstantSearch">
-            {/* <h1>React InstantSearch Test</h1> */}
+              <Box sx={{ width: "20px" }}>
+                {open ? (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                ) : (
+                  <FontAwesomeIcon icon={faCaretDown} />
+                )}
+              </Box>
+            </Flex>
 
-            <InstantSearch indexName="materials" searchClient={searchClient}>
+            {open ? (
+              <Container>
+                <RefinementList attribute="category" />
+                <ClearRefinements />
+              </Container>
+            ) : (
+              ""
+            )}
+          </Box>
+
+          <Container py={[1]}>
+            <div className="ais-InstantSearch">
+              {/* <h1>React InstantSearch Test</h1> */}
+
               <Configure query={query} />
 
               {/* <SortBy
@@ -112,19 +154,21 @@ const Search = () => {
                   </Box>
                 </div>
 
-                <div className="left-panel">
+                <Configure hitsPerPage={20} />
+
+                <Box sx={{ display: ["none", null, null, "block"] }}>
                   <Text variant="blockquote" mb={[3]} color="dark300">
                     Categories
                   </Text>
+
                   <RefinementList attribute="category" />
                   <ClearRefinements />
-                  <Configure hitsPerPage={20} />
-                </div>
+                </Box>
               </Grid>
-            </InstantSearch>
-          </div>
-        </Container>
-      </Box>
+            </div>
+          </Container>
+        </Box>
+      </InstantSearch>
 
       <Footer
         dark
@@ -209,76 +253,6 @@ const SearchBox = ({ currentRefinement, isSearchStalled, refine }) => (
     {isSearchStalled ? "My search is stalled" : ""}
   </form>
 );
-
-const CustomSearchBox = connectSearchBox(SearchBox);
-// usage
-
-// function Hit(props) {
-//   return (
-//     <div>
-//       {/* <img src={props.hit.image} align="left" alt={props.hit.name} />
-//       <div className="hit-name">
-//         <Highlight attribute="name" hit={props.hit} />
-//       </div>
-//       <div className="hit-description">
-//         <Highlight attribute="description" hit={props.hit} />
-//       </div>
-//       <div className="hit-price">${props.hit.price}</div> */}
-
-//       <Card variant="detailCard" pb="2">
-//         <Box
-//         // sx={{
-//         //   height: "180px",
-//         //   background: `URL("28502.jpg")`,
-//         //   backgroundPosition: "center",
-//         //   backgroundSize: "cover",
-//         // }}
-//         >
-//           <Image
-//             src={props.hit.image}
-//             alt={props.hit.name}
-//             //   sx={{ width: "100%", height: "270px" }}
-//           ></Image>
-//         </Box>
-//         <Box p="2">
-//           <Flex sx={{ minHeight: "50px", alignItems: "center" }}>
-//             <Highlight attribute="name" hit={props.hit} />
-//           </Flex>
-
-//           <Flex>
-//             {/* {material.tags.map((tag) => (
-//                         <Text variant="smallLabel" color="dark300">
-//                           {tag}
-//                         </Text>
-//                       ))} */}
-//           </Flex>
-
-//           <Flex
-//             sx={{
-//               mt: "2",
-//               color: "darker",
-//               justifyContent: "space-between",
-//             }}
-//           >
-//             <Flex>
-//               <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
-//               <Text ml="2" variant="smallText">
-//                 PDF
-//               </Text>
-//             </Flex>
-
-//             <Flex>
-//               <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon>
-//               <Text ml="2" variant="smallText">
-//                 Pages
-//               </Text>
-//             </Flex>
-//           </Flex>
-//         </Box>
-//       </Card>
-//     </div>
-//   );
-// }
 
 export default Search;
 

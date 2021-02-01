@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Link, Spinner, Text } from "theme-ui";
+import { Box, Button, Flex, Grid, Link, Spinner, Text } from "theme-ui";
 import { useAuth } from "../hooks/useAuth";
 import Avatar from "react-avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,11 +8,15 @@ import {
   faExternalLinkAlt,
   faExternalLinkSquareAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Component } from "react";
+import { Component, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import BarModal from "./barModal";
 
 const AuthBar = () => {
   const auth = useAuth();
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef(null);
+  const displayAreaRef = useRef(null);
 
   if (!auth.user) {
     return (
@@ -24,26 +28,84 @@ const AuthBar = () => {
           justifyContent: "flex-end",
         }}
       >
-        {/* <Button as="a" href="/login" target="_self" variant="outlineRoundedLg">
-          LogIn
-        </Button>
+        <Grid
+          columns={2}
+          sx={{ height: "50px", display: ["none", "none", "none", "grid"] }}
+          gap={[3]}
+        >
+          <Button
+            as="a"
+            href="/login"
+            target="_self"
+            variant="outlineRoundedLg"
+          >
+            LogIn
+          </Button>
+          <Button as="a" href="/signup" target="_self" variant="roundedLg">
+            SignUp
+          </Button>
+        </Grid>
 
-        <Button as="a" href="/signup" target="_self" variant="roundedLg">
-          SignUp
-        </Button> */}
+        <Box
+          id="authBox"
+          sx={{
+            display: ["block", "block", "block", "none"],
+            cursor: "pointer",
+          }}
+          onClick={() => setOpen(true)}
+        >
+          <Avatar
+            email="azeezlukman95@gmail.com"
+            size={40}
+            //   githubHandle="robogeek95"
+            round
+          />
+        </Box>
 
-        <Avatar
-          email="azeezlukman95@gmail.com"
-          size={40}
-          //   githubHandle="robogeek95"
-          round
-        />
+        <BarModal
+          isOpen={open}
+          displayAreaRef={displayAreaRef}
+          parentRef={boxRef}
+          onClose={() => setOpen(false)}
+          parentID="authBox"
+        >
+          {/* <ModalAuth
+            onClose={() => setOpen(false)}
+            reference={displayAreaRef}
+          />
+           */}
+          <Box
+            ref={displayAreaRef}
+            sx={{
+              boxShadow: "picker",
+              position: "absolute",
+              bg: "gray100",
+              borderRadius: "default",
+              p: 4,
+              mt: 4,
+              right: "30px",
+            }}
+          >
+            <Button
+              as="a"
+              href="/login"
+              target="_self"
+              variant="outlineRoundedLg"
+              mr={3}
+            >
+              LogIn
+            </Button>
+            <Button as="a" href="/signup" target="_self" variant="roundedLg">
+              SignUp
+            </Button>
+          </Box>
+        </BarModal>
       </Box>
     );
   }
 
   return (
-    <Box
+    <Flex
       sx={{
         columnGap: "15px",
         height: "50px",
@@ -52,6 +114,7 @@ const AuthBar = () => {
       }}
     >
       <Button
+        sx={{ display: ["none", null, null, "flex"] }}
         as="a"
         href="/materials/upload"
         target="_self"
@@ -61,7 +124,7 @@ const AuthBar = () => {
       </Button>
 
       <CustomDropDown auth={auth} />
-    </Box>
+    </Flex>
   );
 };
 
@@ -148,12 +211,21 @@ class CustomDropDown extends Component {
               //   githubHandle="robogeek95"
               round
             />
-            <Text mx={[2]}>{this.user.fname}</Text>
-            {isOpen ? (
-              <FontAwesomeIcon icon={faCaretUp} />
-            ) : (
-              <FontAwesomeIcon icon={faCaretDown} />
-            )}
+            <Box
+              sx={{
+                display: ["none", null, null, "flex"],
+                alignItems: "center",
+              }}
+            >
+              <Text mx={[2]}>{this.user.fname}</Text>
+              <Box sx={{ width: "20px" }}>
+                {isOpen ? (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                ) : (
+                  <FontAwesomeIcon icon={faCaretDown} />
+                )}
+              </Box>
+            </Box>
           </Box>
         </Box>
 
@@ -172,6 +244,17 @@ class CustomDropDown extends Component {
             }}
             ref={(ref) => (this.displayAreaRef = ref)}
           >
+            <Button
+              sx={{ display: ["flex", null, null, "none"] }}
+              as="a"
+              href="/materials/upload"
+              target="_self"
+              variant="roundedLg"
+              mb={3}
+            >
+              Upload
+            </Button>
+
             {/* <Text> {`${this.user.fname} ${this.user.lname}`} </Text> */}
             <Text variant="lead">{`${this.user.email}`} </Text>
 
@@ -187,7 +270,7 @@ class CustomDropDown extends Component {
                   </Text>
                 </Box>
 
-                <Box>
+                <Box sx={{ width: "20px" }}>
                   <FontAwesomeIcon icon={faExternalLinkAlt} />
                 </Box>
               </Box>
