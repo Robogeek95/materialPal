@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@hackclub/theme": "^0.3.0",
     "@iconify/icons-cib": "^1.0.3",
+    "algoliasearch": "^4.8.4",
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "emotion": "^10.0.27",
