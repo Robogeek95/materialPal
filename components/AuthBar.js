@@ -18,21 +18,26 @@ const AuthBar = () => {
     return (
       <Box
         sx={{
-          display: ["none", "flex", "flex"],
           columnGap: "15px",
-          height: "50px",
-          mx: "auto",
+          // height: "50px",
           alignItems: "center",
           justifyContent: "flex-end",
         }}
       >
-        <Button as="a" href="/login" target="_self" variant="outlineRoundedLg">
+        {/* <Button as="a" href="/login" target="_self" variant="outlineRoundedLg">
           LogIn
         </Button>
 
         <Button as="a" href="/signup" target="_self" variant="roundedLg">
           SignUp
-        </Button>
+        </Button> */}
+
+        <Avatar
+          email="azeezlukman95@gmail.com"
+          size={40}
+          //   githubHandle="robogeek95"
+          round
+        />
       </Box>
     );
   }
@@ -40,10 +45,8 @@ const AuthBar = () => {
   return (
     <Box
       sx={{
-        display: ["none", "flex", "flex"],
         columnGap: "15px",
         height: "50px",
-        mx: "auto",
         alignItems: "center",
         justifyContent: "flex-end",
       }}
@@ -63,7 +66,6 @@ const AuthBar = () => {
 };
 
 export default AuthBar;
-
 
 class CustomDropDown extends Component {
   constructor(props) {

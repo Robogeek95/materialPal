@@ -5,7 +5,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Box, Grid, IconButton, Input } from "theme-ui";
 
-const SearchBox = () => {
+const SearchBox = (props) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
 
@@ -15,13 +15,14 @@ const SearchBox = () => {
 
   return (
     <Grid
+      {...props}
       columns={"1fr auto"}
       as="form"
       onSubmit={(e) => e.preventDefault()}
       sx={{
         alignItems: "center",
         background: "white",
-        height: "50px",
+        height: "45px",
         border: "1px solid",
         borderColor: "#E5E5E5",
         width: "100%",
@@ -44,12 +45,12 @@ const SearchBox = () => {
         }}
         type="text"
         name="query"
-        ref={register({})}
+        ref={register({ required: true })}
       />
 
       <Box>
         <IconButton
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", width: "28px" }}
           aria-label="Search Icon"
           color="lighter"
         >

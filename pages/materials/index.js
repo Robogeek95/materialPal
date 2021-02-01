@@ -20,6 +20,7 @@ import {
 } from "react-instantsearch-dom";
 import {
   Box,
+  Button,
   Card,
   Container,
   Flex,
@@ -49,12 +50,16 @@ const Search = () => {
     setQuery(router.query.q);
   }, [router.query.q]);
 
+  const resetQuery = () => {
+    router.push(`/materials?q=`);
+  };
+
   return (
     <>
       <Nav />
 
-      <Box my={[6]}>
-        <Container>
+      <Box my={[5]}>
+        <Container py={[2]}>
           <div className="ais-InstantSearch">
             {/* <h1>React InstantSearch Test</h1> */}
 
@@ -72,13 +77,19 @@ const Search = () => {
               {/* <CustomSearchBox defaultRefinement={query} /> */}
 
               {query && (
-                <Stats
-                  translations={{
-                    stats(nbHits, timeSpentMS) {
-                      return `${nbHits} materials found for '${query}' in ${timeSpentMS}ms`;
-                    },
-                  }}
-                />
+                <>
+                  <Stats
+                    translations={{
+                      stats(nbHits, timeSpentMS) {
+                        return `${nbHits} materials found for '${query}' in ${timeSpentMS}ms`;
+                      },
+                    }}
+                  />
+
+                  <Button variant="textButton" onClick={resetQuery}>
+                    Reset
+                  </Button>
+                </>
               )}
 
               <Grid gap={[5]} mt={[3]} columns={[1, 1, "9fr 3fr"]}>
@@ -132,10 +143,7 @@ const Search = () => {
 
 // insights client initialized and exposed as `window.aa`
 const Hit = ({ hit }) => (
-  <Link
-    sx={{ textDecoration: "none" }}
-    href={`/materials/${hit.objectID}&queryID=${hit.__queryID}`}
-  >
+  <Link sx={{ textDecoration: "none" }} href={`/materials/${hit.objectID}`}>
     <Card variant="detailCard" pb="2" mb={3}>
       <Box
         sx={{
@@ -173,7 +181,7 @@ const Hit = ({ hit }) => (
 
 const Hits = ({ hits }) => {
   return (
-    <Grid columns={[2, 2, 4, 5]}>
+    <Grid columns={[2, 3, 3, 5]}>
       {hits.map((hit) => (
         <Hit key={hit.objectID} hit={hit} />
       ))}

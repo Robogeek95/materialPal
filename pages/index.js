@@ -186,9 +186,9 @@ export default function Home() {
                 }
               }
             >
-              <Text as="span" color="lighter">
+              <Box sx={{ width: "40px" }} color="lighter">
                 <FontAwesomeIcon size="2x" icon={faCheckCircle} />
-              </Text>
+              </Box>
               <Box>
                 <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow
@@ -199,9 +199,9 @@ export default function Home() {
                 </Text>
               </Box>
 
-              <Text as="span" color="lighter">
+              <Box sx={{ width: "40px" }} color="lighter">
                 <FontAwesomeIcon size="2x" icon={faCheckCircle} />
-              </Text>
+              </Box>
               <Box>
                 <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow
@@ -212,9 +212,9 @@ export default function Home() {
                 </Text>
               </Box>
 
-              <Text as="span" color="lighter">
+              <Box sx={{ width: "40px" }} color="lighter">
                 <FontAwesomeIcon size="2x" icon={faCheckCircle} />
-              </Text>
+              </Box>
               <Box>
                 <Text variant="headline5" mb={[2]}>
                   They were dropping, losing altitude in a canyon of rainbow

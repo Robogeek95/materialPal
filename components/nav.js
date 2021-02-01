@@ -157,36 +157,9 @@ const Navigation = (props) => (
   </NavBar>
 );
 
-const NavCta = (props) => (
-  <Grid gap={[4, 3, 4]} py={[2]} columns={[null, "1fr 2fr 1fr"]}>
-    <Flex>
-      <Link sx={{ cursor: "pointer" }} href="/">
-        <Image src="/materialpal.svg" />
-      </Link>
-      <Navigation
-        sx={{ display: ["none", "none", "none", "flex"] }}
-        color={props.color}
-        as="nav"
-      />
-    </Flex>
-
-    <Box
-      as="div"
-      sx={{ display: ["none", "none", "none", "flex"], alignItems: "center" }}
-    >
-      <SearchBox />
-    </Box>
-
-    <Box sx={{ display: ["none", "none", "none", "flex"] }}>
-      <AuthBar />
-    </Box>
-  </Grid>
-);
-
 const ToggleContainer = styled(Flex)`
   align-items: center;
   justify-content: center;
-  min-width: 64px;
   min-height: 44px;
   cursor: pointer;
   user-select: none;
@@ -259,12 +232,51 @@ class Header extends Component {
         bgColor={bgColor || (dark ? [32, 34, 36] : [255, 255, 255])}
         as="header"
       >
-        <Container sx={{ display: ["flex", "flex", null, "block"] }}>
-          <NavCta color={baseColor} />
+        <Container
+          sx={{
+            // display: ["flex", "flex", null, "block"],
+            alignItems: "center",
+            py: 2,
+          }}
+        >
+          <Grid
+            columns={["auto auto auto auto", null, null, "0.5fr  1fr 0.5fr"]}
+            sx={{ alignItems: "center" }}
+          >
+            <Flex sx={{ alignItems: "center" }}>
+              <Link sx={{ cursor: "pointer" }} href="/">
+                <Image src="/materialpal.svg" />
+              </Link>
 
-          <ToggleContainer color={toggleColor} onClick={this.handleToggleMenu}>
-            <FontAwesomeIcon icon={toggled ? faTimes : faBars} />
-          </ToggleContainer>
+              <Navigation
+                sx={{ display: ["none", "none", "none", "flex"] }}
+                color={props.color}
+                as="nav"
+              />
+            </Flex>
+            <Box>
+              <SearchBox />
+            </Box>
+
+            {/* authBtn */}
+            <Box
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                justifySelf: "end",
+              }}
+            >
+              <AuthBar />
+            </Box>
+
+            <ToggleContainer
+              color={toggleColor}
+              onClick={this.handleToggleMenu}
+              sx={{ width: "20px" }}
+            >
+              <FontAwesomeIcon icon={toggled ? faTimes : faBars} />
+            </ToggleContainer>
+          </Grid>
         </Container>
         <Navigation
           as="nav"
