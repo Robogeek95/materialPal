@@ -1,13 +1,17 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Box, Grid, IconButton, Input } from "theme-ui";
 
 const SearchBox = (props) => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
+
+  useEffect(() => {
+    setValue("query", router.query.q);
+  }, [router.query.q]);
 
   const onSubmit = (data) => {
     router.push(`/materials?q=${data.query}`, undefined, { shallow: true });

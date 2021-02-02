@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Flex, Text } from "theme-ui";
+import { Box, Button, Flex, Text } from "theme-ui";
 import { auth, db, functions } from "../config/firebase";
 import { useAuth } from "../hooks/useAuth";
 import BarModal from "./barModal";
@@ -46,7 +46,9 @@ const Reactions = ({ material }) => {
 
       <Button variant="roundIconButton">
         <Flex sx={{ alignItems: "center" }}>
-          <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
+          <Box sx={{ width: "20px", height: "20px" }}>
+            <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
+          </Box>
           <Text ml={2} variant="label">
             {material.likeCount}
           </Text>

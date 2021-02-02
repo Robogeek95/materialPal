@@ -42,6 +42,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../../components/footer";
 import { searchClient } from "../../config/algolia";
+import { css } from "@emotion/core";
 
 const Search = () => {
   let router = useRouter();
@@ -205,13 +206,32 @@ const Hit = ({ hit }) => (
       </Box>
       <Box my="3">
         {/* <Flex sx={{ minHeight: "50px", alignItems: "center" }}> */}
-        <Highlight hit={hit} attribute="name" />
+        <Box
+          sx={css`
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+          `}
+        >
+          <Highlight hit={hit} attribute="name" />
+        </Box>
+
         {/* </Flex> */}
-        <Flex>
+        <Box
+          sx={css`
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+          `}
+        >
           <Text variant="smallLabel" color="dark300">
-            {hit.courseTitle}
+            {hit.courseCode}
           </Text>
-        </Flex>
+        </Box>
         <Grid columns={2}>
           <Text variant="lead">{hit.rating} Pages</Text>
           <Text variant="lead">{hit.rating} Rating</Text>

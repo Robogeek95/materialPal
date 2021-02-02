@@ -15,7 +15,9 @@ export default function MoreMenu() {
     <>
       <Box ref={boxRef} id="more">
         <Button variant="roundIconButton" onClick={() => setOpen(!open)}>
-          <FontAwesomeIcon size="lg" icon={faEllipsisH} />
+          <Box sx={{ width: "20px", height: "20px" }}>
+            <FontAwesomeIcon size="lg" icon={faEllipsisH} />
+          </Box>
         </Button>
       </Box>
 

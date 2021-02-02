@@ -17,7 +17,9 @@ const Share = () => {
           variant="roundIconButton"
           onClick={() => setOpen(!open)}
         >
-          <FontAwesomeIcon size="lg" icon={faShare} />
+          <Box sx={{ width: "20px", height: "20px" }}>
+            <FontAwesomeIcon size="lg" icon={faShare} />
+          </Box>
         </Button>
       </Box>
       <BarModal

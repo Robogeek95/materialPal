@@ -30,7 +30,7 @@ import ModalAuth from "./modalAuth";
 export default function InfoMenu({ material }) {
   const { register, errors, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [index, setIndex] = useState(3);
+  const [index, setIndex] = useState(0);
   const [currentComments, setCurrentComments] = useState([]);
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -39,10 +39,31 @@ export default function InfoMenu({ material }) {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
+    // if index is 0 then the component just mounted
+    if (index == 0) {
+      let currIndex = index;
+
+      if (material.commentCount > 0) {
+        if (material.commentCount >= 3) {
+          setIndex(3);
+          currIndex = 3;
+        } else {
+          setIndex(material.commentCount);
+          currIndex = material.commentCount;
+        }
+
+        fetchComments(currIndex);
+      }
+    } else {
+      fetchComments(index);
+    }
+  }, [index]);
+
+  const fetchComments = (currIndex) => {
     db.collection("comments")
       .orderBy("created", "desc")
       .where("materialId", "==", material.materialId)
-      .limit(index)
+      .limit(currIndex)
       .onSnapshot((querySnapshot) => {
         let commentsData = [];
         querySnapshot.forEach(
@@ -55,14 +76,9 @@ export default function InfoMenu({ material }) {
             console.log(error);
           }
         );
-
         setComments(commentsData);
       });
-
-    // return () => {
-    //   cleanup
-    // };
-  }, [index]);
+  };
 
   let userAuth = useAuth();
 
@@ -145,7 +161,9 @@ export default function InfoMenu({ material }) {
             variant="textButton"
           >
             <Flex sx={{ alignItems: "center" }}>
-              <FontAwesomeIcon icon={faArrowDown} />
+              <Box sx={{ width: "14px" }}>
+                <FontAwesomeIcon icon={faArrowDown} />
+              </Box>
               <Text
                 sx={{ textTransform: "none", color: "dark500" }}
                 ml={2}
@@ -192,6 +210,8 @@ export default function InfoMenu({ material }) {
             sx={{
               borderRadius: "circle",
               bg: "primary",
+              borderColor: "primary",
+              p: 0,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -203,7 +223,9 @@ export default function InfoMenu({ material }) {
               },
             }}
           >
-            <FontAwesomeIcon icon={faPaperPlane} />
+            <Box sx={{ width: "20px", height: "20px" }}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Box>
           </Button>
         </Grid>
       </Box>
@@ -230,12 +252,7 @@ const UserComment = ({ comment }) => {
             // width: "40px",
           }}
         >
-          <Avatar
-            email={comment.userHandle}
-            name={comment.userHandle}
-            size={45}
-            round
-          />
+          <Avatar name={comment.userHandle} size={45} round />
         </Button>
         <Box
           sx={{

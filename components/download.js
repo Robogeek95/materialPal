@@ -2,7 +2,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState } from "react";
-import { Button, Flex, Text } from "theme-ui";
+import { Box, Button, Flex, Text } from "theme-ui";
 
 export default function Download(props) {
   const [material, setMaterial] = useState(props.material);
@@ -27,7 +27,9 @@ export default function Download(props) {
       color="purple"
     >
       <Flex sx={{ alignItems: "center" }}>
-        <FontAwesomeIcon icon={faDownload} />
+        <Box sx={{ width: "20px", height: "20px" }}>
+          <FontAwesomeIcon icon={faDownload} />
+        </Box>
         <Text ml={2} variant="label">
           {material.downloads}
         </Text>
