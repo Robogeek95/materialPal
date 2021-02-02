@@ -4,15 +4,14 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Flex, Text } from "theme-ui";
-import { auth, functions } from "../config/firebase";
+import { auth, db, functions } from "../config/firebase";
 import { useAuth } from "../hooks/useAuth";
 import BarModal from "./barModal";
 import ModalAuth from "./modalAuth";
 
 const Reactions = ({ material }) => {
-  const [likeCount, setLikeCount] = useState(material.likeCount);
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
   const displayAreaRef = useRef(null);
@@ -25,9 +24,8 @@ const Reactions = ({ material }) => {
         { materialId: material.materialId },
         { auth: userAuth.userToken }
       )
-        .then((res) => console.log(res))
+        .then((res) => res)
         .catch((err) => console.log(err));
-      console.log("toggling");
       return;
     }
 
@@ -50,7 +48,7 @@ const Reactions = ({ material }) => {
         <Flex sx={{ alignItems: "center" }}>
           <FontAwesomeIcon size="lg" onClick={react} icon={faHeart} />
           <Text ml={2} variant="label">
-            {likeCount}
+            {material.likeCount}
           </Text>
         </Flex>
       </Button>

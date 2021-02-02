@@ -25,7 +25,7 @@ const app = firebase.app();
 const auth = firebase.auth();
 const db = firebase.firestore();
 const now = firebase.firestore.Timestamp.now();
-const storage = firebase.storage();
+const storage = firebase.storage;
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const githubProvider = new firebase.auth.GithubAuthProvider();
@@ -45,4 +45,6 @@ export {
   storageRef,
   functions,
 };
-console.log(app.name ? "Firebase Mode Activated! :)" : "Firebase not working :(");
+console.log(
+  app.name ? "Firebase Mode Activated! :)" : "Firebase not working :("
+);

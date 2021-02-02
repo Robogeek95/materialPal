@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@hackclub/theme": "^0.3.0",
     "@iconify/icons-cib": "^1.0.3",
+    "algoliasearch": "^4.8.4",
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "emotion": "^10.0.27",
@@ -26,6 +27,7 @@
     "react-dom": "16.13.1",
     "react-dropzone": "^11.2.4",
     "react-hook-form": "^6.13.0",
+    "react-instantsearch-dom": "^6.8.3",
     "react-scrolllock": "^5.0.1",
     "react-toastify": "^6.2.0",
     "theme-ui": "^0.3.1"

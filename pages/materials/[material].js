@@ -18,100 +18,138 @@ import Reactions from "../../components/reactions";
 import Share from "../../components/share";
 import MoreMenu from "../../components/moreMenu";
 import InfoMenu from "../../components/infoMenu";
+import { useEffect, useState } from "react";
+import Avatar from "react-avatar";
+import { format } from "date-fns";
 
-const materialPage = ({ material }) => {
+let InnerCard = ({ material }) => {
+  return (
+    <Box>
+      <Grid id="detailCard" columns={["1fr", null, "1.5fr 2fr"]}>
+        <Box
+          sx={{
+            display: ["none", null, "block"],
+            // background: `URL("/28502.jpg")`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            minHeight: [null, null, null, "400px"],
+            borderRadius: "extra",
+          }}
+        >
+          <Image variant="balmain" src="/28502.jpg" />
+        </Box>
+
+        <Grid pb={[3]}>
+          {/* topBar */}
+          {Object.keys(material).length > 0 && (
+            <Flex
+              p={[3]}
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <MoreMenu />
+              <Download material={material} />
+              <Grid
+                gap={[3]}
+                columns={["auto auto"]}
+                sx={{ alignItems: "center" }}
+              >
+                <Share />
+
+                <Reactions material={material} />
+              </Grid>
+            </Flex>
+          )}
+          {/* image shows on mobile */}
+          <Box sx={{ display: ["block", null, "none"] }}>
+            <Image variant="balmain" src="/28502.jpg" />
+          </Box>
+
+          {Object.keys(material).length > 0 && (
+            <Box px={[3]}>
+              <Text variant="headline4">{material.name}</Text>
+
+              <Flex my={3} sx={{ alignItems: "center" }}>
+                <Avatar name={material.author.authorName} size={45} round />
+                <Box ml={2} variant="label">
+                  <Text variant="label" sx={{ color: "darker" }}>
+                    {material.author.authorName}
+                  </Text>
+                  <Text variant="label">
+                    uploaded {format(new Date(material.created), "MM/dd/yyyy")}
+                  </Text>
+                </Box>
+              </Flex>
+
+              <Text variant="body" my="2">
+                {material.desc}
+              </Text>
+            </Box>
+          )}
+
+          {Object.keys(material).length > 0 && (
+            <Box px={[3]}>
+              <InfoMenu material={material} />
+            </Box>
+          )}
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+const materialPage = ({ materialId }) => {
+  const [material, setMaterial] = useState({});
+
+  useEffect(() => {
+    db.doc(`/materials/${materialId}`).onSnapshot((doc) => {
+      if (!doc.exists) {
+        return console.log({ error: "Material not found" });
+      }
+      let materialData = doc.data();
+      materialData.materialId = doc.id;
+
+      return setMaterial(materialData);
+    });
+
+    // return () => {
+    //   cleanup
+    // };
+  }, []);
+
   return (
     <>
       <Nav />
 
-      <Container id="contain">
+      <Container sx={{ display: ["none", null, "block"] }}>
         <Grid
           as="section"
           sx={{ justifyContent: "center" }}
           columns={["100%", "80%"]}
-          my={[6, null, 6]}
+          my={[5, null, 6]}
           p={["2"]}
         >
-          <Grid
-            p={["3"]}
-            sx={{
-              boxShadow: "card",
-              borderRadius: "extra",
-              bg: "gray200",
-              boxShadow: "modal",
-            }}
-            columns={["1fr", null, "1.5fr 2fr"]}
+          <Box
+            my={[5]}
+            p={3}
+            sx={{ borderRadius: "extra", boxShadow: "modal" }}
           >
-            <Box
-              sx={{
-                display: ["none", null, "block"],
-                // background: `URL("/28502.jpg")`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                minHeight: [null, null, null, "400px"],
-                borderRadius: "extra",
-              }}
-            >
-              <Image variant="balmain" src="/28502.jpg" />
-            </Box>
-
-            <Grid
-              p={[0, 2]}
-              pb={[3]}
-              // sx={{
-              //   display: "flex",
-              //   flexDirection: "column",
-              // }}
-              sx={{
-                gridTemplateAreas: `"top" "bottom"`,
-              }}
-            >
-              <Box sx={{ gridArea: "top" }}>
-                {/* topBar */}
-                <Flex
-                  mb={[3]}
-                  sx={{ alignItems: "center", justifyContent: "space-between" }}
-                >
-                  <MoreMenu />
-
-                  <Download material={material} />
-
-                  <Grid
-                    gap={[3]}
-                    columns={["auto auto"]}
-                    sx={{ alignItems: "center" }}
-                  >
-                    <Share />
-
-                    <Reactions material={material} />
-                  </Grid>
-                </Flex>
-
-                {/* image shows on mobile */}
-                <Box sx={{ display: ["block", null, "none"] }}>
-                  <Image variant="balmain" src="/28502.jpg" />
-                </Box>
-
-                {/* </Flex> */}
-                <Text variant="headline4"> {material.name} </Text>
-                <Text variant="label">
-                  uploaded by{" "}
-                  <Text as="span" variant="headline6">
-                    {material.author.authorName}
-                  </Text>
-                </Text>
-                <Text variant="body" my="2">
-                  {material.desc}
-                </Text>
-              </Box>
-
-              <Box sx={{ gridArea: "bottom" }}>
-                <InfoMenu material={material} />
-              </Box>
-            </Grid>
-          </Grid>
+            <InnerCard material={material} />
+          </Box>
         </Grid>
       </Container>
+
+      <Box
+        my={[5]}
+        p={0}
+        sx={{
+          display: ["block", null, "none"],
+        }}
+      >
+        <InnerCard material={material} />
+      </Box>
 
       <Footer
         dark
@@ -166,26 +204,26 @@ export async function getStaticProps({ params }) {
   // If the route is like /posts/1, then params.id is 1
   // const res = await fetch(`https://.../posts/${params.id}`);
 
-  let material = await db
-    .doc(`/materials/${params.material}`)
-    .get()
-    .then((doc) => {
-      if (!doc.exists) {
-        return console.log({ error: "Material not found" });
-      }
-      let materialData = doc.data();
-      materialData.materialId = doc.id;
+  // let material = await db
+  //   .doc(`/materials/${params.material}`)
+  //   .get()
+  //   .then((doc) => {
+  //     if (!doc.exists) {
+  //       return console.log({ error: "Material not found" });
+  //     }
+  //     let materialData = doc.data();
+  //     materialData.materialId = doc.id;
 
-      return materialData;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  //     return materialData;
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 
   // const post = await res.json();
 
   // Pass post data to the page via props
-  return { props: { material } };
+  return { props: { materialId: params.material }, revalidate: 1 };
 }
 
 export default materialPage;

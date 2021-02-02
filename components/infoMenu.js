@@ -1,4 +1,5 @@
 import {
+  faArrowDown,
   faCross,
   faPaperPlane,
   faTimes,
@@ -20,7 +21,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
 import { db, functions } from "../config/firebase";
 import Avatar from "react-avatar";
-import { format } from "date-fns";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import ReactDOM from "react-dom";
 import SignupForm from "./SignupForm";
 import BarModal from "./barModal";
@@ -29,7 +30,7 @@ import ModalAuth from "./modalAuth";
 export default function InfoMenu({ material }) {
   const { register, errors, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(3);
   const [currentComments, setCurrentComments] = useState([]);
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -41,13 +42,19 @@ export default function InfoMenu({ material }) {
     db.collection("comments")
       .orderBy("created", "desc")
       .where("materialId", "==", material.materialId)
+      .limit(index)
       .onSnapshot((querySnapshot) => {
         let commentsData = [];
-        querySnapshot.forEach((doc) => {
-          let comment = doc.data();
-          comment.commentId = doc.id;
-          commentsData.push(comment);
-        });
+        querySnapshot.forEach(
+          (doc) => {
+            let comment = doc.data();
+            comment.commentId = doc.id;
+            commentsData.push(comment);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
 
         setComments(commentsData);
       });
@@ -55,9 +62,8 @@ export default function InfoMenu({ material }) {
     // return () => {
     //   cleanup
     // };
-  }, []);
+  }, [index]);
 
-  console.log(comments);
   let userAuth = useAuth();
 
   let addComment = functions.httpsCallable("addComment");
@@ -82,36 +88,19 @@ export default function InfoMenu({ material }) {
   };
 
   const incrementIndex = () => {
-    setIndex(index.length + 5);
-    return index;
-  };
-
-  let incrementComments = () => {
-    let newComments = comments.slice(index, index + 5);
-    let currentData = currentComments;
-    let newData = newComments.map((newComment) => {
-      console.log(newComment);
-      currentData.push(newComment);
-      return currentData;
-    });
-
-    setCurrentComments(newData);
-
-    console.log(currentComments);
-    return currentComments;
-  };
-
-  const Inccomments = () => {
-    incrementComments();
-    return;
+    if (index >= material.commentCount || index + 5 >= material.commentCount) {
+      return setIndex(material.commentCount);
+    }
+    setIndex(index + 5);
   };
 
   return (
     <Grid
       sx={{
         mt: [3],
+        gap: [0],
         height: "100%",
-        gridTemplateAreas: `"header" "comments" "message"`,
+        gridTemplateAreas: `"header" "comments" "increment" "message"`,
       }}
     >
       <BarModal
@@ -134,65 +123,90 @@ export default function InfoMenu({ material }) {
         {comments.length > 0 ? (
           // incrementComments().map((comment) => {
           // return (
-          comments.slice(0, 2).map((comment) => (
+          comments.map((comment) => (
             <Box my={[3]} key={comment.commentId}>
               <UserComment comment={comment} />
             </Box>
           ))
         ) : (
-          <Text variant="label">Say something about this material...</Text>
+          <Box py={4}>
+            <Text variant="label">
+              Be the first to say something about this material...
+            </Text>
+          </Box>
         )}
       </Box>
 
-      <Grid
-        columns={["1fr auto"]}
-        sx={{ alignItems: "center", gridArea: "message" }}
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Box>
-          <Input
+      <Box>
+        {material.commentCount > 0 && (
+          <Button
+            onClick={incrementIndex}
+            sx={{ gridArea: "increment" }}
+            variant="textButton"
+          >
+            <Flex sx={{ alignItems: "center" }}>
+              <FontAwesomeIcon icon={faArrowDown} />
+              <Text
+                sx={{ textTransform: "none", color: "dark500" }}
+                ml={2}
+                variant="smallBody"
+              >
+                Showing {index} of {material.commentCount} comments
+              </Text>
+            </Flex>
+          </Button>
+        )}
+
+        <Grid
+          columns={["1fr auto"]}
+          sx={{ alignItems: "center", gridArea: "message" }}
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Box>
+            <Input
+              sx={{
+                borderRadius: "extra",
+                outlineColor: "primary",
+                backgroundColor: "gray400",
+                px: [3],
+                "::placeholder": {
+                  color: "dark200",
+                },
+              }}
+              id="comment"
+              name="comment"
+              ref={register({
+                required: "Please enter your password",
+                minLength: {
+                  value: 1,
+                  message: "Cannot send an empty comment",
+                },
+              })}
+              placeholder="Leave a comment"
+            />
+          </Box>
+
+          <Button
+            variant="roundIconButton"
             sx={{
-              borderRadius: "extra",
-              outlineColor: "primary",
-              backgroundColor: "gray400",
-              px: [3],
-              "::placeholder": {
-                color: "dark200",
+              borderRadius: "circle",
+              bg: "primary",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "40px",
+              width: "40px",
+              color: "gray100",
+              ":hover": {
+                bg: "lighter",
               },
             }}
-            id="comment"
-            name="comment"
-            ref={register({
-              required: "Please enter your password",
-              minLength: {
-                value: 1,
-                message: "Cannot send an empty comment",
-              },
-            })}
-            placeholder="Type a comment"
-          />
-        </Box>
-
-        <Button
-          variant="roundIconButton"
-          sx={{
-            borderRadius: "circle",
-            bg: "primary",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "40px",
-            width: "40px",
-            color: "gray100",
-            ":hover": {
-              bg: "lighter",
-            },
-          }}
-        >
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </Button>
-      </Grid>
+          >
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </Button>
+        </Grid>
+      </Box>
     </Grid>
   );
 }
@@ -202,7 +216,7 @@ const UserComment = ({ comment }) => {
     <Box>
       <Grid
         columns={["auto 1fr"]}
-        sx={{ alignItems: "center", gridArea: "message" }}
+        sx={{ alignItems: "start", gridArea: "message" }}
       >
         <Button
           variant="roundIconButton"
@@ -219,7 +233,7 @@ const UserComment = ({ comment }) => {
           <Avatar
             email={comment.userHandle}
             name={comment.userHandle}
-            size={50}
+            size={45}
             round
           />
         </Button>
