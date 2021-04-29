@@ -1,104 +1,13 @@
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
-  Button,
-  Card,
   Container,
-  Flex,
   Grid,
-  Image,
-  Text,
 } from "theme-ui";
 import Footer from "../../components/footer";
 import Nav from "../../components/nav";
 import { db } from "../../config/firebase";
-import Download from "../../components/download";
-import Reactions from "../../components/reactions";
-import Share from "../../components/share";
-import MoreMenu from "../../components/moreMenu";
-import InfoMenu from "../../components/infoMenu";
 import { useEffect, useState } from "react";
-import Avatar from "react-avatar";
-import { format } from "date-fns";
-
-let InnerCard = ({ material }) => {
-  return (
-    <Box>
-      <Grid id="detailCard" columns={["1fr", null, "1.5fr 2fr"]}>
-        <Box
-          sx={{
-            display: ["none", null, "block"],
-            // background: `URL("/28502.jpg")`,
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            minHeight: [null, null, null, "400px"],
-            borderRadius: "extra",
-          }}
-        >
-          <Image variant="balmain" src="/28502.jpg" />
-        </Box>
-
-        <Grid pb={[3]}>
-          {/* topBar */}
-          {Object.keys(material).length > 0 && (
-            <Flex
-              p={[3]}
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <MoreMenu />
-              <Download material={material} />
-              <Grid
-                gap={[3]}
-                columns={["auto auto"]}
-                sx={{ alignItems: "center" }}
-              >
-                <Share />
-
-                <Reactions material={material} />
-              </Grid>
-            </Flex>
-          )}
-          {/* image shows on mobile */}
-          <Box sx={{ display: ["block", null, "none"] }}>
-            <Image variant="balmain" src="/28502.jpg" />
-          </Box>
-
-          {Object.keys(material).length > 0 && (
-            <Box px={[3]}>
-              <Text variant="headline4">{material.name}</Text>
-
-              <Flex my={3} sx={{ alignItems: "center" }}>
-                <Avatar name={material.author.authorName} size={45} round />
-                <Box ml={2} variant="label">
-                  <Text variant="label" sx={{ color: "darker" }}>
-                    {material.author.authorName}
-                  </Text>
-                  <Text variant="label">
-                    uploaded {format(new Date(material.created), "MM/dd/yyyy")}
-                  </Text>
-                </Box>
-              </Flex>
-
-              <Text variant="body" my="2">
-                {material.desc}
-              </Text>
-            </Box>
-          )}
-
-          {Object.keys(material).length > 0 && (
-            <Box px={[3]}>
-              <InfoMenu material={material} />
-            </Box>
-          )}
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
+import InnerCard from "../../components/InnerCard";
 
 const materialPage = ({ materialId }) => {
   const [material, setMaterial] = useState({});
