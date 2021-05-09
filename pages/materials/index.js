@@ -5,18 +5,13 @@ import Nav from "../../components/nav";
 // Import components
 import {
   InstantSearch,
-  // Hits,
-  // SearchBox,
   Pagination,
   Highlight,
   ClearRefinements,
   RefinementList,
   Configure,
   connectHits,
-  connectHitInsights,
-  connectSearchBox,
   Stats,
-  SortBy,
 } from "react-instantsearch-dom";
 import {
   Box,
@@ -25,20 +20,13 @@ import {
   Container,
   Flex,
   Grid,
-  IconButton,
-  Image,
-  Input,
   Link,
   Text,
 } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBasketballBall,
-  faBook,
   faCaretUp,
   faCaretDown,
-  faCircle,
-  faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../../components/footer";
 import { searchClient } from "../../config/algolia";
@@ -109,16 +97,7 @@ const Search = () => {
 
               <Configure query={query} />
 
-              {/* <SortBy
-                defaultRefinement="created"
-                items={[
-                  { value: "created", label: "newest" },
-                  { value: "instant_search_price_asc", label: "Likes asc" },
-                  { value: "instant_search_price_desc", label: "Likes desc." },
-                ]}
-              /> */}
-              {/* <CustomSearchBox defaultRefinement={query} /> */}
-
+              {/* stats */}
               {query && (
                 <>
                   <Stats
@@ -137,16 +116,6 @@ const Search = () => {
 
               <Grid gap={[5]} mt={[3]} columns={[1, 1, "9fr 3fr"]}>
                 <div className="right-panel">
-                  {/* <CustomSearchBox
-                focusShortcuts={["m"]}
-                translations={{
-                  submitTitle: "Submit your search query.",
-                  resetTitle: "Clear your search query.",
-                  placeholder:
-                    "Search for materials name, categories, author and more...",
-                }}
-                showLoadingIndicator
-              /> */}
                   <Configure clickAnalytics />
                   <CustomHits />
 
@@ -240,8 +209,6 @@ const Hit = ({ hit }) => (
     </Card>
   </Link>
 );
-
-// const HitWithInsights = connectHitInsights(window.aa)(Hit);
 
 const Hits = ({ hits }) => {
   return (
