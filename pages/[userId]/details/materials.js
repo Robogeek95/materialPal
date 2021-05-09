@@ -31,6 +31,7 @@ import SearchBox from "../../../components/searchBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar";
+import LoadErrorPage from "../../../components/loadErrorPage";
 
 // insights client initialized and exposed as `window.aa`
 const Hit = ({ hit }) => (
@@ -113,6 +114,7 @@ const materials = () => {
         if (response.status !== 200) {
           setLoadingUser(false);
           setFetchError(await response.text());
+          return;
         }
 
         response.json().then((jsonData) => {
@@ -135,7 +137,7 @@ const materials = () => {
     setQuery(e.target.value);
   }
 
-  if (fetchError) return <div>failed to load</div>;
+  if (fetchError) return <LoadErrorPage />;
   if (!user) return <div>loading...</div>;
 
   return (

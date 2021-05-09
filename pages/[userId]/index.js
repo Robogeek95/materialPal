@@ -43,6 +43,7 @@ const userId = () => {
         if (response.status !== 200) {
           setLoadingUser(false);
           setFetchError(await response.text());
+          return;
         }
 
         response.json().then((jsonData) => {
@@ -57,7 +58,7 @@ const userId = () => {
     fetchData();
   }, []);
 
-  if (fetchError) return <div>failed to load</div>;
+  if (fetchError) return <LoadErrorPage />;
 
   if (!user) return <div>loading...</div>;
 
