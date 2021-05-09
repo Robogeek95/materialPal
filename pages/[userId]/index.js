@@ -24,8 +24,7 @@ import { css } from "@emotion/core";
 import material from "../../lib/materials.json";
 import Avatar from "react-avatar";
 
-const userId = ({ userId }) => {
-  console.log(userId);
+const userId = () => {
   const [user, setUser] = useState();
   const [fetchError, setFetchError] = useState();
   const [loadingUser, setLoadingUser] = useState(true);
@@ -215,39 +214,5 @@ const userId = ({ userId }) => {
     </Box>
   );
 };
-
-// This function gets called at build time
-export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  let users = await db
-    .collection("users")
-    .get()
-    .then((snapshot) => {
-      let users = [];
-
-      snapshot.forEach((doc) => {
-        users.push({
-          userId: doc.id,
-          ...doc.data(),
-        });
-      });
-
-      return users;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  // Get the paths we want to pre-render based on materials
-  const paths = users.map((user) => `/${user.userId}`);
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
-  return { props: { userId: params.userId } };
-}
 
 export default userId;
