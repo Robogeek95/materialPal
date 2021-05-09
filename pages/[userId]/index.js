@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -10,7 +9,7 @@ import {
   Text,
 } from "@theme-ui/components";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../../config/firebase";
 import Nav from "../../components/nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,9 +22,45 @@ import Footer from "../../components/footer";
 import Link from "next/link";
 import { css } from "@emotion/core";
 import material from "../../lib/materials.json";
+import Avatar from "react-avatar";
 
 const userId = ({ userId }) => {
   console.log(userId);
+  const [user, setUser] = useState();
+  const [fetchError, setFetchError] = useState();
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // get user id
+        let userId = window.location.pathname.split("/")[1];
+        const response = await fetch("../../api/getUser", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
+
+        if (response.status !== 200) {
+          setLoadingUser(false);
+          setFetchError(await response.text());
+        }
+
+        response.json().then((jsonData) => {
+          setLoadingUser(false);
+          setUser(jsonData.data);
+        });
+      } catch (error) {
+        setFetchError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (fetchError) return <div>failed to load</div>;
+
+  if (!user) return <div>loading...</div>;
 
   return (
     <Box>
@@ -63,9 +98,11 @@ const userId = ({ userId }) => {
               ></Box>
 
               <Box sx={{ marginTop: "-30px", mx: [2, 4] }} mb="3">
-                <Avatar size={8} />
-                <Text variant="headline4"> Nelson Bighetti</Text>
-                <Text variant="headline5">Lagos State University</Text>
+                <Avatar size={60} round />
+                <Text variant="headline4" mt="3">
+                  {user.fname} {user.lname}
+                </Text>
+                <Text variant="headline5">{user.school.schoolName}</Text>
 
                 <Flex mt="3" sx={{ alignItems: "center" }}>
                   <Button mr="3">Upload Material</Button>
@@ -86,7 +123,7 @@ const userId = ({ userId }) => {
               <Box>
                 <Text variant="body">Uploaded Materials</Text>
                 <Text variant="smallLabel" color="secondary">
-                  520 materials
+                  {user.materialCount} materials
                 </Text>
               </Box>
 

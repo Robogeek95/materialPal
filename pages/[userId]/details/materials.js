@@ -99,31 +99,33 @@ const materials = () => {
   const [fetchError, setFetchError] = useState();
   const [loadingUser, setLoadingUser] = useState(true);
 
-  const fetchData = async () => {
-    try {
-      // get user id
-      let userId = window.location.pathname.split("/")[1];
-      const response = await fetch("../../api/getUser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }),
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // get user id
+        let userId = window.location.pathname.split("/")[1];
+        const response = await fetch("../../api/getUser", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
 
-      if (response.status !== 200) {
-        setLoadingUser(false);
-        setFetchError(await response.text());
+        if (response.status !== 200) {
+          setLoadingUser(false);
+          setFetchError(await response.text());
+        }
+
+        response.json().then((jsonData) => {
+          setLoadingUser(false);
+          setUser(jsonData.data);
+        });
+      } catch (error) {
+        setFetchError(error);
       }
+    };
 
-      response.json().then((jsonData) => {
-        setLoadingUser(false);
-        setUser(jsonData.data);
-      });
-    } catch (error) {
-      setFetchError(error);
-    }
-  };
-
-  fetchData();
+    fetchData();
+  }, []);
 
   const resetQuery = () => {
     setQuery("");
@@ -215,33 +217,35 @@ const materials = () => {
               </Grid>
 
               {/* profile card */}
-              <Link href={`/${user.uid}`} sx={{ textDecoration: "none" }}>
-                <Box
-                  sx={{
-                    border: "1px solid",
-                    borderColor: "dark100",
-                    borderRadius: "16px",
-                    p: 3,
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    boxShadow: "card",
-                    mt: 3,
-                  }}
-                >
-                  <Avatar size={60} round />
-                  <Text variant="headline5" mt="3">
-                    {user.fname} {user.lname}
-                  </Text>
-                  <Text variant="capitalized" color="dark200">
-                    {user.school.department}
-                  </Text>
-                  <Text variant="lead" color="primary" mt="4">
-                    {user.materialCount} Uploaded materials
-                  </Text>
-                </Box>
-              </Link>
+              {Object.keys(user).length > 0 && (
+                <Link href={`/${user.uid}`} sx={{ textDecoration: "none" }}>
+                  <Box
+                    sx={{
+                      border: "1px solid",
+                      borderColor: "dark100",
+                      borderRadius: "16px",
+                      p: 3,
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      boxShadow: "card",
+                      mt: 3,
+                    }}
+                  >
+                    <Avatar size={60} round />
+                    <Text variant="headline5" mt="3">
+                      {user.fname} {user.lname}
+                    </Text>
+                    <Text variant="capitalized" color="dark200">
+                      {user.school.department}
+                    </Text>
+                    <Text variant="lead" color="primary" mt="4">
+                      {user.materialCount} Uploaded materials
+                    </Text>
+                  </Box>
+                </Link>
+              )}
             </Box>
 
             {/* InstantSearch */}
