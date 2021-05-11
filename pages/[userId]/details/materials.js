@@ -89,7 +89,7 @@ const Hit = ({ hit }) => (
 
 const Hits = ({ hits }) => {
   return (
-    <Grid columns={[3]}>
+    <Grid columns={[2, 3]}>
       {hits.map((hit) => (
         <Hit key={hit.objectID} hit={hit} />
       ))}
