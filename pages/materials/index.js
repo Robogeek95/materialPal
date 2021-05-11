@@ -13,21 +13,9 @@ import {
   connectHits,
   Stats,
 } from "react-instantsearch-dom";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Flex,
-  Grid,
-  Link,
-  Text,
-} from "theme-ui";
+import { Box, Button, Card, Container, Flex, Grid, Link, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretUp,
-  faCaretDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../../components/footer";
 import { searchClient } from "../../config/algolia";
 import { css } from "@emotion/core";
@@ -221,24 +209,5 @@ const Hits = ({ hits }) => {
 };
 
 const CustomHits = connectHits(Hits);
-
-const SearchBox = ({ currentRefinement, isSearchStalled, refine }) => (
-  <form noValidate action="" role="search">
-    <input
-      type="search"
-      value={currentRefinement}
-      onChange={(event) => refine(event.currentTarget.value)}
-    />
-    <button
-      onClick={(e) => {
-        e.preventDefault;
-        refine("");
-      }}
-    >
-      Reset query
-    </button>
-    {isSearchStalled ? "My search is stalled" : ""}
-  </form>
-);
 
 export default Search;
