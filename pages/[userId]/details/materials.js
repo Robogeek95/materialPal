@@ -96,9 +96,7 @@ const CustomHits = connectHits(Hits);
 
 const materials = () => {
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState();
-  const [fetchError, setFetchError] = useState();
-  const [loadingUser, setLoadingUser] = useState(true);
+  const [user, setUser] = useState({ data: null, error: null, loading: true });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,17 +110,15 @@ const materials = () => {
         });
 
         if (response.status !== 200) {
-          setLoadingUser(false);
-          setFetchError(await response.text());
+          setUser({ ...user, loading: false, error: await response.text() });
           return;
         }
 
         response.json().then((jsonData) => {
-          setLoadingUser(false);
-          setUser(jsonData.data);
+          setUser({ ...user, loading: false, data: jsonData.data });
         });
       } catch (error) {
-        setFetchError(error);
+        setUser({ ...user, loading: false, error });
       }
     };
 
@@ -137,8 +133,8 @@ const materials = () => {
     setQuery(e.target.value);
   }
 
-  if (fetchError) return <LoadErrorPage />;
-  if (!user) return <div>loading...</div>;
+  if (user.error) return <LoadErrorPage />;
+  if (!user.data) return <div>loading...</div>;
 
   return (
     <Box>
@@ -148,7 +144,7 @@ const materials = () => {
         <InstantSearch indexName="materials" searchClient={searchClient}>
           <Box mb={2}>
             <Text mb={3} variant="headline4">
-              Materials uploaded by {user.fname}
+              Materials uploaded by {user.data.fname}
             </Text>
 
             {/* stats */}
@@ -220,7 +216,10 @@ const materials = () => {
 
               {/* profile card */}
               {Object.keys(user).length > 0 && (
-                <Link href={`/${user.uid}`} sx={{ textDecoration: "none" }}>
+                <Link
+                  href={`/${user.data.uid}`}
+                  sx={{ textDecoration: "none" }}
+                >
                   <Box
                     sx={{
                       border: "1px solid",
@@ -237,13 +236,14 @@ const materials = () => {
                   >
                     <Avatar size={60} round />
                     <Text variant="headline5" mt="3">
-                      {user.fname} {user.lname}
+                      {user.data.fname} {user.data.lname}
                     </Text>
                     <Text variant="capitalized" color="dark200">
-                      {user.school.department}
+                      {user.data.school.department}
                     </Text>
                     <Text variant="lead" color="primary" mt="4">
-                      {user.materialCount} Uploaded materials
+                      {user.data.materialCount} Uploaded material
+                      {user.data.materialCount > 1 ? "s" : ""}
                     </Text>
                   </Box>
                 </Link>
@@ -254,7 +254,7 @@ const materials = () => {
             <Box>
               <Configure
                 query={query}
-                filters={`objectID:${user.uid}`}
+                filters={`uid:${user.data.uid}`}
                 hitsPerPage={20}
                 clickAnalytics
               />

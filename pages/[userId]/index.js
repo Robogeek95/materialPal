@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Card,
@@ -21,19 +22,36 @@ import {
 import Footer from "../../components/footer";
 import Link from "next/link";
 import { css } from "@emotion/core";
-import material from "../../lib/materials.json";
 import Avatar from "react-avatar";
+import LoadErrorPage from "../../components/loadErrorPage";
 
 const userId = () => {
-  const [user, setUser] = useState();
-  const [fetchError, setFetchError] = useState();
-  const [loadingUser, setLoadingUser] = useState(true);
+  const router = useRouter();
+  const [user, setUser] = useState({ data: null, error: null, loading: true });
+  const [materials, setMaterials] = useState({
+    data: null,
+    error: null,
+    loading: true,
+  });
 
+  let userId;
+  if (typeof window != "undefined") {
+    userId = window.location.pathname.split("/")[1];
+  }
+
+  const routeToUserMaterials = () => {
+    router.push(`${userId}/details/materials`);
+  };
+
+  const routeToUploadMaterial = () => {
+    router.push(`materials/upload`);
+  };
+
+  // fetch user data
   useEffect(() => {
     const fetchData = async () => {
       try {
         // get user id
-        let userId = window.location.pathname.split("/")[1];
         const response = await fetch("../../api/getUser", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -41,26 +59,62 @@ const userId = () => {
         });
 
         if (response.status !== 200) {
-          setLoadingUser(false);
-          setFetchError(await response.text());
+          setUser({ ...user, loading: false, error: await response.text() });
           return;
         }
 
         response.json().then((jsonData) => {
-          setLoadingUser(false);
-          setUser(jsonData.data);
+          setUser({ ...user, loading: false, data: jsonData.data });
         });
       } catch (error) {
-        setFetchError(error);
+        setUser({ ...user, loading: false, error });
       }
     };
 
     fetchData();
   }, []);
 
-  if (fetchError) return <LoadErrorPage />;
+  // fetch materials
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // get user id
+        let limit = 4;
+        const response = await fetch("../../api/getUserMaterials", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ limit, userId }),
+        });
 
-  if (!user) return <div>loading...</div>;
+        if (response.status !== 200) {
+          setMaterials({
+            ...materials,
+            loading: false,
+            error: await response.text(),
+          });
+          return;
+        }
+
+        response.json().then((jsonData) => {
+          if (jsonData.data.length > 1) {
+            return setMaterials({
+              ...materials,
+              loading: false,
+              data: jsonData.data,
+            });
+          }
+          return;
+        });
+      } catch (error) {
+        setMaterials({ ...materials, loading: false, error });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (user.error) return <LoadErrorPage />;
+  if (materials.error) return <LoadErrorPage />;
 
   return (
     <Box>
@@ -80,7 +134,7 @@ const userId = () => {
       ></Box>
 
       <Container mt={[0, "75px"]}>
-        <Grid columns={[1, "9fr 4fr"]}>
+        <Grid columns={[1, 1, "9fr 4fr"]}>
           <Box>
             {/* profile card */}
             <Box sx={{ gridAutoRows: "" }}>
@@ -97,20 +151,38 @@ const userId = () => {
                 }}
               ></Box>
 
-              <Box sx={{ marginTop: "-30px", mx: [2, 4] }} mb="3">
-                <Avatar size={60} round />
-                <Text variant="headline4" mt="3">
-                  {user.fname} {user.lname}
-                </Text>
-                <Text variant="headline5">{user.school.schoolName}</Text>
+              <Box sx={{ marginTop: "-45px", mx: [2, 4] }} mb="3">
+                <Box
+                  sx={{
+                    borderRadius: "circle",
+                    p: 1,
+                    bg: "gray100",
+                    width: "fit-content",
+                  }}
+                >
+                  <Avatar size={90} round />
+                </Box>
 
+                {user.data ? (
+                  <Text variant="headline4" mt="3">
+                    {user.data.fname} {user.data.lname}
+                  </Text>
+                ) : (
+                  ""
+                )}
+
+                {user.data ? (
+                  <Text variant="headline5">{user.data.school.schoolName}</Text>
+                ) : (
+                  ""
+                )}
                 <Flex mt="3" sx={{ alignItems: "center" }}>
-                  <Button mr="3">Upload Material</Button>
-                  <Button variant="outlineRounded" mr="3">
-                    Edit Profile
+                  <Button onClick={routeToUploadMaterial} mr="3">
+                    Upload Material
                   </Button>
+
                   <Button variant="roundIconButton">
-                    <Box sx={{ width: "20px", height: "20px" }}>
+                    <Box sx={{ width: "15px", height: "15px" }}>
                       <FontAwesomeIcon icon={faEllipsisH} />
                     </Box>
                   </Button>
@@ -120,92 +192,112 @@ const userId = () => {
 
             {/* uploads */}
             <Box my="5">
-              <Box>
+              <Flex mb={3} sx={{ alignItems: "center" }}>
                 <Text variant="body">Uploaded Materials</Text>
-                <Text variant="smallLabel" color="secondary">
-                  {user.materialCount} materials
-                </Text>
-              </Box>
+                <Badge sx={{ color: "gray500", ml: 2 }} variant="outline">
+                  {materials.data ? user.data.materialCount : 0}
+                </Badge>
+              </Flex>
 
-              <Grid columns={[2, 4]} mt="2">
-                <Link sx={{ textDecoration: "none" }} href={`/materials/`}>
-                  <Card variant="detailCard" pb="2" mb={3}>
-                    <Box
-                      sx={{
-                        height: "180px",
-                        background: `URL("28502.jpg")`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                      }}
+              {materials.data ? (
+                <Grid columns={[2, 4]} mt="2">
+                  {materials.data.map((material) => (
+                    <Link
+                      key={material.materialId}
+                      sx={{ textDecoration: "none" }}
+                      href={`/materials/`}
                     >
-                      {/* <Image
+                      <Card variant="detailCard" pb="2" mb={3}>
+                        <Box
+                          sx={{
+                            height: "180px",
+                            background: `URL("28502.jpg")`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          {/* <Image
                       src="/28502.jpg"
                       alt={`cover photo for ${material.name}`}
                       sx={{ width: "100%", height: "270px" }}
                     ></Image> */}
-                    </Box>
-                    <Box my="3">
-                      {/* <Flex sx={{ minHeight: "50px", alignItems: "center" }}> */}
-                      <Box
-                        sx={css`
-                          -webkit-line-clamp: 3;
-                          -webkit-box-orient: vertical;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                          display: -webkit-box;
-                        `}
-                      >
-                        {/* <Highlight material={material} attribute="name" /> */}
-                      </Box>
+                        </Box>
+                        <Box my="3">
+                          {/* <Flex sx={{ minHeight: "50px", alignItems: "center" }}> */}
+                          <Box
+                            sx={css`
+                              -webkit-line-clamp: 3;
+                              -webkit-box-orient: vertical;
+                              overflow: hidden;
+                              text-overflow: ellipsis;
+                              display: -webkit-box;
+                            `}
+                          >
+                            {material.name}
+                          </Box>
 
-                      {/* </Flex> */}
-                      <Box
-                        sx={css`
-                          -webkit-line-clamp: 1;
-                          -webkit-box-orient: vertical;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                          display: -webkit-box;
-                        `}
-                      >
-                        <Text variant="smallLabel" color="dark300">
-                          {material[0].courseCode}
-                        </Text>
-                      </Box>
-                      <Grid columns={2}>
-                        <Text variant="lead">{material[0].rating} Pages</Text>
-                        <Text variant="lead">{material[0].rating} Rating</Text>
-                      </Grid>
-                    </Box>
-                  </Card>
-                </Link>
-              </Grid>
+                          {/* </Flex> */}
+                          <Box
+                            sx={css`
+                              -webkit-line-clamp: 1;
+                              -webkit-box-orient: vertical;
+                              overflow: hidden;
+                              text-overflow: ellipsis;
+                              display: -webkit-box;
+                            `}
+                          >
+                            <Text variant="smallLabel" color="dark300">
+                              {material.courseCode}
+                            </Text>
+                          </Box>
+                          <Grid columns={2}>
+                            <Text variant="lead">{material.pages} Pages</Text>
+                            <Text variant="lead">{material.rating} Rating</Text>
+                          </Grid>
+                        </Box>
+                      </Card>
+                    </Link>
+                  ))}
+                </Grid>
+              ) : (
+                <Box sx={{ textAlign: "center", py: [5], px: [3, 5] }}>
+                  <Text>You have not uploaded any materials yet</Text>
+                </Box>
+              )}
 
-              <Link href={`${userId}/details/materials`}>
-                <Box
+              <Box
+                sx={{
+                  borderRadius: "10px",
+                  borderColor: "dark100",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  boxShadow: "card",
+                  height: "60px",
+                  cursor: "pointer",
+                }}
+                onClick={
+                  materials.data ? routeToUserMaterials : routeToUploadMaterial
+                }
+              >
+                <Flex
                   sx={{
-                    borderRadius: "10px",
-                    borderColor: "dark100",
-                    borderWidth: "1px",
-                    borderStyle: "solid",
-                    height: "72px",
-                    cursor: "pointer",
+                    alignItems: "center",
+                    px: 3,
+                    justifyContent: "center",
+                    height: "100%",
+                    textAlign: "center",
                   }}
                 >
-                  <Flex
-                    sx={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "100%",
-                    }}
-                  >
+                  {materials.data ? (
                     <Text variant="body">See All Your Uploaded Materials</Text>
-                    <Box sx={{ width: "20px", height: "20px", ml: 3 }}>
-                      <FontAwesomeIcon icon={faArrowRight} size="2x" />
-                    </Box>
-                  </Flex>
-                </Box>
-              </Link>
+                  ) : (
+                    <Text variant="body">Start Uploading Materials</Text>
+                  )}
+                  <Box sx={{ width: "20px", height: "20px", ml: 3 }}>
+                    <FontAwesomeIcon icon={faArrowRight} size="2x" />
+                  </Box>
+                </Flex>
+              </Box>
             </Box>
           </Box>
         </Grid>

@@ -10,7 +10,6 @@ export default async function getUser(req, res) {
     console.log(message);
     res.status(400).send({ status: false, message, data: null, error: null });
   } else {
-    console.log("Document data:", doc.data());
     res.status(200).send({
       status: true,
       message: "user data",

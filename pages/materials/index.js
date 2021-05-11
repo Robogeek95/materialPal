@@ -242,36 +242,3 @@ const SearchBox = ({ currentRefinement, isSearchStalled, refine }) => (
 );
 
 export default Search;
-
-// export async function getStaticProps() {
-//   // Call an external API endpoint to get posts
-
-//   let materials = await db
-//     .collection("materials")
-//     .orderBy("created", "desc")
-//     .get()
-//     .then((snapshot) => {
-//       let materials = [];
-
-//       snapshot.forEach((doc) => {
-//         materials.push({
-//           materialId: doc.id,
-//           ...doc.data(),
-//         });
-//       });
-
-//       return materials;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-
-//   // const materials = myMaterials;
-//   const categories = myCategories;
-//   // By returning { props: { posts } }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     props: { materials, categories },
-//     revalidate: 1,
-//   };
-// }
