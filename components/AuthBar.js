@@ -258,7 +258,7 @@ class CustomDropDown extends Component {
             {/* <Text> {`${this.user.fname} ${this.user.lname}`} </Text> */}
             <Text variant="lead">{`${this.user.email}`} </Text>
 
-            <Link href="#" sx={{ textDecoration: "none" }}>
+            <Link href="/settings" sx={{ textDecoration: "none" }}>
               <Box
                 mt="2"
                 sx={{ display: "flex", justifyContent: "space-between" }}

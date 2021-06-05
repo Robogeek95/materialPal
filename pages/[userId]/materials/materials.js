@@ -10,16 +10,16 @@ import {
   Link,
   Text,
 } from "@theme-ui/components";
-import Nav from "../../../components/nav";
+import Nav from "../../components/nav";
 import React, { useEffect, useState } from "react";
-import material from "../../../lib/materials.json";
+import material from "../../lib/materials.json";
 import { css } from "@emotion/core";
 import {
   Configure,
   connectHits,
   InstantSearch,
 } from "react-instantsearch-core";
-import { searchClient } from "../../../config/algolia";
+import { searchClient } from "../../config/algolia";
 import {
   ClearRefinements,
   Highlight,
@@ -27,8 +27,8 @@ import {
   RefinementList,
   Stats,
 } from "react-instantsearch-dom";
-import Footer from "../../../components/footer";
-import SearchBox from "../../../components/searchBox";
+import Footer from "../../components/footer";
+import SearchBox from "../../components/searchBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,
@@ -36,7 +36,7 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar";
-import LoadErrorPage from "../../../components/loadErrorPage";
+import LoadErrorPage from "../../components/loadErrorPage";
 
 // insights client initialized and exposed as `window.aa`
 const Hit = ({ hit }) => (
@@ -146,7 +146,7 @@ const materials = () => {
     <Box>
       <Nav />
 
-      <Box mt="5">
+      <Box mt="6">
         <InstantSearch indexName="materials" searchClient={searchClient}>
           <Box sx={{ display: ["box", null, null, "none"] }}>
             <Flex

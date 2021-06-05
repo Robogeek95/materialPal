@@ -24,94 +24,111 @@ import Link from "next/link";
 import { css } from "@emotion/core";
 import Avatar from "react-avatar";
 import LoadErrorPage from "../../components/loadErrorPage";
+import { useAuth } from "../../hooks/useAuth";
 
 const userId = () => {
   const router = useRouter();
   const [user, setUser] = useState({ data: null, error: null, loading: true });
+  const [isUserProfile, setIsUserProfile] = useState(false);
   const [materials, setMaterials] = useState({
     data: null,
     error: null,
     loading: true,
   });
 
+  const auth = useAuth();
+  let authUser = auth.user;
+
+  // set user id on client side
   let userId;
   if (typeof window != "undefined") {
     userId = window.location.pathname.split("/")[1];
   }
 
   const routeToUserMaterials = () => {
-    router.push(`${userId}/details/materials`);
+    router.push(`${userId}/materials`);
   };
 
   const routeToUploadMaterial = () => {
     router.push(`materials/upload`);
   };
 
+  const routeToSettings = () => {
+    router.push(`settings`);
+  };
+
   // fetch user data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // get user id
-        const response = await fetch("../../api/getUser", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
-        });
+  const fetchUser = async () => {
+    try {
+      // get user id
+      const response = await fetch("../../api/getUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
 
-        if (response.status !== 200) {
-          setUser({ ...user, loading: false, error: await response.text() });
-          return;
-        }
-
-        response.json().then((jsonData) => {
-          setUser({ ...user, loading: false, data: jsonData.data });
-        });
-      } catch (error) {
-        setUser({ ...user, loading: false, error });
+      if (response.status !== 200) {
+        setUser({ ...user, loading: false, error: await response.text() });
+        return;
       }
-    };
 
-    fetchData();
-  }, []);
+      response.json().then((jsonData) => {
+        setUser({ ...user, loading: false, data: jsonData.data });
+      });
+    } catch (error) {
+      setUser({ ...user, loading: false, error });
+    }
+  };
 
-  // fetch materials
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // get user id
-        let limit = 4;
-        const response = await fetch("../../api/getUserMaterials", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ limit, userId }),
+  // fetch material data
+  const fetchMaterials = async () => {
+    try {
+      // get user id
+      let limit = 4;
+      const response = await fetch("../../api/getUserMaterials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ limit, userId }),
+      });
+
+      if (response.status !== 200) {
+        setMaterials({
+          ...materials,
+          loading: false,
+          error: await response.text(),
         });
+        return;
+      }
 
-        if (response.status !== 200) {
-          setMaterials({
+      response.json().then((jsonData) => {
+        if (jsonData.data.length > 1) {
+          return setMaterials({
             ...materials,
             loading: false,
-            error: await response.text(),
+            data: jsonData.data,
           });
-          return;
         }
+        return;
+      });
+    } catch (error) {
+      setMaterials({ ...materials, loading: false, error });
+    }
+  };
 
-        response.json().then((jsonData) => {
-          if (jsonData.data.length > 1) {
-            return setMaterials({
-              ...materials,
-              loading: false,
-              data: jsonData.data,
-            });
-          }
-          return;
-        });
-      } catch (error) {
-        setMaterials({ ...materials, loading: false, error });
-      }
-    };
-
-    fetchData();
+  useEffect(() => {
+    fetchMaterials();
+    fetchUser();
   }, []);
+
+  // determine if the profile is of the authenticated user
+  useEffect(() => {
+    console.log(authUser);
+    if (authUser && authUser.uid === userId) {
+      return setIsUserProfile(true);
+    } else {
+      setIsUserProfile(false);
+    }
+  }, [authUser]);
 
   if (user.error) return <LoadErrorPage />;
   if (materials.error) return <LoadErrorPage />;
@@ -181,11 +198,15 @@ const userId = () => {
                     Upload Material
                   </Button>
 
-                  <Button variant="roundIconButton">
-                    <Box sx={{ width: "15px", height: "15px" }}>
-                      <FontAwesomeIcon icon={faEllipsisH} />
-                    </Box>
-                  </Button>
+                  {isUserProfile && (
+                    <Button
+                      onClick={routeToSettings}
+                      mr="3"
+                      variant="outlineRounded"
+                    >
+                      Edit profile
+                    </Button>
+                  )}
                 </Flex>
               </Box>
             </Box>
@@ -195,7 +216,7 @@ const userId = () => {
               <Flex mb={3} sx={{ alignItems: "center" }}>
                 <Text variant="body">Uploaded Materials</Text>
                 <Badge sx={{ color: "gray500", ml: 2 }} variant="outline">
-                  {materials.data ? user.data.materialCount : 0}
+                  {user.data ? user.data.materialCount : 0}
                 </Badge>
               </Flex>
 
@@ -205,7 +226,7 @@ const userId = () => {
                     <Link
                       key={material.materialId}
                       sx={{ textDecoration: "none" }}
-                      href={`/materials/`}
+                      href={`/materials`}
                     >
                       <Card variant="detailCard" pb="2" mb={3}>
                         <Box
@@ -261,7 +282,7 @@ const userId = () => {
                 </Grid>
               ) : (
                 <Box sx={{ textAlign: "center", py: [5], px: [3, 5] }}>
-                  <Text>You have not uploaded any materials yet</Text>
+                  <Text>You have not uploaded any materials yet....</Text>
                 </Box>
               )}
 
