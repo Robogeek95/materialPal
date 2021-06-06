@@ -6,18 +6,14 @@ import {
   Container,
   Flex,
   Grid,
-  Image,
   Text,
 } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { db } from "../../config/firebase";
 import Nav from "../../components/nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
-  faCommentDots,
-  faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../../components/footer";
 import Link from "next/link";
