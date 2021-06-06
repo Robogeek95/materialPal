@@ -11,6 +11,7 @@ import {
   Textarea,
   Checkbox,
   Button,
+  Select,
 } from "@theme-ui/components";
 import React, { useEffect, useState } from "react";
 import { useRequireAuth } from "../hooks/useRequireAuth";
@@ -44,14 +45,22 @@ export default function Settings() {
       <Container
         sx={{
           my: ["100px"],
-          width: "70%",
+          width: ["auto", null, "80%", "70%"],
         }}
       >
         {/* <Text>Settings for {authUser.fname}</Text> */}
-        <Grid columns="3fr 9fr">
-          <Box>
+        <Grid columns={["1fr", null, null, "3fr 9fr"]}>
+          <Box
+            sx={{
+              overflowX: ["auto", null, null, "none"],
+            }}
+          >
             {bars.map((bar) => (
-              <Box mb="3">
+              <Box
+                mb="3"
+                mr={[3, null, null, 0]}
+                sx={{ float: ["left", null, null, "none"] }}
+              >
                 <Bar
                   bar={bar}
                   activeBar={activeBar}
@@ -243,9 +252,7 @@ function AccountSettingContent() {
           <li> Delete any and all content you have, such as materials. </li>
           <li>Allow your username to become available to anyone.</li>
         </ul>
-        <Button bg="red" color="dark400">
-          Delete Account
-        </Button>
+        <Button variant="roundedDanger">Delete Account</Button>
       </Card>
     </>
   );
@@ -258,25 +265,44 @@ function UserDetailsCard() {
     <Card>
       <Text variant="headline2">User</Text>
 
-      <Box mt="4">
-        <Label htmlFor="username">Name</Label>
-        <Input
-          variant="inputBgMedium"
-          type="text"
-          name="name"
-          ref={register({
-            required: "Please enter your first name",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="name"
-          mb={3}
-        />
+      <Grid columns={2}>
+        <Box mt="4">
+          <Label htmlFor="username">First Name</Label>
+          <Input
+            variant="inputBgMedium"
+            type="text"
+            name="fname"
+            ref={register({
+              required: "Please enter your first name",
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="fname"
+          />
 
-        {errors.name && <Text color="red">{errors.name.message}</Text>}
-      </Box>
+          {errors.fname && <Text color="red">{errors.fname.message}</Text>}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="lname">Last Name</Label>
+          <Input
+            variant="inputBgMedium"
+            type="text"
+            name="lname"
+            ref={register({
+              required: "Please enter your last name",
+              minLength: {
+                value: 6,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="lname"
+          />
+          {errors.lname && <Text color="red">{errors.lname.message}</Text>}
+        </Box>
+      </Grid>
 
       <Box mt="4">
         <Label htmlFor="username">Email</Label>
@@ -363,6 +389,52 @@ function BasicDetailsCard() {
         />
 
         {errors.location && <Text color="red">{errors.location.message}</Text>}
+      </Box>
+
+      <Box mt="4">
+        <Label htmlFor="school">School</Label>
+        <Select
+          variant="inputBgMedium"
+          type="text"
+          name="school"
+          ref={register({
+            required: "Please select your school",
+            minLength: {
+              value: 3,
+              message: "Should have at least 3 characters",
+            },
+          })}
+          id="school"
+          mb={3}
+        >
+          <option>Lagos State University</option>
+        </Select>
+
+        {errors.school && <Text color="red">{errors.school.message}</Text>}
+      </Box>
+
+      <Box mt="4">
+        <Label htmlFor="department">Department</Label>
+        <Select
+          variant="inputBgMedium"
+          type="text"
+          name="department"
+          ref={register({
+            required: "Please enter your first location",
+            minLength: {
+              value: 3,
+              message: "Should have at least 3 characters",
+            },
+          })}
+          id="department"
+          mb={3}
+        >
+          <option>Computer Science</option>
+        </Select>
+
+        {errors.department && (
+          <Text color="red">{errors.department.message}</Text>
+        )}
       </Box>
 
       <Box mt="4">
