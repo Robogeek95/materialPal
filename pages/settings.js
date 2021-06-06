@@ -10,11 +10,13 @@ import {
   Text,
   Textarea,
   Checkbox,
+  Button,
 } from "@theme-ui/components";
 import React, { useEffect, useState } from "react";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
+import Footer from "../components/footer";
 
 const bars = [
   {
@@ -24,6 +26,10 @@ const bars = [
   {
     name: "notifications",
     content: <NotificationSettingsContent />,
+  },
+  {
+    name: "account",
+    content: <AccountSettingContent />,
   },
 ];
 
@@ -37,7 +43,7 @@ export default function Settings() {
       <Nav />
       <Container
         sx={{
-          mt: ["100px"],
+          my: ["100px"],
           width: "70%",
         }}
       >
@@ -57,6 +63,7 @@ export default function Settings() {
           <Box>{activeBar.content}</Box>
         </Grid>
       </Container>
+      <Footer dark />
     </>
   );
 }
@@ -66,6 +73,10 @@ function ProfileSettingsContent() {
     <Grid gap={4}>
       <UserDetailsCard />
       <BasicDetailsCard />
+
+      <Card>
+        <Button sx={{ width: "100%" }}>Save</Button>
+      </Card>
     </Grid>
   );
 }
@@ -110,16 +121,133 @@ function NotificationSettingsContent() {
     <Grid gap={4}>
       {notifications.map((notification) => (
         <Card>
-          {notification.type}
+          <Text mb={4} sx={{ textTransform: "capitalize" }} variant="headline2">
+            {notification.type}
+          </Text>
+
           {notification.details.map((detail) => (
-            <Flex>
+            <Flex mb={3}>
               <Checkbox defaultChecked={detail.active} />
-              <Label htmlFor="username">{detail.label}</Label>
+              <Label htmlFor="label">{detail.label}</Label>
             </Flex>
           ))}
         </Card>
       ))}
+
+      <Card>
+        <Button sx={{ width: "100%" }}>Save</Button>
+      </Card>
     </Grid>
+  );
+}
+
+function AccountSettingContent() {
+  const { register, errors, handleSubmit, getValues } = useForm();
+
+  return (
+    <>
+      <Card>
+        <Text variant="headline2">Set new password</Text>
+
+        <Box mt="4">
+          <Label htmlFor="password">Current password</Label>
+          <Input
+            variant="inputBgMedium"
+            type="password"
+            name="currentPassword"
+            ref={register({
+              required: "Please enter your current password",
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="password"
+            mb={3}
+          />
+
+          {errors.name && <Text color="red">{errors.name.message}</Text>}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            variant="inputBgMedium"
+            type="password"
+            name="newPassword"
+            ref={register({
+              required: "Please enter your new password",
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="newPassword"
+            mb={3}
+          />
+
+          {errors.newPassword && (
+            <Text color="red">{errors.newPassword.message}</Text>
+          )}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="password">Confirm new password</Label>
+          <Input
+            variant="inputBgMedium"
+            type="password"
+            name="confirmPassword"
+            ref={register({
+              required: "Please confirm your password",
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="confirmPassword"
+            mb={3}
+          />
+
+          {errors.confirmPassword && (
+            <Text color="red">{errors.confirmPassword.message}</Text>
+          )}
+        </Box>
+
+        <Button>Set new password</Button>
+      </Card>
+
+      <Card mt={4}>
+        <Text variant="headline2">Account emails</Text>
+        <Flex mt={4}>
+          <Text color="dark300" mr={3}>
+            Primary email
+          </Text>
+          <Text>user.emailAddress</Text>
+        </Flex>
+      </Card>
+
+      <Card mt={4}>
+        <Text variant="headline2" color="red">
+          Danger zone
+        </Text>
+        <Text color="dark300" mr={3}>
+          Delete account
+        </Text>
+        <Text color="dark300" mr={3}>
+          Deleting your account will:
+        </Text>
+        <ul>
+          <li>
+            Delete your profile, along with your authentication associations.
+          </li>
+          <li> Delete any and all content you have, such as materials. </li>
+          <li>Allow your username to become available to anyone.</li>
+        </ul>
+        <Button bg="red" color="dark400">
+          Delete Account
+        </Button>
+      </Card>
+    </>
   );
 }
 
@@ -266,34 +394,6 @@ function BasicDetailsCard() {
   );
 }
 
-function emailNotificationsCard() {
-  return (
-    <Card>
-      <Grid gap={3}>
-        <Flex>
-          <Checkbox defaultChecked={true} />
-          <Label htmlFor="username">Display email on profile</Label>
-        </Flex>
-
-        <Flex>
-          <Checkbox defaultChecked={true} />
-          <Label htmlFor="username">Display email on profile</Label>
-        </Flex>
-
-        <Flex>
-          <Checkbox defaultChecked={true} />
-          <Label htmlFor="username">Display email on profile</Label>
-        </Flex>
-
-        <Flex>
-          <Checkbox defaultChecked={true} />
-          <Label htmlFor="username">Display email on profile</Label>
-        </Flex>
-      </Grid>
-    </Card>
-  );
-}
-
 function Bar({ bar, activeBar, setActiveBar }) {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
@@ -302,7 +402,7 @@ function Bar({ bar, activeBar, setActiveBar }) {
     activeBar.name === bar.name ? setActive(true) : setActive(false);
   }, [activeBar]);
 
-  let bg = active ? "lighter" : hover ? "gray300" : "gray200";
+  let bg = active ? "lighter" : hover ? "gray200" : "gray300";
   let color = active ? "gray100" : hover ? "dark300" : "";
   return (
     <Card
