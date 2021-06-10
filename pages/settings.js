@@ -12,12 +12,14 @@ import {
   Checkbox,
   Button,
   Select,
+  Spinner,
 } from "@theme-ui/components";
 import React, { useEffect, useState } from "react";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
 import Footer from "../components/footer";
+import { useAuth } from "../hooks/useAuth";
 
 const bars = [
   {
@@ -35,9 +37,17 @@ const bars = [
 ];
 
 export default function Settings() {
-  //   const auth = useRequireAuth();
-  //   let authUser = auth.user;
+  const auth = useAuth();
+  let authUser = auth.user;
   const [activeBar, setActiveBar] = useState(bars[0]);
+
+  if (!authUser) {
+    return (
+      <Grid justifyContent="center" alignItems="center">
+        <Spinner />
+      </Grid>
+    );
+  }
 
   return (
     <>
@@ -78,10 +88,206 @@ export default function Settings() {
 }
 
 function ProfileSettingsContent() {
+  const auth = useAuth();
+  let authUser = auth.user;
+  console.log(authUser);
+
+  const [preloadedData, setPreloadedData] = useState(null);
+
+  useEffect(() => {
+    if (authUser) {
+      setPreloadedData({
+        fname: authUser.fname,
+        lname: authUser.lname,
+        email: authUser.email,
+        location: authUser.location,
+        school: "authUser.school.schoolName",
+        department: "authUser.school.department",
+        bio: authUser.bio,
+        displayEmail: authUser.displayEmail,
+      });
+    }
+  }, [authUser]);
+
+  const { register, errors, handleSubmit, getValues } = useForm({
+    defaultValues: preloadedData,
+  });
+
+  if (!preloadedData) {
+    return (
+      <Flex justifyContent="center" alignItems="center">
+        <Spinner />
+      </Flex>
+    );
+  }
+
+  console.log(preloadedData);
+
   return (
-    <Grid gap={4}>
-      <UserDetailsCard />
-      <BasicDetailsCard />
+    <Grid as="form" gap={4}>
+      <Card>
+        <Text variant="headline2">User</Text>
+
+        <Grid columns={2}>
+          <Box mt="4">
+            <Label htmlFor="fname">First Name</Label>
+            <Input
+              variant="inputBgMedium"
+              type="text"
+              name="fname"
+              ref={register({
+                required: "Please enter your first name",
+                minLength: {
+                  value: 3,
+                  message: "Should have at least 3 characters",
+                },
+              })}
+              id="fname"
+            />
+
+            {errors.fname && <Text color="red">{errors.fname.message}</Text>}
+          </Box>
+
+          <Box mt="4">
+            <Label htmlFor="lname">Last Name</Label>
+            <Input
+              variant="inputBgMedium"
+              type="text"
+              name="lname"
+              ref={register({
+                required: "Please enter your last name",
+                minLength: {
+                  value: 6,
+                  message: "Should have at least 3 characters",
+                },
+              })}
+              id="lname"
+            />
+            {errors.lname && <Text color="red">{errors.lname.message}</Text>}
+          </Box>
+        </Grid>
+
+        <Box mt="4">
+          <Label htmlFor="username">Email</Label>
+          <Input
+            variant="inputBgMedium"
+            type="email"
+            name="email"
+            ref={register({
+              required: "Please enter your first name",
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="email"
+            mb={3}
+          />
+
+          {errors.email && <Text color="red">{errors.email.message}</Text>}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="avatar">Profile image</Label>
+          <Flex>
+            <Avatar round size="30" mr="3" />
+
+            <Input
+              variant="inputBgMedium"
+              type="file"
+              name="avatar"
+              id="avatar"
+              mb={3}
+            />
+
+            {errors.avatar && <Text color="red">{errors.avatar.message}</Text>}
+          </Flex>
+        </Box>
+      </Card>
+
+      <Card>
+        <Text variant="headline2">Basic</Text>
+
+        <Box mt="4">
+          <Label htmlFor="location">Location</Label>
+          <Input
+            variant="inputBgMedium"
+            type="text"
+            name="location"
+            ref={register({
+              minLength: {
+                value: 3,
+                message: "Should have at least 3 characters",
+              },
+            })}
+            id="location"
+            mb={3}
+          />
+
+          {errors.location && (
+            <Text color="red">{errors.location.message}</Text>
+          )}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="school">School</Label>
+          <Select
+            variant="inputBgMedium"
+            type="text"
+            name="school"
+            ref={register()}
+            id="school"
+            mb={3}
+          >
+            <option>Lagos State University</option>
+          </Select>
+
+          {errors.school && <Text color="red">{errors.school.message}</Text>}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="department">Department</Label>
+          <Select
+            variant="inputBgMedium"
+            type="text"
+            name="department"
+            ref={register()}
+            id="department"
+            mb={3}
+          >
+            <option>Computer Science</option>
+          </Select>
+
+          {errors.department && (
+            <Text color="red">{errors.department.message}</Text>
+          )}
+        </Box>
+
+        <Box mt="4">
+          <Label htmlFor="bio">Bio</Label>
+          <Textarea
+            variant="inputBgMedium"
+            name="bio"
+            ref={register({
+              minLength: {
+                value: 10,
+                message: "Should have at least 10 characters",
+              },
+            })}
+            id="bio"
+            mb={3}
+          />
+
+          {errors.bio && <Text color="red">{errors.bio.message}</Text>}
+        </Box>
+
+        <Box mt="4">
+          <Flex>
+            <Checkbox defaultChecked={true} />
+            <Label htmlFor="displayEmail">Display email on profile</Label>
+          </Flex>
+        </Box>
+      </Card>
 
       <Card>
         <Button sx={{ width: "100%" }}>Save</Button>

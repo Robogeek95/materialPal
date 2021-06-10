@@ -103,7 +103,7 @@ const materials = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       try {
         // get user id
         let userId = window.location.pathname.split("/")[1];
@@ -126,7 +126,7 @@ const materials = () => {
       }
     };
 
-    fetchData();
+    fetchUserData();
   }, []);
 
   const resetQuery = () => {
