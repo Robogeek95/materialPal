@@ -19,7 +19,7 @@ const useAuthProvider = () => {
   const [user, setUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
   const handleAuthStateChanged = (user) => {
-    setUser(user);
+    // setUser(user);
     if (user) {
       getUserAdditionalData(user);
       let userToken = auth.currentUser

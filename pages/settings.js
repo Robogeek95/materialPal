@@ -20,23 +20,24 @@ import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
 import Footer from "../components/footer";
 import { useAuth } from "../hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
 
 const bars = [
   {
     name: "profile",
-    content: <ProfileSettingsContent />,
+    content: <ProfileSettings />,
   },
   {
     name: "notifications",
-    content: <NotificationSettingsContent />,
+    content: <NotificationSettings />,
   },
   {
     name: "account",
-    content: <AccountSettingContent />,
+    content: <AccountSetting />,
   },
 ];
 
-export default function Settings() {
+function Settings() {
   const auth = useAuth();
   let authUser = auth.user;
   const [activeBar, setActiveBar] = useState(bars[0]);
@@ -79,7 +80,10 @@ export default function Settings() {
               </Box>
             ))}
           </Box>
-          <Box>{activeBar.content}</Box>
+          <Box>
+            <ToastContainer />
+            {activeBar.content}
+          </Box>
         </Grid>
       </Container>
       <Footer dark />
@@ -87,44 +91,71 @@ export default function Settings() {
   );
 }
 
-function ProfileSettingsContent() {
+function ProfileSettings() {
   const auth = useAuth();
   let authUser = auth.user;
-  console.log(authUser);
 
-  const [preloadedData, setPreloadedData] = useState(null);
+  return authUser ? (
+    <ProfileSettingsForm user={authUser} />
+  ) : (
+    <Grid justifyContent="center" alignItems="center">
+      <Spinner />
+    </Grid>
+  );
+}
 
-  useEffect(() => {
-    if (authUser) {
-      setPreloadedData({
-        fname: authUser.fname,
-        lname: authUser.lname,
-        email: authUser.email,
-        location: authUser.location,
-        school: "authUser.school.schoolName",
-        department: "authUser.school.department",
-        bio: authUser.bio,
-        displayEmail: authUser.displayEmail,
-      });
-    }
-  }, [authUser]);
+function ProfileSettingsForm({ user }) {
+  const [updating, setUpdating] = useState(false);
+
+  let preloadedData = {
+    fname: user.fname,
+    lname: user.lname,
+    email: user.email,
+    location: user.location,
+    school: user.school.schoolName,
+    department: user.school.department,
+    bio: user.bio,
+    displayEmail: user.displayEmail,
+  };
 
   const { register, errors, handleSubmit, getValues } = useForm({
     defaultValues: preloadedData,
   });
 
-  if (!preloadedData) {
-    return (
-      <Flex justifyContent="center" alignItems="center">
-        <Spinner />
-      </Flex>
-    );
+  async function onUpdateData(data) {
+    try {
+      setUpdating(true);
+      await fetch(`../../api/users/${user.uid}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data }),
+      }).then(async (response) => {
+        setUpdating(false);
+
+        const resData = await response.json();
+
+        if (response.status !== 200) {
+          return toast.error(resData.message, {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+
+        toast.success(resData.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+    } catch (error) {
+      setUpdating(false);
+
+      console.log(error);
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   }
 
-  console.log(preloadedData);
-
   return (
-    <Grid as="form" gap={4}>
+    <Grid as="form" gap={4} onSubmit={handleSubmit(onUpdateData)}>
       <Card>
         <Text variant="headline2">User</Text>
 
@@ -290,73 +321,171 @@ function ProfileSettingsContent() {
       </Card>
 
       <Card>
-        <Button sx={{ width: "100%" }}>Save</Button>
+        <Button isLoading={updating} sx={{ width: "100%" }}>
+          {updating ? "saving..." : "save"}
+        </Button>
       </Card>
     </Grid>
   );
 }
 
-function NotificationSettingsContent() {
-  const notifications = [
-    {
-      type: "email notifications",
-      details: [
-        {
-          label: "Send me weekly newsletter emails",
-          active: false,
-        },
-        {
-          label: "Send me a periodic digest of top posts from my tags",
-          active: false,
-        },
-        {
-          label:
-            "Send me occasional reminders that I have unread notifications",
-          active: false,
-        },
-      ],
-    },
-    {
-      type: "general notifications",
-      details: [
-        {
-          label:
-            "Send me occasional tips on how to enhance my learning experience",
-          active: false,
-        },
-        {
-          label: "Send notifications when someone reacts to my materials",
-          active: false,
-        },
-      ],
-    },
-  ];
+function NotificationSettings() {
+  const auth = useAuth();
+  let authUser = auth.user;
+  const [notifications, setNotifications] = useState(null);
+  // let notifications = [
+  //   {
+  //     type: "email notifications",
+  //     details: [
+  //       {
+  //         label: "Send me weekly newsletter emails",
+  //         active: false,
+  //       },
+  //       {
+  //         label: "Send me a periodic digest of top posts from my tags",
+  //         active: false,
+  //       },
+  //       {
+  //         label:
+  //           "Send me occasional reminders that I have unread notifications",
+  //         active: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     type: "general notifications",
+  //     details: [
+  //       {
+  //         label:
+  //           "Send me occasional tips on how to enhance my learning experience",
+  //         active: false,
+  //       },
+  //       {
+  //         label: "Send notifications when someone reacts to my materials",
+  //         active: false,
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  function extractNotifications() {
+    let notifications = {};
+    authUser.settings.notifications.map((notification) =>
+      notification.details.map((detail) => {
+        let label = detail.label;
+        notifications[label] = detail.active;
+      })
+    );
+
+    return notifications;
+  }
+
+  useEffect(() => {
+    let extractedNotifications = extractNotifications();
+    setNotifications(extractedNotifications);
+  }, []);
+
+  return notifications ? (
+    <NotificationSettingsForm user={authUser} notifications={notifications} />
+  ) : (
+    <Grid justifyContent="center" alignItems="center">
+      <Spinner />
+    </Grid>
+  );
+}
+
+function NotificationSettingsForm({ user, notifications }) {
+  const [updating, setUpdating] = useState(false);
+
+  let preloadedData = {
+    ...user.settings.notifications,
+  };
+
+  const { register, errors, handleSubmit, getValues } = useForm({
+    defaultValues: preloadedData,
+  });
+
+  async function onUpdateData(data) {
+    try {
+      let dataValues = Object.keys(data);
+      console.log(
+        dataValues.map((value) => {
+          for (
+            let index = 0;
+            index < user.settings.notifications.length;
+            index++
+          ) {
+            const notification = user.settings.notifications[index];
+            notification.details.map((detail) => {
+              console.log(detail.label === value);
+            });
+          }
+        })
+      );
+      // setUpdating(true);
+      // await fetch(`../../api/users/${user.uid}`, {
+      //   method: "PUT",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ data }),
+      // }).then(async (response) => {
+      //   setUpdating(false);
+
+      //   const resData = await response.json();
+
+      //   if (response.status !== 200) {
+      //     return toast.error(resData.message, {
+      //       position: toast.POSITION.TOP_CENTER,
+      //     });
+      //   }
+
+      //   toast.success(resData.message, {
+      //     position: toast.POSITION.TOP_CENTER,
+      //   });
+      // });
+    } catch (error) {
+      setUpdating(false);
+
+      console.log(error);
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
 
   return (
-    <Grid gap={4}>
-      {notifications.map((notification) => (
+    <Grid as="form" gap={4} onSubmit={handleSubmit(onUpdateData)}>
+      {user.settings.notifications.map((notification) => (
         <Card>
           <Text mb={4} sx={{ textTransform: "capitalize" }} variant="headline2">
             {notification.type}
           </Text>
 
           {notification.details.map((detail) => (
-            <Flex mb={3}>
-              <Checkbox defaultChecked={detail.active} />
-              <Label htmlFor="label">{detail.label}</Label>
-            </Flex>
+            <Box mb={3}>
+              <label key={detail.label}>
+                <input
+                  type="checkbox"
+                  // value={detail.active}
+                  name={detail.label}
+                  ref={register}
+                />
+                {detail.label}
+              </label>
+            </Box>
           ))}
         </Card>
       ))}
 
       <Card>
-        <Button sx={{ width: "100%" }}>Save</Button>
+        <Button isLoading={updating} sx={{ width: "100%" }}>
+          {updating ? "saving..." : "save"}
+        </Button>
       </Card>
     </Grid>
   );
 }
 
-function AccountSettingContent() {
+function AccountSetting() {
   const { register, errors, handleSubmit, getValues } = useForm();
 
   return (
@@ -464,214 +593,6 @@ function AccountSettingContent() {
   );
 }
 
-function UserDetailsCard() {
-  const { register, errors, handleSubmit, getValues } = useForm();
-
-  return (
-    <Card>
-      <Text variant="headline2">User</Text>
-
-      <Grid columns={2}>
-        <Box mt="4">
-          <Label htmlFor="username">First Name</Label>
-          <Input
-            variant="inputBgMedium"
-            type="text"
-            name="fname"
-            ref={register({
-              required: "Please enter your first name",
-              minLength: {
-                value: 3,
-                message: "Should have at least 3 characters",
-              },
-            })}
-            id="fname"
-          />
-
-          {errors.fname && <Text color="red">{errors.fname.message}</Text>}
-        </Box>
-
-        <Box mt="4">
-          <Label htmlFor="lname">Last Name</Label>
-          <Input
-            variant="inputBgMedium"
-            type="text"
-            name="lname"
-            ref={register({
-              required: "Please enter your last name",
-              minLength: {
-                value: 6,
-                message: "Should have at least 3 characters",
-              },
-            })}
-            id="lname"
-          />
-          {errors.lname && <Text color="red">{errors.lname.message}</Text>}
-        </Box>
-      </Grid>
-
-      <Box mt="4">
-        <Label htmlFor="username">Email</Label>
-        <Input
-          variant="inputBgMedium"
-          type="email"
-          name="email"
-          ref={register({
-            required: "Please enter your first name",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="email"
-          mb={3}
-        />
-
-        {errors.email && <Text color="red">{errors.email.message}</Text>}
-      </Box>
-
-      <Box mt="4">
-        <Label htmlFor="username">Username</Label>
-        <Input
-          variant="inputBgMedium"
-          type="text"
-          name="username"
-          ref={register({
-            required: "Please enter your first name",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="username"
-          mb={3}
-        />
-
-        {errors.username && <Text color="red">{errors.username.message}</Text>}
-      </Box>
-
-      <Box mt="4">
-        <Label htmlFor="username">Profile image</Label>
-        <Flex>
-          <Avatar round size="30" mr="3" />
-
-          <Input
-            variant="inputBgMedium"
-            type="file"
-            name="avatar"
-            id="avatar"
-            mb={3}
-          />
-
-          {errors.avatar && <Text color="red">{errors.avatar.message}</Text>}
-        </Flex>
-      </Box>
-    </Card>
-  );
-}
-
-function BasicDetailsCard() {
-  const { register, errors, handleSubmit, getValues } = useForm();
-
-  return (
-    <Card>
-      <Text variant="headline2">Basic</Text>
-
-      <Box mt="4">
-        <Label htmlFor="location">Location</Label>
-        <Input
-          variant="inputBgMedium"
-          type="text"
-          name="location"
-          ref={register({
-            required: "Please enter your first location",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="location"
-          mb={3}
-        />
-
-        {errors.location && <Text color="red">{errors.location.message}</Text>}
-      </Box>
-
-      <Box mt="4">
-        <Label htmlFor="school">School</Label>
-        <Select
-          variant="inputBgMedium"
-          type="text"
-          name="school"
-          ref={register({
-            required: "Please select your school",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="school"
-          mb={3}
-        >
-          <option>Lagos State University</option>
-        </Select>
-
-        {errors.school && <Text color="red">{errors.school.message}</Text>}
-      </Box>
-
-      <Box mt="4">
-        <Label htmlFor="department">Department</Label>
-        <Select
-          variant="inputBgMedium"
-          type="text"
-          name="department"
-          ref={register({
-            required: "Please enter your first location",
-            minLength: {
-              value: 3,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="department"
-          mb={3}
-        >
-          <option>Computer Science</option>
-        </Select>
-
-        {errors.department && (
-          <Text color="red">{errors.department.message}</Text>
-        )}
-      </Box>
-
-      <Box mt="4">
-        <Label htmlFor="username">Bio</Label>
-        <Textarea
-          variant="inputBgMedium"
-          name="bio"
-          ref={register({
-            required: "Please enter your first name",
-            minLength: {
-              value: 10,
-              message: "Should have at least 3 characters",
-            },
-          })}
-          id="bio"
-          mb={3}
-        />
-
-        {errors.bio && <Text color="red">{errors.bio.message}</Text>}
-      </Box>
-
-      <Box mt="4">
-        <Flex>
-          <Checkbox defaultChecked={true} />
-          <Label htmlFor="username">Display email on profile</Label>
-        </Flex>
-      </Box>
-    </Card>
-  );
-}
-
 function Bar({ bar, activeBar, setActiveBar }) {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
@@ -699,3 +620,5 @@ function Bar({ bar, activeBar, setActiveBar }) {
     </Card>
   );
 }
+
+export default Settings;
